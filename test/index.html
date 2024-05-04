@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Tree View</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+		<style>
+			.tree-node {
+				margin-left: 20px;
+				border-left: 2px solid #ccc;
+				padding-left: 10px;
+			}
+
+			.tree-node > .tree-node {
+				margin-left: 0px;
+				border-left: none;
+				padding-left: 0px;
+			}
+
+			.tree-node > .tree-node:first-child {
+				margin-top: 10px;
+			}
+
+			.tree-node > .tree-node:last-child {
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="tree-container" class="container mt-5"></div>
+
+		<script>
+			// Định nghĩa dạng cấu trúc tree
+			class TreeNode {
+				constructor(name, spouse) {
+					this.name = name;
+					this.spouse = spouse;
+					this.children = [];
+				}
+			}
+
+			// Chuyển đổi JSON sang dạng tree
+			function jsonToTree(json) {
+				const root = new TreeNode(json.name, json.spouse);
+				if (json.children) {
+					json.children.forEach((childJson) => {
+						const childNode = jsonToTree(childJson);
+						root.children.push(childNode);
+					});
+				}
+				return root;
+			}
+			const jsonData = {
+				name: "Cụ tổ",
+				spouse: null,
+				children: [
+					{
+						name: "Cụ ông",
+						spouse: "Cụ bà",
+						children: [
+							{
+								name: "Con 1",
+								spouse: "Vợ của Con 1",
+								children: [
+									{
+										name: "Cháu 1",
+										spouse: "Vợ của Cháu 1",
+										children: [
+											{
+												name: "Chắt 1",
+												spouse: "Vợ của Chắt 1",
+												children: [
+													{
+														name: "Chút 1",
+														spouse: null,
+														children: [],
+													},
+												],
+											},
+										],
+									},
+									{
+										name: "Cháu 2",
+										spouse: null,
+										children: [],
+									},
+								],
+							},
+							{
+								name: "Con 2",
+								spouse: "Vợ của Con 2",
+								children: [
+									{
+										name: "Cháu 3",
+										spouse: null,
+										children: [],
+									},
+									{
+										name: "Cháu 4",
+										spouse: null,
+										children: [],
+									},
+								],
+							},
+							{
+								name: "Con 3",
+								spouse: null,
+								children: [],
+							},
+						],
+					},
+				],
+			};
+			const tree = jsonToTree(jsonData);
+
+			function renderTree(node, container) {
+				const nodeElement = document.createElement("div");
+				nodeElement.classList.add("tree-node");
+				nodeElement.innerHTML = `<strong>${node.name}</strong> ${node.spouse ? `(${node.spouse})` : ""}`;
+
+				if (node.children.length > 0) {
+					const childrenContainer = document.createElement("div");
+					childrenContainer.classList.add("children-container");
+					node.children.forEach((child) => {
+						renderTree(child, childrenContainer);
+					});
+					nodeElement.appendChild(childrenContainer);
+				}
+
+				container.appendChild(nodeElement);
+			}
+			const treeContainer = document.getElementById("tree-container");
+			renderTree(tree, treeContainer);
+		</script>
+	</body>
+</html>
