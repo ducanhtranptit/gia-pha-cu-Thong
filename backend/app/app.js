@@ -1,17 +1,19 @@
 const express = require("express");
+const cors = require("cors")
 const loggerMiddleware = require("./middlewares/core/logger");
-const { jsonParserMiddleware, urlEncodedParserMiddleware, cookieParserMiddleware } = require("./middlewares/core/parser");
+const parserMiddleware = require("./middlewares/core/parser");
 const router = require("./apis/index");
-const { notFoundHandlerMiddleware, errorHandlerMiddleware } = require("./middlewares/core/handler");
+const handleMiddleware = require("./middlewares/core/handler");
 
 const app = express();
 
+app.use(cors())
 app.use(loggerMiddleware);
-app.use(jsonParserMiddleware);
-app.use(urlEncodedParserMiddleware);
-app.use(cookieParserMiddleware);
+app.use(parserMiddleware.jsonParserMiddleware);
+app.use(parserMiddleware.urlEncodedParserMiddleware);
+app.use(parserMiddleware.cookieParserMiddleware);
 app.use(router);
-app.use(notFoundHandlerMiddleware);
-app.use(errorHandlerMiddleware);
+app.use(handleMiddleware.notFoundHandlerMiddleware);
+app.use(handleMiddleware.errorHandlerMiddleware);
 
 module.exports = app;
