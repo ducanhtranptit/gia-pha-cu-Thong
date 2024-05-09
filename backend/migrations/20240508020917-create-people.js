@@ -13,16 +13,16 @@ module.exports = {
 				type: Sequelize.STRING,
 			},
 			yearBorn: {
-				type: Sequelize.NUMBER,
+				type: Sequelize.INTEGER,
 			},
-			gendle: {
+			gender: {
 				type: Sequelize.STRING,
 			},
 			spouseId: {
-				type: Sequelize.NUMBER,
+				type: Sequelize.INTEGER,
 			},
 			fatherId: {
-				type: Sequelize.NUMBER,
+				type: Sequelize.INTEGER,
 			},
 			createdAt: {
 				allowNull: false,
