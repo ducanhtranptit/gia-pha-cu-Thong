@@ -1,10 +1,7 @@
 const express = require("express");
-const homePageRouter = require("./web/home-page.api");
+const PeopleApi = require("./web/people.api.js");
 const router = express.Router();
 
-router.use("/", (req, res) => {
-	return res.send("This is backend of Thong's tree family web");
-});
-router.use("/api/v1/core", homePageRouter);
+router.use("/api/v1/core/people", PeopleApi);
 
 module.exports = router;
