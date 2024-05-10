@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize } = require("sequelize");
 const model = require("../models/index");
 const People = model.People;
 class PeopleActions {
