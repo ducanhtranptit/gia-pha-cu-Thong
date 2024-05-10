@@ -1,10 +1,11 @@
 import React from "react";
-import TreeComponent from "./components/TreeComponent";
-
+import FamilyTree from "./components/TreeComponent";
 function App() {
 	return (
-		<div className="App">
-			<TreeComponent />
+		<div>
+			<div>
+				<FamilyTree />
+			</div>
 		</div>
 	);
 }
