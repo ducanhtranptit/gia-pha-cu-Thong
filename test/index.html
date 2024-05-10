@@ -3,135 +3,81 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Tree View</title>
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+		<title>Family Tree Visualization</title>
+		<script src="https://d3js.org/d3.v6.min.js"></script>
 		<style>
-			.tree-node {
-				margin-left: 20px;
-				border-left: 2px solid #ccc;
-				padding-left: 10px;
+			.node circle {
+				fill: #fff;
+				stroke: steelblue;
+				stroke-width: 3px;
 			}
 
-			.tree-node > .tree-node {
-				margin-left: 0px;
-				border-left: none;
-				padding-left: 0px;
+			.node text {
+				font: 12px sans-serif;
 			}
 
-			.tree-node > .tree-node:first-child {
-				margin-top: 10px;
-			}
-
-			.tree-node > .tree-node:last-child {
-				margin-bottom: 10px;
+			.link {
+				fill: none;
+				stroke: #ccc;
+				stroke-width: 2px;
 			}
 		</style>
 	</head>
 	<body>
-		<div id="tree-container" class="container mt-5"></div>
+		<svg width="800" height="600"></svg>
 
 		<script>
-			// Định nghĩa dạng cấu trúc tree
-			class TreeNode {
-				constructor(name, spouse) {
-					this.name = name;
-					this.spouse = spouse;
-					this.children = [];
-				}
-			}
+			fetch("http://localhost:2504/api/v1/core/people")
+				.then((response) => response.json())
+				.then((jsonData) => {
+					if (jsonData.status === "success") {
+						const data = jsonData.data;
+						const margin = { top: 40, right: 90, bottom: 50, left: 90 };
+						const width = 800 - margin.left - margin.right;
+						const height = 600 - margin.top - margin.bottom;
 
-			// Chuyển đổi JSON sang dạng tree
-			function jsonToTree(json) {
-				const root = new TreeNode(json.name, json.spouse);
-				if (json.children) {
-					json.children.forEach((childJson) => {
-						const childNode = jsonToTree(childJson);
-						root.children.push(childNode);
-					});
-				}
-				return root;
-			}
-			const jsonData = {
-				name: "Cụ tổ",
-				spouse: null,
-				children: [
-					{
-						name: "Cụ ông",
-						spouse: "Cụ bà",
-						children: [
-							{
-								name: "Con 1",
-								spouse: "Vợ của Con 1",
-								children: [
-									{
-										name: "Cháu 1",
-										spouse: "Vợ của Cháu 1",
-										children: [
-											{
-												name: "Chắt 1",
-												spouse: "Vợ của Chắt 1",
-												children: [
-													{
-														name: "Chút 1",
-														spouse: null,
-														children: [],
-													},
-												],
-											},
-										],
-									},
-									{
-										name: "Cháu 2",
-										spouse: null,
-										children: [],
-									},
-								],
-							},
-							{
-								name: "Con 2",
-								spouse: "Vợ của Con 2",
-								children: [
-									{
-										name: "Cháu 3",
-										spouse: null,
-										children: [],
-									},
-									{
-										name: "Cháu 4",
-										spouse: null,
-										children: [],
-									},
-								],
-							},
-							{
-								name: "Con 3",
-								spouse: null,
-								children: [],
-							},
-						],
-					},
-				],
-			};
-			const tree = jsonToTree(jsonData);
-
-			function renderTree(node, container) {
-				const nodeElement = document.createElement("div");
-				nodeElement.classList.add("tree-node");
-				nodeElement.innerHTML = `<strong>${node.name}</strong> ${node.spouse ? `(${node.spouse})` : ""}`;
-
-				if (node.children.length > 0) {
-					const childrenContainer = document.createElement("div");
-					childrenContainer.classList.add("children-container");
-					node.children.forEach((child) => {
-						renderTree(child, childrenContainer);
-					});
-					nodeElement.appendChild(childrenContainer);
-				}
-
-				container.appendChild(nodeElement);
-			}
-			const treeContainer = document.getElementById("tree-container");
-			renderTree(tree, treeContainer);
+						const svg = d3
+							.select("svg")
+							.attr("width", width + margin.left + margin.right)
+							.attr("height", height + margin.top + margin.bottom)
+							.append("g")
+							.attr("transform", `translate(${margin.left},${margin.top})`);
+						const root = d3.hierarchy(data);
+						const tree = d3.tree().size([width, height]);
+						tree(root);
+						const link = svg
+							.selectAll(".link")
+							.data(root.links())
+							.enter()
+							.append("path")
+							.attr("class", "link")
+							.attr(
+								"d",
+								d3
+									.linkVertical()
+									.x((d) => d.x)
+									.y((d) => d.y)
+							);
+						const node = svg
+							.selectAll(".node")
+							.data(root.descendants())
+							.enter()
+							.append("g")
+							.attr("class", "node")
+							.attr("transform", (d) => `translate(${d.x},${d.y})`);
+						node.append("circle").attr("r", 7);
+						node.append("text")
+							.attr("dy", ".31em")
+							.attr("x", (d) => (d.children ? -13 : 13))
+							.style("text-anchor", (d) => (d.children ? "end" : "start"))
+							.text((d) => `${d.data.name}${d.data.spouse ? ` & ${d.data.spouse}` : ""}`);
+					} else {
+						console.error("Error: Status is not success");
+					}
+				})
+				.catch((error) => {
+					console.error("Error fetching data:", error);
+				});
 		</script>
 	</body>
 </html>
