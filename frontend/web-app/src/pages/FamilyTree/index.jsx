@@ -13,7 +13,7 @@ const FamilyTree = () => {
 				setFamilyData(response.data.data);
 			} catch (error) {
 				console.error("Error fetching family data:", error);
-				toast.error("Error fetching family data. Please try again later.", { autoClose: 5000 });
+				toast.error("Error fetching family data. Please try again later.", { autoClose: 10000 });
 			}
 		};
 
@@ -24,7 +24,7 @@ const FamilyTree = () => {
 		return (
 			<div key={person.name} style={{ marginLeft: `${level * 20}px`, borderLeft: "1px solid black", paddingLeft: "10px" }}>
 				<h3>{person.name}</h3>
-				<p>Vợ/chồng: {person.spouse || "None"}</p>
+				<p>Vợ/chồng: {person.spouse || "Không có"}</p>
 				{person.children.length > 0 && <div>{person.children.map((child) => renderFamilyTree(child, level + 1))}</div>}
 			</div>
 		);
@@ -32,7 +32,7 @@ const FamilyTree = () => {
 
 	return (
 		<div>
-			<h2>Phả đồ</h2>
+			<h1>Phả đồ</h1>
 			<ToastContainer />
 			{familyData ? renderFamilyTree(familyData) : <p>Loading...</p>}
 		</div>

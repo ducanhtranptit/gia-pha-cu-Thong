@@ -1,13 +1,12 @@
 import React from "react";
-import FamilyTree from "./components/TreeComponent";
-function App() {
+import FamilyTree from "./pages/FamilyTree/index.jsx";
+
+const AppRouter = () => {
 	return (
 		<div>
-			<div>
-				<FamilyTree />
-			</div>
+			<FamilyTree />
 		</div>
 	);
-}
+};
 
-export default App;
+export default AppRouter;
