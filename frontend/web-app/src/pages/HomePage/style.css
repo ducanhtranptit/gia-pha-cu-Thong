@@ -1,0 +1,51 @@
+
+.home {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.latest-posts {
+    padding: 16px;
+}
+
+.posts-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px; /* Khoảng cách giữa các bài viết */
+    padding: 16px;
+}
+
+.post-item {
+    flex: 1 1 300px;
+    box-sizing: border-box;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.home img {
+    width: 100%;
+    height: auto;
+    /* display: block;
+    margin: 0;
+    padding: 0; */
+}
+
+.content {
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.intro {
+    padding: 16px;
+    max-width: 100vh;
+    text-align: justify;
+    margin: 0 auto;
+}
+

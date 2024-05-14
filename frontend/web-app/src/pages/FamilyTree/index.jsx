@@ -31,8 +31,8 @@ const FamilyTree = () => {
 	};
 
 	return (
-		<div>
-			<h1>Phả đồ</h1>
+		<div className="mt-5 my-4">
+			<h1 className="mt-5 my-4">Phả đồ</h1>
 			<ToastContainer />
 			{familyData ? renderFamilyTree(familyData) : <p>Loading...</p>}
 		</div>
