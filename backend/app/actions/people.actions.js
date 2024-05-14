@@ -38,11 +38,11 @@ class PeopleActions {
 			});
 			return result;
 		};
-		const rootPerson = people.find((item) => !item.fatherId);
+		const rootPerson = people.find((item) => item.note === "rootPerson");
 		if (!rootPerson) {
 			return null;
 		}
-		return buildFamilyTree(rootPerson.id);
+		return buildFamilyTree(rootPerson.id, people);
 	}
 
 	async getAllPeopleOfFamilyTree() {
