@@ -1,0 +1,90 @@
+/* src/components/Navbar.css */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  background-color: #32cffa;
+  padding: 5px 20px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.logo {
+  width: 50px;
+  height: auto;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: white;
+  cursor: pointer;
+  display: none;
+}
+
+.navbar-list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  flex-grow: 1;
+  font-size: 1.5rem;
+}
+
+.navbar-item {
+  margin: 0 10px; /* Giảm khoảng cách giữa các nút điều hướng */
+}
+
+.navbar-link {
+  color: white;
+  text-decoration: none;
+  padding: 16px 15px;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+}
+
+.navbar-link:hover {
+  background-color: #fc8c03;
+}
+
+@media (max-width: 768px) {
+  .menu-button {
+    display: block;
+  }
+
+  .navbar-list {
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #32cffa;
+    padding: 30px 5px;
+    position: fixed;
+    top: 50px;
+    left: -250px;
+    width: 150px;
+    height: calc(100% - 50px);
+    transition: left 0.3s ease;
+  }
+
+  .navbar-list.open {
+    left: 0;
+  }
+
+  .navbar-item {
+    margin: 10px;
+  }
+
+  .navbar-link:hover {
+    background-color: transparent; /* Tắt màu nền khi hover trên điện thoại */
+  }
+}
+
+@media (min-width: 769px) {
+  .navbar-list {
+    flex-direction: row;
+  }
+}
