@@ -1,0 +1,62 @@
+/* src/App.css */
+
+/* Basic styles for the app */
+.app {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.nav ul li {
+  display: inline;
+  margin-right: 10px;
+}
+
+.post {
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+}
+
+.intro, .latest-posts {
+  margin: 20px 0;
+}
+
+/* Ensure the content takes the available space */
+.content {
+  flex: 1;
+}
+
+/* Styles for the footer */
+.footer {
+  background-color: #32cffa; /* Match navbar background color */
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .post {
+    padding: 8px 0;
+  }
+
+  .intro, .latest-posts {
+    margin: 15px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .post {
+    padding: 5px 0;
+  }
+
+  .intro, .latest-posts {
+    margin: 10px 0;
+  }
+}
