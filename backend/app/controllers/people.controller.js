@@ -8,7 +8,7 @@ class PeopleController {
 				data: people,
 			});
 		} catch (error) {
-			console.error(error.message);
+			console.error(error);
 			return res.status(500).json({
 				status: "Error",
 				message: "Internal Server Error",

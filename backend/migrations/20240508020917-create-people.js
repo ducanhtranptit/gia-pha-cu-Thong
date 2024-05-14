@@ -24,6 +24,9 @@ module.exports = {
 			fatherId: {
 				type: Sequelize.INTEGER,
 			},
+			note: {
+				type: Sequelize.STRING
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,
