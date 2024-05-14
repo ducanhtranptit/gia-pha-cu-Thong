@@ -2,7 +2,7 @@ const { Sequelize } = require("sequelize");
 const model = require("../models/index");
 const People = model.People;
 class PeopleActions {
-	buildSearchConditions(filters) {
+	static buildSearchConditions(filters) {
 		const conditions = {};
 		if (filters.name) {
 			conditions.name = {
@@ -24,7 +24,7 @@ class PeopleActions {
 		return conditions;
 	}
 
-	async transformArrayToJson(people) {
+	static async transformArrayToJson(people) {
 		const buildFamilyTree = (personId) => {
 			const person = people.find((item) => item.id === personId);
 			const children = people.filter((item) => item.fatherId === personId);
@@ -47,23 +47,18 @@ class PeopleActions {
 
 	async getAllPeopleOfFamilyTree() {
 		const people = await People.findAll();
-		const familyTree = await this.transformArrayToJson(people);
+		const familyTree = await PeopleActions.transformArrayToJson(people);
 		return familyTree;
 	}
 
 	async getAllMalePeople(filters) {
-		try {
-			const conditions = this.buildSearchConditions(filters);
-			conditions.gender = "male";
-			const fathers = await People.findAll({
-				where: conditions,
-				attributes: ["id", "name"],
-			});
-			return fathers;
-		} catch (error) {
-			console.error("Error fetching male people:", error);
-			throw error;
-		}
+		const conditions = PeopleActions.buildSearchConditions(filters);
+		conditions.gender = "male";
+		const malePeople = await People.findAll({
+			where: conditions,
+			attributes: ["id", "name"],
+		});
+		return malePeople;
 	}
 }
 

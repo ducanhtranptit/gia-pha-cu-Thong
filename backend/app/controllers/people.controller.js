@@ -1,9 +1,5 @@
 const PeopleActions = require("../actions/people.actions");
 class PeopleController {
-	async hellWorld(req, res) {
-		res.send("This is human");
-	}
-
 	async getAllPeople(req, res) {
 		try {
 			const people = await PeopleActions.getAllPeopleOfFamilyTree();
@@ -12,7 +8,7 @@ class PeopleController {
 				data: people,
 			});
 		} catch (error) {
-			console.log(error.message);
+			console.error(error.message);
 			return res.status(500).json({
 				status: "Error",
 				message: "Internal Server Error",
@@ -29,7 +25,7 @@ class PeopleController {
 				data: malePeople,
 			});
 		} catch (error) {
-			console.log(error.message);
+			console.error(error.message);
 			return res.status(500).json({
 				status: "Error",
 				message: "Internal Server Error",
