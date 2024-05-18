@@ -43,7 +43,7 @@ const NavigationBar = () => {
 							</a>
 						</li>
 						<li className="chat-button">
-							<a href="https://zalo.me/g/jotqka597" className="navbar-link" target="_blank" rel="noopener noreferrer">
+							<a href="https://zalo.me/g/gqshjy512" className="navbar-link" target="_blank" rel="noopener noreferrer">
 								<FaComments />
 							</a>
 						</li>
