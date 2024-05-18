@@ -32,5 +32,22 @@ class PeopleController {
 			});
 		}
 	}
+
+	async createPerson(req, res) {
+        try {
+            const { person, spouse } = req.body;
+            console.log(person, spouse);
+            return res.status(200).json({
+                status: "success",
+                message: "Person created successfully",
+            });
+        } catch (error) {
+            console.error(error.message);
+            return res.status(500).json({
+                status: "Error",
+                message: "Internal Server Error",
+            });
+        }
+    }
 }
 module.exports = new PeopleController();

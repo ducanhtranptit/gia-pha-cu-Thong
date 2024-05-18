@@ -1,6 +1,11 @@
 /* src/App.css */
 
 /* Basic styles for the app */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
 .app {
   font-family: Arial, sans-serif;
   display: flex;
@@ -38,6 +43,8 @@
   color: white;
   text-align: center;
   padding: 10px 0;
+  width: 100%;
+  margin-top: auto;
 }
 
 /* Responsive styles */

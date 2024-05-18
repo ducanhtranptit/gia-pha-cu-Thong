@@ -60,6 +60,15 @@ class PeopleActions {
 		});
 		return malePeople;
 	}
+
+	async createPersonAndTheirSpouse(person, spouse) {
+        const newPerson = await People.create(person);
+        if (spouse) {
+            spouse.spouseId = newPerson.id;
+            const newSpouse = await People.create(spouse);
+            await People.update({ spouseId: newSpouse.id }, { where: { name: newPerson.name } });
+        }
+    }
 }
 
 module.exports = new PeopleActions();
