@@ -1,5 +1,3 @@
-/* src/components/Navbar.css */
-
 .navbar {
   display: flex;
   align-items: center;
@@ -37,7 +35,7 @@
 }
 
 .navbar-item {
-  margin: 0 10px; /* Giảm khoảng cách giữa các nút điều hướng */
+  margin: 0 10px;
 }
 
 .navbar-link {
@@ -48,8 +46,14 @@
   white-space: nowrap;
 }
 
-.navbar-link:hover {
-  background-color: #fc8c03;
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
 @media (max-width: 768px) {
@@ -63,9 +67,9 @@
     background-color: #2dbce3;
     padding: 30px 5px;
     position: fixed;
-    top: 70px;
+    top: 80px;
     left: -250px;
-    width: 150px;
+    width: 170px;
     height: calc(100% - 50px);
     transition: left 0.3s ease;
   }
@@ -78,13 +82,21 @@
     margin: 10px;
   }
 
-  .navbar-link:hover {
-    background-color: transparent; /* Tắt màu nền khi hover trên điện thoại */
+  .navbar-link {
+    display: flex;
+    align-items: center;
+  }
+
+  .chat-button {
+    margin-top: auto;
   }
 }
 
 @media (min-width: 769px) {
   .navbar-list {
     flex-direction: row;
+  }
+  .chat-button {
+    margin-left: auto;
   }
 }
