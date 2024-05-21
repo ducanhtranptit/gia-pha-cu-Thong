@@ -30,13 +30,13 @@ const Home = () => {
 								</p>
 								<p>
 									Trong xã hội công nghệ thông tin hiện nay, internet đã trở thành phổ biến, dễ sử dụng. Một số dòng họ đã gửi gia phả lên trang web Việt nam gia phả, một số lập
-									trang web để lưu trữ gia phả của dòng họ mình. Vì vậy website này là mạng gia phả riêng của nhà cụ Thông để con cháu các chi nhánh của họ ta ở khắp mọi miền đất
-									nước đã có thể đọc và hiểu biết về sự nghiệp của các đời trước cũng như quan hệ huyết thống giữa các thành viên trong họ.
+									trang web để lưu trữ gia phả của dòng họ mình. Vì vậy website này là mạng gia phả riêng của nhà cụ Thông để con cháu ở khắp mọi miền đất nước có thể đọc và hiểu
+									biết về sự nghiệp của các đời trước cũng như quan hệ huyết thống giữa các thành viên trong họ.
 								</p>
 								<p>
-									Trang website này được tạo dựng nên khởi phát từ một ý tưởng tốt đẹp, một suy nghĩ với tấm lòng biết ơn, tôn kính tổ tông của anh Trần Đức Anh, là chắt đích tôn của
-									cụ. Ý tưởng ấy được sự cổ vũ, đồng tình của mọi người, với mong ước các con cháu sẽ ngày một phát triển đông đúc đóng góp được nhiều công sức, thành tích vào công
-									cuộc xây dựng Tổ quốc Việt Nam thân yêu.
+									Website này được tạo dựng nên khởi phát từ một ý tưởng tốt đẹp, một suy nghĩ với tấm lòng biết ơn, tôn kính tổ tông của anh Trần Đức Anh, là chắt đích tôn của cụ. Ý
+									tưởng ấy được sự cổ vũ, đồng tình của mọi người, với mong ước các con cháu sẽ ngày một phát triển đông đúc đóng góp được nhiều công sức, thành tích vào công cuộc
+									xây dựng Tổ quốc Việt Nam thân yêu.
 								</p>
 							</section>
 						</Col>
