@@ -23,7 +23,6 @@ class PeopleController {
         }
     }
 
-
     async createPerson(req, res) {
         try {
             const { person, spouse } = req.body;
