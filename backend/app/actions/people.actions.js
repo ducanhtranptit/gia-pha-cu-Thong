@@ -4,6 +4,9 @@ const People = model.People;
 class PeopleActions {
 	static buildSearchConditions(filters) {
 		const conditions = {};
+		conditions.fatherId = {
+			[Sequelize.Op.not]: null
+		};
 		if (filters.name) {
 			conditions.name = {
 				[Sequelize.Op.like]: `%${filters.name}%`,
@@ -51,9 +54,8 @@ class PeopleActions {
 		return familyTree;
 	}
 
-	async getAllMalePeople(filters) {
+	async getAllPeople(filters) {
 		const conditions = PeopleActions.buildSearchConditions(filters);
-		conditions.gender = "male";
 		const malePeople = await People.findAll({
 			where: conditions,
 			attributes: ["id", "name"],

@@ -11,7 +11,7 @@ class PeopleController {
             return new ErrorResponse().send(req, res);
         }
     }
-
+  
     async getAllMalePeopleByFilter(req, res) {
         try {
             const filters = req.body;
@@ -22,6 +22,7 @@ class PeopleController {
             return new ErrorResponse().send(req, res);
         }
     }
+
 
     async createPerson(req, res) {
         try {
