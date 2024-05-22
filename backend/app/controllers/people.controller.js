@@ -18,8 +18,8 @@ class PeopleController {
 
 	async getAllMalePeopleByFilter(req, res) {
 		try {
-			const filters = req.body;
-			const malePeople = await PeopleActions.getAllMalePeople(filters);
+			const filters = req.query;
+			const malePeople = await PeopleActions.getAllPeople(filters);
 			return res.status(200).json({
 				status: "success",
 				data: malePeople,
