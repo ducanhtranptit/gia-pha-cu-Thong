@@ -14,15 +14,14 @@ class PeopleController {
   
     async getAllMalePeopleByFilter(req, res) {
         try {
-            const filters = req.body;
-            const malePeople = await PeopleActions.getAllMalePeople(filters);
+            const filters = req.query;
+            const malePeople = await PeopleActions.getAllPeople(filters);
             return new SuccessResponse().send(req, res, malePeople);
         } catch (error) {
             console.error(error.message);
             return new ErrorResponse().send(req, res);
         }
     }
-
 
     async createPerson(req, res) {
         try {
