@@ -1,7 +1,10 @@
 const express = require("express");
-const PeopleApi = require("./web/people.api.js");
+const PeopleApi = require("./people.api.js");
+const config = require("../../config/config.js")
 const router = express.Router();
 
-router.use("/api/v1/core/people", PeopleApi);
+const baseUrl = config.baseUrl
+
+router.use(baseUrl, PeopleApi);
 
 module.exports = router;
