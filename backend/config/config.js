@@ -1,3 +1,5 @@
+const { baseUrl } = require("../../frontend/web-app/src/config/config");
+
 require("dotenv").config();
 
 module.exports = {
@@ -28,4 +30,5 @@ module.exports = {
 		dialect: "mysql",
 		loggig: false,
 	},
+	baseUrl: "/api/v1/core/people",
 };
