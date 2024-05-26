@@ -122,7 +122,7 @@ const PersonInfo = () => {
                                             </ul>
                                         </div>
                                     )}
-                                <p>
+                                <p style={{textAlign: "justify"}}>
                                     <strong>Tiểu sử:</strong>{" "}
                                     {personDetails.person.description
                                         ? personDetails.person.description
