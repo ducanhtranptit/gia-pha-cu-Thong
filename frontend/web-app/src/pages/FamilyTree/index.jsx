@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import Select from 'react-select'
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
