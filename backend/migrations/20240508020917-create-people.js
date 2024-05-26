@@ -21,6 +21,9 @@ module.exports = {
 			spouseId: {
 				type: Sequelize.INTEGER,
 			},
+			description: {
+				type: Sequelize.TEXT,
+			},
 			fatherId: {
 				type: Sequelize.INTEGER,
 			},
