@@ -1,11 +1,11 @@
-const { Sequelize } = require("sequelize");
+const { Sequelize, where } = require("sequelize");
 const model = require("../models/index");
 const People = model.People;
 class PeopleActions {
 	static buildSearchConditions(filters) {
 		const conditions = {};
 		conditions.fatherId = {
-			[Sequelize.Op.not]: null
+			[Sequelize.Op.not]: null,
 		};
 		if (filters.name) {
 			conditions.name = {
@@ -64,13 +64,19 @@ class PeopleActions {
 	}
 
 	async createPersonAndTheirSpouse(person, spouse) {
-        const newPerson = await People.create(person);
-        if (spouse) {
-            spouse.spouseId = newPerson.id;
-            const newSpouse = await People.create(spouse);
-            await People.update({ spouseId: newSpouse.id }, { where: { name: newPerson.name } });
-        }
-    }
+		const newPerson = await People.create(person);
+		if (spouse) {
+			spouse.spouseId = newPerson.id;
+			const newSpouse = await People.create(spouse);
+			await People.update({ spouseId: newSpouse.id }, { where: { name: newPerson.name } });
+		}
+	}
+
+	async findOneForProfilePage(filters) {
+		const conditions = PeopleActions.buildSearchConditions(filters);
+		const person = await People.findOne({ where: conditions });
+		return person
+	}
 }
 
 module.exports = new PeopleActions();
