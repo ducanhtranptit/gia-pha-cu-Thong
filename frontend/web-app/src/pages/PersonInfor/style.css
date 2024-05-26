@@ -1,0 +1,10 @@
+/* Trong file style.css */
+.link-style {
+    color: #007bff; /* Màu chữ */
+    text-decoration: none; /* Loại bỏ gạch chân */
+    transition: color 0.3s ease; /* Hiệu ứng chuyển đổi màu khi hover */
+}
+
+.link-style:hover {
+    color: #231b96; /* Màu chữ khi hover */
+}
