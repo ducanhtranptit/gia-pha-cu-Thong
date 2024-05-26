@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/HomePage/index.jsx";
 import News from "./pages/News/index.jsx";
 import Navbar from "./components/navbar/index.jsx";
-// import Footer from "./components/footer/index.jsx";
 import FamilyTree from "./pages/FamilyTree/index.jsx";
+import PersonInfo from "./pages/PersonInfor/index.jsx";
 import "./App.css";
 
 const App = () => (
@@ -17,9 +17,9 @@ const App = () => (
 					<Route path="/" element={<Home />} />
 					<Route path="/news" element={<News />} />
 					<Route path="/family-tree" element={<FamilyTree />} />
+					<Route path="/person-infor" element={<PersonInfo />} />
 				</Routes>
 			</div>
-			{/* <Footer /> */}
 		</div>
 	</Router>
 );
