@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import config from "../../config/config.js";
 import { toast, ToastContainer } from "react-toastify";
 import img from "../../public/no-avatar.png";
@@ -7,10 +7,7 @@ import "./style.css";
 
 const PersonInfo = () => {
     const baseUrl = config.baseUrl;
-    const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
-    const name = searchParams.get("name");
-
+    const { name } = useParams();
     const [personDetails, setPersonDetails] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -27,6 +24,7 @@ const PersonInfo = () => {
                 .then((data) => {
                     setPersonDetails(data.data);
                     setLoading(false);
+                    console.log(data.data);
                 })
                 .catch((error) => {
                     setLoading(false);
@@ -79,7 +77,7 @@ const PersonInfo = () => {
                                     {personDetails.spouse &&
                                     personDetails.spouse.name ? (
                                         <Link
-                                            to={`/person-infor?name=${personDetails.spouse.name}`}
+                                            to={`/person-infor/${personDetails.spouse.name}`}
                                             className="link-style"
                                         >
                                             {personDetails.spouse.name}
@@ -93,7 +91,7 @@ const PersonInfo = () => {
                                     {personDetails.father &&
                                     personDetails.father.name ? (
                                         <Link
-                                            to={`/person-infor?name=${personDetails.father.name}`}
+                                            to={`/person-infor/${personDetails.father.name}`}
                                             className="link-style"
                                         >
                                             {personDetails.father.name}
@@ -111,7 +109,7 @@ const PersonInfo = () => {
                                                     (child, index) => (
                                                         <li key={index}>
                                                             <Link
-                                                                to={`/person-infor?name=${child.name}`}
+                                                                to={`/person-infor/${child.name}`}
                                                                 className="link-style"
                                                             >
                                                                 {child.name}
@@ -122,7 +120,7 @@ const PersonInfo = () => {
                                             </ul>
                                         </div>
                                     )}
-                                <p style={{textAlign: "justify"}}>
+                                <p>
                                     <strong>Tiểu sử:</strong>{" "}
                                     {personDetails.person.description
                                         ? personDetails.person.description
