@@ -11,7 +11,6 @@ import "./App.css";
 const App = () => (
     <Router>
         <div className="app">
-            <h1>Test git</h1>
             <Navbar />
             <div className="content">
                 <Routes>
