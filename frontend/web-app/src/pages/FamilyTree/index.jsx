@@ -87,7 +87,7 @@ const FamilyTree = () => {
     };
     return (
         <div className="family-tree-container mt-5 my-4">
-            <div className="search" style={{ position: "fixed" }}>
+            <div className="search">
                 <Tippy
                     interactive
                     visible={
@@ -112,12 +112,11 @@ const FamilyTree = () => {
                             value={searchTerm}
                             onChange={handleSearch}
                         />
-                        {/* <Button variant="primary" onClick={handleSearch}>
-              Tìm kiếm
-            </Button> */}
                     </InputGroup>
                 </Tippy>
             </div>
+            <br></br>
+            <br></br>
             <h1 className="family-tree-page-title mt-5 my-4 ms-3">Phả đồ</h1>
             <div>
                 <ToastContainer />

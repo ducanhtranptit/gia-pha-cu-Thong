@@ -33,6 +33,8 @@ body {
 }
 .search {
     margin-left: 20px;
+    position: fixed;
+    margin-top: 50px;
 }
 .input-search {
     width: 420px;
