@@ -48,7 +48,6 @@ const PersonInfo = () => {
       return "THÔNG TIN";
     }
   };
-
   return (
     <div className="mt-5 col-12">
       <div className="row">
@@ -117,6 +116,7 @@ const PersonInfo = () => {
                     : "N/A"}
                 </p>
               </div>
+
             </div>
           )}
         </div>
