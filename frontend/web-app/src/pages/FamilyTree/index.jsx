@@ -108,7 +108,7 @@ const FamilyTree = () => {
                     <InputGroup className="input-search">
                         <Form.Control
                             type="text"
-                            placeholder="Nhập tên"
+                            placeholder="Tìm kiếm"
                             value={searchTerm}
                             onChange={handleSearch}
                         />
@@ -118,9 +118,7 @@ const FamilyTree = () => {
                     </InputGroup>
                 </Tippy>
             </div>
-            <h1 className="family-tree-page-title mt-5 my-4 ms-3">
-                Phả đồ dòng họ
-            </h1>
+            <h1 className="family-tree-page-title mt-5 my-4 ms-3">Phả đồ</h1>
             <div>
                 <ToastContainer />
                 {familyData ? renderFamilyTree(familyData) : <p>Loading...</p>}
