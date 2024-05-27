@@ -9,19 +9,20 @@ import PersonInfo from "./pages/PersonInfor/index.jsx";
 import "./App.css";
 
 const App = () => (
-	<Router>
-		<div className="app">
-			<Navbar />
-			<div className="content">
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/news" element={<News />} />
-					<Route path="/family-tree" element={<FamilyTree />} />
-					<Route path="/person-infor" element={<PersonInfo />} />
-				</Routes>
-			</div>
-		</div>
-	</Router>
+    <Router>
+        <div className="app">
+            <h1>Test git</h1>
+            <Navbar />
+            <div className="content">
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/news" element={<News />} />
+                    <Route path="/family-tree" element={<FamilyTree />} />
+                    <Route path="/person-infor" element={<PersonInfo />} />
+                </Routes>
+            </div>
+        </div>
+    </Router>
 );
 
 export default App;
