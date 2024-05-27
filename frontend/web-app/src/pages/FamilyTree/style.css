@@ -1,5 +1,5 @@
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
 }
 
@@ -11,19 +11,19 @@ body {
 
 .tree-node a {
   text-decoration: none;
-  color: #007bff; 
+  color: #007bff;
   transition: color 0.3s ease;
 }
 
 .tree-node button {
   background-color: transparent;
-  border: 0px solid #007bff; 
+  border: 0px solid #007bff;
   padding: 8px 15px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease; 
-  margin-bottom: 10px; 
-  text-align: left; 
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-bottom: 10px;
+  text-align: left;
   white-space: nowrap;
 }
 
@@ -31,4 +31,12 @@ body {
   margin-right: 5px;
   font-size: 18px;
   color: #666;
+}
+.search-result {
+  width: 420px;
+}
+.search-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 6px 6px 0px 16px;
 }
