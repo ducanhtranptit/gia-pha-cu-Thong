@@ -31,6 +31,12 @@ body {
     font-size: 18px;
     color: #666;
 }
+.search {
+    margin-left: 20px;
+}
+.input-search {
+    width: 420px;
+}
 
 .search-result {
     width: 420px;
@@ -39,4 +45,9 @@ body {
     font-size: 1.2rem;
     font-weight: 600;
     padding: 6px 6px 0px 16px;
+}
+@media screen and (max-width: 428px) {
+    .search {
+        margin-left: 3px;
+    }
 }

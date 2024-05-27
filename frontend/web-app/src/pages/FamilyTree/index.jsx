@@ -66,7 +66,7 @@ const FamilyTree = () => {
         return (
             <div key={person.name} className="tree-node">
                 <button>
-                    <Link to={`/person-infor?name=${person.name}`}>
+                    <Link to={`/person-infor/${person.name}`}>
                         <h2>
                             <FaUser /> {person.name}
                         </h2>
@@ -87,7 +87,7 @@ const FamilyTree = () => {
     };
     return (
         <div className="family-tree-container mt-5 my-4">
-            <div className="col-12">
+            <div className="search" style={{ position: "fixed" }}>
                 <Tippy
                     interactive
                     visible={
@@ -105,7 +105,7 @@ const FamilyTree = () => {
                     )}
                     placement="bottom"
                 >
-                    <InputGroup className="mt-5 ms-3 w-50">
+                    <InputGroup className="input-search">
                         <Form.Control
                             type="text"
                             placeholder="Nhập tên"
@@ -118,7 +118,9 @@ const FamilyTree = () => {
                     </InputGroup>
                 </Tippy>
             </div>
-            <h1 className="family-tree-page-title mt-5 my-4 ms-3">Phả đồ</h1>
+            <h1 className="family-tree-page-title mt-5 my-4 ms-3">
+                Phả đồ dòng họ
+            </h1>
             <div>
                 <ToastContainer />
                 {familyData ? renderFamilyTree(familyData) : <p>Loading...</p>}
