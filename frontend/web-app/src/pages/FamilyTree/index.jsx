@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import { FaUser, FaHeart } from "react-icons/fa";
 import { debounce } from "lodash";
-import config from "../../config/config.js";
+import config from "../../config/url-config.js";
 import { Wrapper as PopperWrapper } from "../../components/popper/index.jsx";
 import UserItem from "../../components/userItem/index.jsx";
 import "./style.css";
@@ -87,7 +87,7 @@ const FamilyTree = () => {
     };
     return (
         <div className="family-tree-container mt-5 my-4">
-            <div className="search" style={{ position: "fixed" }}>
+            <div className="search">
                 <Tippy
                     interactive
                     visible={
@@ -112,12 +112,11 @@ const FamilyTree = () => {
                             value={searchTerm}
                             onChange={handleSearch}
                         />
-                        {/* <Button variant="primary" onClick={handleSearch}>
-              Tìm kiếm
-            </Button> */}
                     </InputGroup>
                 </Tippy>
             </div>
+            <br></br>
+            <br></br>
             <h1 className="family-tree-page-title mt-5 my-4 ms-3">Phả đồ</h1>
             <div>
                 <ToastContainer />
