@@ -24,7 +24,6 @@ const PersonInfo = () => {
                 .then((data) => {
                     setPersonDetails(data.data);
                     setLoading(false);
-                    console.log(data.data);
                 })
                 .catch((error) => {
                     setLoading(false);

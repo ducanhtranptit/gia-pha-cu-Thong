@@ -26,7 +26,6 @@ class PeopleController {
 	async createPerson(req, res) {
 		try {
 			const { person, spouse } = req.body;
-			console.log(person, spouse);
 			return new SuccessResponse().send(req, res);
 		} catch (error) {
 			console.error(error.message);
