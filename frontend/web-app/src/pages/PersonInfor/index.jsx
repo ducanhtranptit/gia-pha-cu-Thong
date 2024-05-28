@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import config from "../../config/config.js";
+import config from "../../config/url-config.js";
 import { toast, ToastContainer } from "react-toastify";
 import img from "../../public/no-avatar.png";
 import "./style.css";

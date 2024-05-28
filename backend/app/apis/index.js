@@ -5,6 +5,6 @@ const router = express.Router();
 
 const baseUrl = config.baseUrl
 
-router.use(baseUrl, PeopleApi);
+router.use(`${baseUrl}/people`, PeopleApi);
 
 module.exports = router;

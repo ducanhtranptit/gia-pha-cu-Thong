@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import { FaUser, FaHeart } from "react-icons/fa";
 import { debounce } from "lodash";
-import config from "../../config/config.js";
+import config from "../../config/url-config.js";
 import { Wrapper as PopperWrapper } from "../../components/popper/index.jsx";
 import UserItem from "../../components/userItem/index.jsx";
 import "./style.css";
