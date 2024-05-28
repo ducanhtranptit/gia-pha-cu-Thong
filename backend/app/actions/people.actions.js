@@ -98,7 +98,6 @@ class PeopleActions {
 				attributes: ["name"],
 			})
 		}
-		console.log("children:", children);
         const result = {
             person: person,
             father: father,
