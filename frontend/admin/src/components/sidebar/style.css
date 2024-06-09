@@ -1,0 +1,44 @@
+.side-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 230px;
+    background-color: #233859; /* Màu nền của sidebar */
+    padding: 20px;
+    color: white; /* Màu chữ */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Đổ bóng cho sidebar */
+}
+
+.side-bar h1 {
+    margin-bottom: 20px;
+}
+
+.side-bar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.side-bar ul li {
+    margin-bottom: 10px;
+}
+
+.side-bar ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.side-bar ul li a:hover {
+    text-decoration: underline;
+}
+
+.home-link {
+    text-decoration: none; /* Bỏ gạch chân */
+    color: white; /* Màu chữ, có thể điều chỉnh theo ý muốn */
+    font-weight: bold; /* Chữ đậm */
+  }
+  
+  .home-link:hover {
+    color: #007bff; /* Màu chữ khi hover, có thể điều chỉnh theo ý muốn */
+  }

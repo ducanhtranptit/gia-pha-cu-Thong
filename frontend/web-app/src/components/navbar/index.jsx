@@ -38,7 +38,7 @@ const NavigationBar = () => {
 							</Link>
 						</li>
 						<li className="navbar-item">
-							<a href="http://localhost:3301" className="navbar-link" target="_blank" rel="noopener noreferrer">
+							<a href="http://localhost:3001" className="navbar-link" target="_blank" rel="noopener noreferrer">
 								Quản trị
 							</a>
 						</li>
