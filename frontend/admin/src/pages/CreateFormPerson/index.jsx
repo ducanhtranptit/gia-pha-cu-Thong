@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import ListGroup from "react-bootstrap/ListGroup";
+import Dropdown from "react-bootstrap/Dropdown";
 import config from "../../config/url-config.js";
 import { toast } from "react-toastify";
 import "./style.css";
@@ -12,33 +12,62 @@ import "react-toastify/dist/ReactToastify.css";
 const baseUrl = config.baseUrl;
 
 const CreatePersonForm = ({ show, handleClose }) => {
-    const [name, setName] = useState("");
-    const [gender, setGender] = useState("");
-    const [fatherId, setFatherId] = useState("");
-    const [description, setDescription] = useState("");
-    const [showSpouseForm, setShowSpouseForm] = useState(false);
-    const [spouseName, setSpouseName] = useState("");
-    const [spouseGender, setSpouseGender] = useState("");
-    const [spouseDescription, setSpouseDescription] = useState("");
-    const [father, setFather] = useState([]);
-    const [showList, setShowList] = useState(false);
-    const [fatherName, setFatherName] = useState("");
+    const initialState = {
+        name: "",
+        gender: "",
+        fatherId: "",
+        description: "",
+        showSpouseForm: false,
+        spouseName: "",
+        spouseGender: "",
+        spouseDescription: "",
+        father: [],
+        showList: false,
+        fatherName: "",
+    };
+
+    const [formData, setFormData] = useState(initialState);
+    const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target)
+            ) {
+                setFormData((prevState) => ({
+                    ...prevState,
+                    showList: false,
+                }));
+            }
+        };
+
+        document.addEventListener("mousedown", handleOutsideClick);
+
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+        };
+    }, []);
+
+    const resetForm = () => {
+        setFormData(initialState);
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         const personData = {
-            name,
-            gender,
-            fatherId,
-            description,
+            name: formData.name,
+            gender: formData.gender,
+            fatherId: formData.fatherId,
+            description: formData.description,
         };
 
-        const spouseData = showSpouseForm
+        const spouseData = formData.showSpouseForm
             ? {
-                  name: spouseName,
-                  gender: spouseGender,
-                  description: spouseDescription,
+                  name: formData.spouseName,
+                  gender: formData.spouseGender,
+                  description: formData.spouseDescription,
               }
             : null;
 
@@ -53,46 +82,48 @@ const CreatePersonForm = ({ show, handleClose }) => {
 
             console.log("Response from server:", response.data);
             handleClose();
-            // window.location.reload();
+            resetForm();
             toast.success("Thêm thành viên mới thành công!");
         } catch (error) {
             console.error("Error sending data:", error);
         }
     };
-    useEffect(() => {
-        const getData = async () => {
-            try {
-                const response = await axios.get(
-                    `${baseUrl}/people/get-all-father`
-                );
-                setFather(response.data.data);
-            } catch (error) {
-                console.error("Error fetching family data:", error);
-                toast.error(
-                    "Error fetching family data. Please try again later.",
-                    {
-                        autoClose: 10000,
-                    }
-                );
-            }
-        };
-        getData();
-    }, [baseUrl]);
 
-    const handleInputClick = () => {
-        setShowList(true);
+    const handleInputClick = async () => {
+        try {
+            const response = await axios.get(
+                `${baseUrl}/people/get-all-father`
+            );
+            setFormData((prevState) => ({
+                ...prevState,
+                father: response.data.data,
+                showList: true,
+            }));
+        } catch (error) {
+            console.error("Error fetching family data:", error);
+            toast.error("Error fetching family data. Please try again later.", {
+                autoClose: 10000,
+            });
+        }
     };
+
     const handleListClick = (id, name) => {
-        setFatherId(id);
-        setFatherName(name);
-        setShowList(false);
+        setFormData((prevState) => ({
+            ...prevState,
+            fatherId: id,
+            fatherName: name,
+            showList: false,
+        }));
     };
-    const handleInputChange = (e) => {
-        setFatherName(e.target.value);
-        setShowList(true);
-    };
+
     return (
-        <Modal show={show} onHide={handleClose}>
+        <Modal
+            show={show}
+            onHide={() => {
+                handleClose();
+                resetForm();
+            }}
+        >
             <Modal.Header closeButton>
                 <Modal.Title>Thêm thành viên mới</Modal.Title>
             </Modal.Header>
@@ -103,8 +134,13 @@ const CreatePersonForm = ({ show, handleClose }) => {
                             <Form.Label>Họ tên</Form.Label>
                             <Form.Control
                                 type="text"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
+                                value={formData.name}
+                                onChange={(e) =>
+                                    setFormData((prevState) => ({
+                                        ...prevState,
+                                        name: e.target.value,
+                                    }))
+                                }
                                 placeholder="Nhập họ tên"
                                 required
                             />
@@ -113,8 +149,13 @@ const CreatePersonForm = ({ show, handleClose }) => {
                             <Form.Label>Giới tính</Form.Label>
                             <Form.Control
                                 as="select"
-                                value={gender}
-                                onChange={(e) => setGender(e.target.value)}
+                                value={formData.gender}
+                                onChange={(e) =>
+                                    setFormData((prevState) => ({
+                                        ...prevState,
+                                        gender: e.target.value,
+                                    }))
+                                }
                                 required
                             >
                                 <option value="">Chọn giới tính</option>
@@ -124,28 +165,35 @@ const CreatePersonForm = ({ show, handleClose }) => {
                         </Form.Group>
                         <Form.Group className="form-group">
                             <Form.Label>Bố</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={fatherName}
-                                onChange={handleInputChange}
-                                onClick={handleInputClick}
-                                placeholder="Chọn tên bố"
-                            />
-                            {showList && (
-                                <ListGroup>
-                                    {father?.map((fa, index) => (
-                                        <ListGroup.Item
+                            <Dropdown
+                                ref={dropdownRef}
+                                show={formData.showList}
+                            >
+                                <Dropdown.Toggle
+                                    variant="light"
+                                    id="dropdown-basic"
+                                    onClick={handleInputClick}
+                                    style={{
+                                        border: "1px solid #ced4da",
+                                        borderRadius: "4px",
+                                    }}
+                                >
+                                    {formData.fatherName || "Chọn tên bố"}
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu>
+                                    {formData.father?.map((fa, index) => (
+                                        <Dropdown.Item
                                             key={index}
-                                            value={fa.id}
                                             onClick={() =>
                                                 handleListClick(fa.id, fa.name)
                                             }
                                         >
                                             {fa.name}
-                                        </ListGroup.Item>
+                                        </Dropdown.Item>
                                     ))}
-                                </ListGroup>
-                            )}
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </Form.Group>
                     </div>
 
@@ -153,8 +201,13 @@ const CreatePersonForm = ({ show, handleClose }) => {
                         <Form.Label>Mô tả</Form.Label>
                         <Form.Control
                             type="text"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
+                            value={formData.description}
+                            onChange={(e) =>
+                                setFormData((prevState) => ({
+                                    ...prevState,
+                                    description: e.target.value,
+                                }))
+                            }
                             placeholder="Nhập mô tả"
                         />
                     </Form.Group>
@@ -164,22 +217,30 @@ const CreatePersonForm = ({ show, handleClose }) => {
                         <br />
                         <Button
                             variant="info"
-                            onClick={() => setShowSpouseForm(!showSpouseForm)}
+                            onClick={() =>
+                                setFormData((prevState) => ({
+                                    ...prevState,
+                                    showSpouseForm: !prevState.showSpouseForm,
+                                }))
+                            }
                         >
                             Thêm vợ/chồng
                         </Button>
                     </Form.Group>
 
-                    {showSpouseForm && (
+                    {formData.showSpouseForm && (
                         <>
                             <div className="form-row">
                                 <Form.Group className="form-group">
                                     <Form.Label>Tên vợ/chồng</Form.Label>
                                     <Form.Control
                                         type="text"
-                                        value={spouseName}
+                                        value={formData.spouseName}
                                         onChange={(e) =>
-                                            setSpouseName(e.target.value)
+                                            setFormData((prevState) => ({
+                                                ...prevState,
+                                                spouseName: e.target.value,
+                                            }))
                                         }
                                         placeholder="Nhập họ tên"
                                     />
@@ -188,9 +249,12 @@ const CreatePersonForm = ({ show, handleClose }) => {
                                     <Form.Label>Giới tính vợ/chồng</Form.Label>
                                     <Form.Control
                                         as="select"
-                                        value={spouseGender}
+                                        value={formData.spouseGender}
                                         onChange={(e) =>
-                                            setSpouseGender(e.target.value)
+                                            setFormData((prevState) => ({
+                                                ...prevState,
+                                                spouseGender: e.target.value,
+                                            }))
                                         }
                                     >
                                         <option value="male">Nam</option>
@@ -202,9 +266,12 @@ const CreatePersonForm = ({ show, handleClose }) => {
                                 <Form.Label>Mô tả vợ/chồng</Form.Label>
                                 <Form.Control
                                     type="text"
-                                    value={spouseDescription}
+                                    value={formData.spouseDescription}
                                     onChange={(e) =>
-                                        setSpouseDescription(e.target.value)
+                                        setFormData((prevState) => ({
+                                            ...prevState,
+                                            spouseDescription: e.target.value,
+                                        }))
                                     }
                                     placeholder="Nhập mô tả"
                                 />

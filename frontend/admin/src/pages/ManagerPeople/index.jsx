@@ -16,6 +16,8 @@ function ManagerPeople() {
     const [showEditForm, setShowEditForm] = useState(false);
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [currentPerson, setCurrentPerson] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10; // Số mục trên mỗi trang mặc định
 
     useEffect(() => {
         const fetchData = async () => {
@@ -62,6 +64,17 @@ function ManagerPeople() {
         }
     };
 
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+
+    const paginatedPeople = getPeople.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
+
+    const totalPages = Math.ceil(getPeople.length / itemsPerPage);
+
     return (
         <div className="wrapper">
             <div className="title">
@@ -87,7 +100,7 @@ function ManagerPeople() {
                         </tr>
                     </thead>
                     <tbody>
-                        {getPeople.map((people) => (
+                        {paginatedPeople.map((people) => (
                             <tr key={people.id}>
                                 <td>{people.id}</td>
                                 <td>{people.name}</td>
@@ -121,6 +134,24 @@ function ManagerPeople() {
                 handleClose={() => setShowCreateForm(false)}
             />
             <ToastContainer />
+            <div className="pagination-controls">
+                <div className="pagination-buttons">
+                    {Array.from(
+                        { length: totalPages },
+                        (_, index) => index + 1
+                    ).map((page) => (
+                        <Button
+                            key={page}
+                            variant="outline-primary"
+                            onClick={() => handlePageChange(page)}
+                            active={page === currentPage}
+                            style={{ margin: "0 5px" }}
+                        >
+                            {page}
+                        </Button>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 }
