@@ -1,6 +1,22 @@
-.list-group-horizontal {
+.form-row {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.form-row .form-group {
+    flex: 1;
+    padding: 0 6px;
+}
+
+.form-row .form-group:first-child {
+    padding-left: 0;
+}
+
+.form-row .form-group:last-child {
+    padding-right: 0;
+}
+
+.full-width {
+    flex: 0 0 100%;
 }

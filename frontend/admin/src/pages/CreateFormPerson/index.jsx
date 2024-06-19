@@ -98,55 +98,58 @@ const CreatePersonForm = ({ show, handleClose }) => {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group>
-                        <Form.Label>Họ tên</Form.Label>
-                        <Form.Control
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Nhập họ tên"
-                            required
-                        />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Giới tính</Form.Label>
-                        <Form.Control
-                            as="select"
-                            value={gender}
-                            onChange={(e) => setGender(e.target.value)}
-                            required
-                        >
-                            <option value="">Chọn giới tính</option>
-                            <option value="male">Nam</option>
-                            <option value="female">Nữ</option>
-                        </Form.Control>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Bố</Form.Label>
-                        <Form.Control
-                            type="text"
-                            value={fatherName}
-                            onChange={handleInputChange}
-                            onClick={handleInputClick}
-                            placeholder="Chọn tên bố"
-                        />
-                        {showList && (
-                            <ListGroup className="list-group-horizontal">
-                                {father?.map((fa, index) => (
-                                    <ListGroup.Item
-                                        key={index}
-                                        value={fa.id}
-                                        onClick={() =>
-                                            handleListClick(fa.id, fa.name)
-                                        }
-                                    >
-                                        {fa.name}
-                                    </ListGroup.Item>
-                                ))}
-                            </ListGroup>
-                        )}
-                    </Form.Group>
-                    <Form.Group>
+                    <div className="form-row">
+                        <Form.Group className="form-group">
+                            <Form.Label>Họ tên</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                placeholder="Nhập họ tên"
+                                required
+                            />
+                        </Form.Group>
+                        <Form.Group className="form-group">
+                            <Form.Label>Giới tính</Form.Label>
+                            <Form.Control
+                                as="select"
+                                value={gender}
+                                onChange={(e) => setGender(e.target.value)}
+                                required
+                            >
+                                <option value="">Chọn giới tính</option>
+                                <option value="male">Nam</option>
+                                <option value="female">Nữ</option>
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group className="form-group">
+                            <Form.Label>Bố</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={fatherName}
+                                onChange={handleInputChange}
+                                onClick={handleInputClick}
+                                placeholder="Chọn tên bố"
+                            />
+                            {showList && (
+                                <ListGroup>
+                                    {father?.map((fa, index) => (
+                                        <ListGroup.Item
+                                            key={index}
+                                            value={fa.id}
+                                            onClick={() =>
+                                                handleListClick(fa.id, fa.name)
+                                            }
+                                        >
+                                            {fa.name}
+                                        </ListGroup.Item>
+                                    ))}
+                                </ListGroup>
+                            )}
+                        </Form.Group>
+                    </div>
+
+                    <Form.Group className="full-width">
                         <Form.Label>Mô tả</Form.Label>
                         <Form.Control
                             type="text"
@@ -155,6 +158,7 @@ const CreatePersonForm = ({ show, handleClose }) => {
                             placeholder="Nhập mô tả"
                         />
                     </Form.Group>
+
                     <Form.Group>
                         <Form.Label>Vợ/Chồng</Form.Label>
                         <br />
@@ -165,33 +169,36 @@ const CreatePersonForm = ({ show, handleClose }) => {
                             Thêm vợ/chồng
                         </Button>
                     </Form.Group>
+
                     {showSpouseForm && (
                         <>
-                            <Form.Group>
-                                <Form.Label>Tên vợ/chồng</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={spouseName}
-                                    onChange={(e) =>
-                                        setSpouseName(e.target.value)
-                                    }
-                                    placeholder="Nhập họ tên"
-                                />
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>Giới tính vợ/chồng</Form.Label>
-                                <Form.Control
-                                    as="select"
-                                    value={spouseGender}
-                                    onChange={(e) =>
-                                        setSpouseGender(e.target.value)
-                                    }
-                                >
-                                    <option value="male">Nam</option>
-                                    <option value="female">Nữ</option>
-                                </Form.Control>
-                            </Form.Group>
-                            <Form.Group>
+                            <div className="form-row">
+                                <Form.Group className="form-group">
+                                    <Form.Label>Tên vợ/chồng</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        value={spouseName}
+                                        onChange={(e) =>
+                                            setSpouseName(e.target.value)
+                                        }
+                                        placeholder="Nhập họ tên"
+                                    />
+                                </Form.Group>
+                                <Form.Group className="form-group">
+                                    <Form.Label>Giới tính vợ/chồng</Form.Label>
+                                    <Form.Control
+                                        as="select"
+                                        value={spouseGender}
+                                        onChange={(e) =>
+                                            setSpouseGender(e.target.value)
+                                        }
+                                    >
+                                        <option value="male">Nam</option>
+                                        <option value="female">Nữ</option>
+                                    </Form.Control>
+                                </Form.Group>
+                            </div>
+                            <Form.Group className="full-width">
                                 <Form.Label>Mô tả vợ/chồng</Form.Label>
                                 <Form.Control
                                     type="text"
@@ -204,6 +211,7 @@ const CreatePersonForm = ({ show, handleClose }) => {
                             </Form.Group>
                         </>
                     )}
+
                     <Button
                         variant="success"
                         type="submit"
