@@ -8,3 +8,32 @@
     float: right;
     margin: 12px;
 }
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.title {
+    flex: 0 0 auto;
+}
+
+.add-person {
+    flex: 0 0 auto;
+}
+
+.table-people {
+    flex: 1 1 auto;
+}
+
+.pagination-controls {
+    flex: 0 0 auto;
+    display: flex;
+    margin-top: auto;
+    padding: 20px 0;
+}
+
+.pagination-buttons {
+    display: flex;
+}
