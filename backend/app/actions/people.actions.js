@@ -1,4 +1,5 @@
 const { Sequelize } = require("sequelize");
+const { Op } = require("sequelize");
 const model = require("../models/index");
 const People = model.People;
 class PeopleActions {
@@ -64,7 +65,26 @@ class PeopleActions {
         });
         return malePeople;
     }
-
+    async getAllPeopleOfManager() {
+        try {
+            const people = await People.findAll();
+            return people;
+        } catch (error) {
+            console.error("Error fetching people:", error);
+            throw new Error("Could not fetch people. Please try again later.");
+        }
+    }
+    async getAllFather() {
+        const fathers = await People.findAll({
+            where: {
+                [Op.and]: [
+                    { name: { [Op.like]: "Trần%" } },
+                    { gender: "male" },
+                ],
+            },
+        });
+        return fathers;
+    }
     async createPersonAndTheirSpouse(person, spouse) {
         const newPerson = await People.create(person);
         if (spouse) {
@@ -92,12 +112,12 @@ class PeopleActions {
             where: { fatherId: person.id },
             attributes: ["name"],
         });
-		if (children.length === 0 && person.spouseId !== null) {
-			children = await People.findAll({
-				where: { fatherId: person.spouseId },
-				attributes: ["name"],
-			})
-		}
+        if (children.length === 0 && person.spouseId !== null) {
+            children = await People.findAll({
+                where: { fatherId: person.spouseId },
+                attributes: ["name"],
+            });
+        }
         const result = {
             person: person,
             father: father,
