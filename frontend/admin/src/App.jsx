@@ -10,9 +10,10 @@ function App() {
     return (
         <Router>
             <div className="d-flex col-12">
-                <div className="col-2"></div>
-                <SideBar />
-                <div className="content col-8">
+                <div className="col-2">
+                    <SideBar />
+                </div>
+                <div className="content col-10">
                     <Routes>
                         <Route path="/" element={<Dashboard />} />
                         <Route path="/family-tree" element={<FamilyTree />} />
