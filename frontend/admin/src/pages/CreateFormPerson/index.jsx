@@ -79,16 +79,6 @@ const CreatePersonForm = ({ show, handleClose }) => {
             newErrors.fatherId = "Tên bố là bắt buộc.";
             isValid = false;
         }
-        if (formData.showSpouseForm) {
-            if (!formData.spouseName.trim()) {
-                newErrors.spouseName = "Tên vợ/chồng là bắt buộc.";
-                isValid = false;
-            }
-            if (!formData.spouseGender) {
-                newErrors.spouseGender = "Giới tính vợ/chồng là bắt buộc.";
-                isValid = false;
-            }
-        }
 
         setErrors(newErrors);
         return isValid;
@@ -305,11 +295,7 @@ const CreatePersonForm = ({ show, handleClose }) => {
                                             }))
                                         }
                                         placeholder="Nhập họ tên"
-                                        isInvalid={!!errors.spouseName}
                                     />
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.spouseName}
-                                    </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group className="form-group">
                                     <Form.Label>Giới tính vợ/chồng</Form.Label>
@@ -322,14 +308,10 @@ const CreatePersonForm = ({ show, handleClose }) => {
                                                 spouseGender: e.target.value,
                                             }))
                                         }
-                                        isInvalid={!!errors.spouseGender}
                                     >
                                         <option value="male">Nam</option>
                                         <option value="female">Nữ</option>
                                     </Form.Control>
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.spouseGender}
-                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </div>
                             <Form.Group className="full-width">
