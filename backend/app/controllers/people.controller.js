@@ -1,5 +1,9 @@
 const PeopleActions = require("../actions/people.actions");
-const { SuccessResponse, ErrorResponse } = require("../core/ApiResponse.js");
+const {
+    SuccessResponse,
+    ErrorResponse,
+    ForbiddenResponse,
+} = require("../core/ApiResponse.js");
 
 class PeopleController {
     async getAllPeople(req, res) {
@@ -26,9 +30,14 @@ class PeopleController {
     async createPerson(req, res) {
         try {
             const { person, spouse } = req.body;
-            console.log("ok:", person);
-            await PeopleActions.createPersonAndTheirSpouse(person, spouse);
-            return new SuccessResponse().send(req, res);
+            if (!person) {
+                return new ForbiddenResponse().send(req, res);
+            }
+            const newPerson = await PeopleActions.createPersonAndTheirSpouse(
+                person,
+                spouse
+            );
+            return new SuccessResponse().send(req, res, newPerson);
         } catch (error) {
             console.error(error.message);
             return new ErrorResponse().send(req, res);
@@ -59,6 +68,33 @@ class PeopleController {
         try {
             const fathers = await PeopleActions.getAllFather();
             return new SuccessResponse().send(req, res, fathers);
+        } catch (error) {
+            console.error(error.message);
+            return new ErrorResponse().send(req, res);
+        }
+    }
+    async deletePerson(req, res) {
+        try {
+            const { id } = req.params;
+            await PeopleActions.deletePerson(id);
+            return new SuccessResponse().send(req, res);
+        } catch (error) {
+            console.error(error.message);
+            return new ErrorResponse().send(req, res);
+        }
+    }
+    async updateDataPerson(req, res) {
+        try {
+            const { id } = req.params;
+            const dataPerson = req.body;
+            if (!dataPerson) {
+                return new ForbiddenResponse().send(req, res);
+            }
+            const updatedPerson = await PeopleActions.updateDataPerson(
+                id,
+                dataPerson
+            );
+            return new SuccessResponse().send(req, res, updatedPerson);
         } catch (error) {
             console.error(error.message);
             return new ErrorResponse().send(req, res);
