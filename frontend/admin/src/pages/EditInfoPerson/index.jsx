@@ -1,36 +1,50 @@
-// EditPersonForm.js
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import config from "../../config/url-config.js";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const EditPersonForm = ({ show, handleClose, person, handleSave }) => {
+    const baseUrl = config.baseUrl;
     const [name, setName] = useState("");
-    const [gender, setGender] = useState("");
-    const [spouse, setSpouse] = useState("");
-    const [father, setFather] = useState("");
+    const [description, setDescription] = useState("");
 
     useEffect(() => {
         if (person) {
             setName(person.name);
-            setGender(person.gender);
-            setSpouse(person.spouseId);
-            setFather(person.fatherId);
+            setDescription(person.description);
         }
     }, [person]);
 
-    const onSave = () => {
-        handleSave({ ...person, name, gender, spouse, father });
-        handleClose();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const updatedPerson = {
+            name: name,
+            description: description,
+        };
+        try {
+            const response = await axios.put(
+                `${baseUrl}/people/update-person/${person.id}`,
+                updatedPerson
+            );
+            handleClose();
+            toast.success("Thông tin thành viên đã được cập nhật thành công!");
+        } catch (error) {
+            console.error("Error updating person:", error);
+            toast.error("Đã xảy ra lỗi khi cập nhật thông tin thành viên.");
+        }
     };
 
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Sửa thông tin người dùng</Modal.Title>
+                <Modal.Title>Chỉnh sửa thông tin thành viên</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     <Form.Group>
                         <Form.Label>Họ tên</Form.Label>
                         <Form.Control
@@ -40,42 +54,23 @@ const EditPersonForm = ({ show, handleClose, person, handleSave }) => {
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Giới tính</Form.Label>
-                        <Form.Control
-                            as="select"
-                            value={gender}
-                            onChange={(e) => setGender(e.target.value)}
-                        >
-                            <option value="male">Nam</option>
-                            <option value="female">Nữ</option>
-                        </Form.Control>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Vợ/Chồng</Form.Label>
+                        <Form.Label>Mô tả</Form.Label>
                         <Form.Control
                             type="text"
-                            value={spouse}
-                            onChange={(e) => setName(e.target.value)}
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
                         />
                     </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Bố</Form.Label>
-                        <Form.Control
-                            type="text"
-                            value={father}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                    </Form.Group>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Đóng
+                        </Button>
+                        <Button variant="primary" type="submit">
+                            Lưu thay đổi
+                        </Button>
+                    </Modal.Footer>
                 </Form>
             </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Đóng
-                </Button>
-                <Button variant="primary" onClick={onSave}>
-                    Lưu thay đổi
-                </Button>
-            </Modal.Footer>
         </Modal>
     );
 };

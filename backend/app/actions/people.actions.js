@@ -66,13 +66,8 @@ class PeopleActions {
         return malePeople;
     }
     async getAllPeopleOfManager() {
-        try {
-            const people = await People.findAll();
-            return people;
-        } catch (error) {
-            console.error("Error fetching people:", error);
-            throw new Error("Could not fetch people. Please try again later.");
-        }
+        const people = await People.findAll();
+        return people;
     }
     async getAllFather() {
         const fathers = await People.findAll({
@@ -84,6 +79,51 @@ class PeopleActions {
             },
         });
         return fathers;
+    }
+    async deletePerson(id) {
+        const person = await People.findByPk(id);
+
+        if (person.note === "rootPerson") {
+            console.log("Person with note 'rootPerson' cannot be deleted.");
+            return;
+        }
+
+        const spouse = await People.findByPk(person.spouseId);
+
+        const childrenByFather = await People.findAll({
+            where: { fatherId: person.id },
+        });
+        for (const child of childrenByFather) {
+            const childSpouse = await People.findByPk(child.spouseId);
+            if (childSpouse) {
+                await childSpouse.destroy();
+            }
+            await child.destroy();
+        }
+
+        if (spouse) {
+            const childrenBySpouse = await People.findAll({
+                where: { fatherId: spouse.id },
+            });
+            for (const child of childrenBySpouse) {
+                const childSpouse = await People.findByPk(child.spouseId);
+                if (childSpouse) {
+                    await childSpouse.destroy();
+                }
+                await child.destroy();
+            }
+            await spouse.destroy();
+        }
+
+        await person.destroy();
+    }
+
+    async updateDataPerson(id, dataPerson) {
+        const person = await People.findByPk(id);
+        if (person) {
+            await person.update(dataPerson);
+        }
+        return person;
     }
     async createPersonAndTheirSpouse(person, spouse) {
         const newPerson = await People.create(person);

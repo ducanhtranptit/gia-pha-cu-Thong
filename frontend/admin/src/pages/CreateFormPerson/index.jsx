@@ -26,7 +26,16 @@ const CreatePersonForm = ({ show, handleClose }) => {
         fatherName: "",
     };
 
+    const initialErrorState = {
+        name: "",
+        gender: "",
+        fatherId: "",
+        spouseName: "",
+        spouseGender: "",
+    };
+
     const [formData, setFormData] = useState(initialState);
+    const [errors, setErrors] = useState(initialErrorState);
     const dropdownRef = useRef(null);
 
     useEffect(() => {
@@ -51,10 +60,36 @@ const CreatePersonForm = ({ show, handleClose }) => {
 
     const resetForm = () => {
         setFormData(initialState);
+        setErrors(initialErrorState);
+    };
+
+    const validateForm = () => {
+        const newErrors = { ...initialErrorState };
+        let isValid = true;
+
+        if (!formData.name.trim()) {
+            newErrors.name = "Họ tên là bắt buộc.";
+            isValid = false;
+        }
+        if (!formData.gender) {
+            newErrors.gender = "Giới tính là bắt buộc.";
+            isValid = false;
+        }
+        if (!formData.fatherId) {
+            newErrors.fatherId = "Tên bố là bắt buộc.";
+            isValid = false;
+        }
+
+        setErrors(newErrors);
+        return isValid;
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
 
         const personData = {
             name: formData.name,
@@ -86,6 +121,9 @@ const CreatePersonForm = ({ show, handleClose }) => {
             toast.success("Thêm thành viên mới thành công!");
         } catch (error) {
             console.error("Error sending data:", error);
+            toast.error(
+                "Có lỗi xảy ra khi thêm thành viên. Vui lòng thử lại sau."
+            );
         }
     };
 
@@ -143,7 +181,11 @@ const CreatePersonForm = ({ show, handleClose }) => {
                                 }
                                 placeholder="Nhập họ tên"
                                 required
+                                isInvalid={!!errors.name}
                             />
+                            <Form.Control.Feedback type="invalid">
+                                {errors.name}
+                            </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="form-group">
                             <Form.Label>Giới tính</Form.Label>
@@ -157,11 +199,15 @@ const CreatePersonForm = ({ show, handleClose }) => {
                                     }))
                                 }
                                 required
+                                isInvalid={!!errors.gender}
                             >
                                 <option value="">Chọn giới tính</option>
                                 <option value="male">Nam</option>
                                 <option value="female">Nữ</option>
                             </Form.Control>
+                            <Form.Control.Feedback type="invalid">
+                                {errors.gender}
+                            </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="form-group">
                             <Form.Label>Bố</Form.Label>
@@ -177,6 +223,7 @@ const CreatePersonForm = ({ show, handleClose }) => {
                                         border: "1px solid #ced4da",
                                         borderRadius: "4px",
                                     }}
+                                    isInvalid={!!errors.fatherId}
                                 >
                                     {formData.fatherName || "Chọn tên bố"}
                                 </Dropdown.Toggle>
@@ -194,6 +241,11 @@ const CreatePersonForm = ({ show, handleClose }) => {
                                     ))}
                                 </Dropdown.Menu>
                             </Dropdown>
+                            {errors.fatherId && (
+                                <div className="invalid-feedback d-block">
+                                    {errors.fatherId}
+                                </div>
+                            )}
                         </Form.Group>
                     </div>
 

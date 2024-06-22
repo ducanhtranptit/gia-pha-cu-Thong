@@ -63,6 +63,22 @@ function ManagerPeople() {
             toast.error("Error updating person data. Please try again later.");
         }
     };
+    const handleDeleteClick = async (personId) => {
+        if (window.confirm("Bạn có chắc chắn muốn xóa người này không?")) {
+            try {
+                await axios.delete(
+                    `${baseUrl}/people/delete-person/${personId}`
+                );
+                setGetPeople((prevPeople) =>
+                    prevPeople.filter((person) => person.id !== personId)
+                );
+                toast.success("Người dùng đã được xóa!");
+            } catch (error) {
+                console.error("Error deleting person:", error);
+                toast.error("Error deleting person. Please try again later.");
+            }
+        }
+    };
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
@@ -115,7 +131,16 @@ function ManagerPeople() {
                                         Sửa
                                     </Button>
                                 </td>
-                                <td>Xóa</td>
+                                <td>
+                                    <Button
+                                        variant="danger"
+                                        onClick={() =>
+                                            handleDeleteClick(people.id)
+                                        }
+                                    >
+                                        Xóa
+                                    </Button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
