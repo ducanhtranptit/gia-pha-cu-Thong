@@ -7,8 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import config from "../../config/url-config.js";
 import "react-toastify/dist/ReactToastify.css";
 import "./style.css";
-import EditPersonForm from "../EditInfoPerson";
-import CreatePersonForm from "../CreateFormPerson";
+import EditPersonModal from "./EditInfoPersonModal/index.jsx";
+import CreatePersonModal from "./CreatePersonModal/index.jsx";
 
 function ManagerPeople() {
     const baseUrl = config.baseUrl;
@@ -147,14 +147,14 @@ function ManagerPeople() {
                 </Table>
             </div>
             {currentPerson && (
-                <EditPersonForm
+                <EditPersonModal
                     show={showEditForm}
                     handleClose={() => setShowEditForm(false)}
                     person={currentPerson}
                     handleSave={handleSaveEdit}
                 />
             )}
-            <CreatePersonForm
+            <CreatePersonModal
                 show={showCreateForm}
                 handleClose={() => setShowCreateForm(false)}
             />
