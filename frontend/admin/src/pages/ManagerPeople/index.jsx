@@ -4,14 +4,12 @@ import Button from "react-bootstrap/Button";
 import PeopleAPI from "../../api/people.js";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import config from "../../config/url-config.js";
 import "./style.css";
 import EditPersonModal from "./EditInfoPersonModal/index.jsx";
 import CreatePersonModal from "./CreatePersonModal/index.jsx";
 import _ from "lodash";
 
 function ManagerPeople() {
-	const baseUrl = config.baseUrl;
 	const [getPeople, setGetPeople] = useState([]);
 	const [showEditForm, setShowEditForm] = useState(false);
 	const [showCreateForm, setShowCreateForm] = useState(false);

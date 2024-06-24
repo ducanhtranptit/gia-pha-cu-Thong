@@ -5,12 +5,9 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Dropdown from "react-bootstrap/Dropdown";
-import config from "../../../config/url-config.js";
 import { toast } from "react-toastify";
 import "./style.css";
 import "react-toastify/dist/ReactToastify.css";
-
-const baseUrl = config.baseUrl;
 
 const CreatePersonModal = ({ show, handleClose }) => {
 	const initialState = {

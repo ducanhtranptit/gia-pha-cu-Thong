@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { adminUrl } from "../../config/url-config";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar } from "react-bootstrap";

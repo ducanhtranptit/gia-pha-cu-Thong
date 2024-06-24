@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import PeopleAPI from "../../api/people.js"
-import config from "../../config/url-config.js";
 import { toast } from "react-toastify";
 import img from "../../public/no-avatar.png";
 import "./style.css";
 
 const PersonInfo = () => {
-	const baseUrl = config.baseUrl;
 	const { name } = useParams();
 	const [personDetails, setPersonDetails] = useState(null);
 	const [loading, setLoading] = useState(false);

@@ -3,11 +3,9 @@ import PeopleAPI from "../../api/people.js";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaUser, FaHeart } from "react-icons/fa";
-import config from "../../config/url-config.js";
 import "./style.css";
 
 const FamilyTree = () => {
-	const baseUrl = config.baseUrl;
 	const [familyData, setFamilyData] = useState(null);
 
 	useEffect(() => {
@@ -24,7 +22,7 @@ const FamilyTree = () => {
 		};
 
 		fetchData();
-	}, [baseUrl]);
+	}, []);
 
 	const renderFamilyTree = (person, level = 0) => {
 		return (
