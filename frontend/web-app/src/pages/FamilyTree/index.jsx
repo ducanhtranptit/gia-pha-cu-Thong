@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import PeopleAPI from "../../api/people.js"
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Tippy from "@tippyjs/react/headless";
@@ -19,10 +19,8 @@ const FamilyTree = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(
-                    `${baseUrl}/people/family-tree`
-                );
-                setFamilyData(response.data.data);
+                const response = await PeopleAPI.getAllPeopleForFamilyTree()
+                setFamilyData(response.data);
             } catch (error) {
                 console.error("Error fetching family data:", error);
                 toast.error(
@@ -44,10 +42,9 @@ const FamilyTree = () => {
                 return;
             }
             try {
-                const response = await axios.get(`${baseUrl}/people`, {
-                    params: { name: searchTerm },
-                });
-                setSearchResult(response.data.data);
+                const query = { name: searchTerm }
+                const response = await PeopleAPI.getPeopleByFilter(query)
+                setSearchResult(response.data);
             } catch (error) {
                 console.error("Error searching:", error);
                 toast.error("Error searching. Please try again later.", {

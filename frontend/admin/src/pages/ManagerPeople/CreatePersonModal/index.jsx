@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import PeopleAPI from "../../../api/people.js";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -104,11 +105,11 @@ const CreatePersonModal = ({ show, handleClose }) => {
 			: null;
 
 		try {
-			const response = await axios.post(`${baseUrl}/people/create-person`, {
+			const newPerson = {
 				person: personData,
 				spouse: spouseData,
-			});
-
+			};
+			const response = await PeopleAPI.createPerson(newPerson);
 			console.log("Response from server:", response.data);
 			handleClose();
 			resetForm();
@@ -121,10 +122,10 @@ const CreatePersonModal = ({ show, handleClose }) => {
 
 	const handleInputClick = async () => {
 		try {
-			const response = await axios.get(`${baseUrl}/people/get-all-father`);
+			const response = await PeopleAPI.getAllFather();
 			setFormData((prevState) => ({
 				...prevState,
-				father: response.data.data,
+				father: response.data,
 				showList: true,
 			}));
 		} catch (error) {

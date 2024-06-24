@@ -13,7 +13,6 @@ class PeopleAPI {
 	}
 
 	updatePerson(id, data) {
-		console.log("999999999");
 		const url = `/people/update-person/${id}`;
 		return ApiSender.put(url, data);
 	}
@@ -21,6 +20,16 @@ class PeopleAPI {
 	deletePerson(id) {
 		const url = `/people/delete-person/${id}`;
 		return ApiSender.delete(url);
+	}
+
+	createPerson(data) {
+		const url = `/people/create-person`;
+		return ApiSender.post(url, data);
+	}
+
+	getAllFather() {
+		const url = `/people/get-all-father`;
+		return ApiSender.get(url);
 	}
 }
 

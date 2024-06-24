@@ -86,10 +86,10 @@ const EditPersonFormModal = ({ show, handleClose, person }) => {
 
 	const handleInputClick = async () => {
 		try {
-			const response = await axios.get(`${baseUrl}/people/get-all-father`);
+			const response = await PeopleAPI.getAllFather();
 			setFormData((prevState) => ({
 				...prevState,
-				father: response.data.data,
+				father: response.data,
 				showList: true,
 			}));
 		} catch (error) {
