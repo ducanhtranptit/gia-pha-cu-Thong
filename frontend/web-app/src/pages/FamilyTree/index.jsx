@@ -7,12 +7,10 @@ import { Link } from "react-router-dom";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import { FaUser, FaHeart } from "react-icons/fa";
 import { debounce } from "lodash";
-import config from "../../config/url-config.js";
 import { Wrapper as PopperWrapper } from "../../components/popper/index.jsx";
 import UserItem from "../../components/userItem/index.jsx";
 import "./style.css";
 const FamilyTree = () => {
-    const baseUrl = config.baseUrl;
     const [familyData, setFamilyData] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResult, setSearchResult] = useState([]);
@@ -33,7 +31,7 @@ const FamilyTree = () => {
         };
 
         fetchData();
-    }, [baseUrl]);
+    }, []);
 
     const debouncedSearch = useCallback(
         debounce(async (searchTerm) => {
@@ -52,7 +50,7 @@ const FamilyTree = () => {
                 });
             }
         }, 500),
-        [baseUrl]
+        []
     );
     const handleSearch = (e) => {
         const searchTerm = e.target.value;
