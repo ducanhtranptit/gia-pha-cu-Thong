@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import PeopleAPI from "../../api/people.js"
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Tippy from "@tippyjs/react/headless";
@@ -7,22 +7,18 @@ import { Link } from "react-router-dom";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import { FaUser, FaHeart } from "react-icons/fa";
 import { debounce } from "lodash";
-import config from "../../config/url-config.js";
 import { Wrapper as PopperWrapper } from "../../components/popper/index.jsx";
 import UserItem from "../../components/userItem/index.jsx";
 import "./style.css";
 const FamilyTree = () => {
-    const baseUrl = config.baseUrl;
     const [familyData, setFamilyData] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResult, setSearchResult] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(
-                    `${baseUrl}/people/family-tree`
-                );
-                setFamilyData(response.data.data);
+                const response = await PeopleAPI.getAllPeopleForFamilyTree()
+                setFamilyData(response.data);
             } catch (error) {
                 console.error("Error fetching family data:", error);
                 toast.error(
@@ -35,7 +31,7 @@ const FamilyTree = () => {
         };
 
         fetchData();
-    }, [baseUrl]);
+    }, []);
 
     const debouncedSearch = useCallback(
         debounce(async (searchTerm) => {
@@ -44,10 +40,9 @@ const FamilyTree = () => {
                 return;
             }
             try {
-                const response = await axios.get(`${baseUrl}/people`, {
-                    params: { name: searchTerm },
-                });
-                setSearchResult(response.data.data);
+                const query = { name: searchTerm }
+                const response = await PeopleAPI.getPeopleByFilter(query)
+                setSearchResult(response.data);
             } catch (error) {
                 console.error("Error searching:", error);
                 toast.error("Error searching. Please try again later.", {
@@ -55,7 +50,7 @@ const FamilyTree = () => {
                 });
             }
         }, 500),
-        [baseUrl]
+        []
     );
     const handleSearch = (e) => {
         const searchTerm = e.target.value;

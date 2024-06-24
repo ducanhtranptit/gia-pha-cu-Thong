@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import PeopleAPI from "../../api/people.js";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaUser, FaHeart } from "react-icons/fa";
-import config from "../../config/url-config.js";
 import "./style.css";
 
 const FamilyTree = () => {
-	const baseUrl = config.baseUrl;
 	const [familyData, setFamilyData] = useState(null);
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await axios.get(`${baseUrl}/people/family-tree`);
-				setFamilyData(response.data.data);
+				const response = await PeopleAPI.getFamilyTree();
+				setFamilyData(response.data);
 			} catch (error) {
 				console.error("Error fetching family data:", error);
 				toast.error("Error fetching family data. Please try again later.", {
@@ -24,7 +22,7 @@ const FamilyTree = () => {
 		};
 
 		fetchData();
-	}, [baseUrl]);
+	}, []);
 
 	const renderFamilyTree = (person, level = 0) => {
 		return (

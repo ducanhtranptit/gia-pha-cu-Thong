@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { adminUrl } from "../../config/url-config";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar } from "react-bootstrap";
-import { FaComments } from "react-icons/fa"; // Import icon from react-icons
+import { FaComments } from "react-icons/fa";
 import "./style.css";
 import logo from "../../public/logo.png";
+import { adminUrl } from "../../config/url-config.example";
 
 const NavigationBar = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +40,7 @@ const NavigationBar = () => {
 							</Link>
 						</li>
 						<li className="navbar-item">
-							<a href="http://localhost:3001" className="navbar-link" target="_blank" rel="noopener noreferrer">
+							<a href={adminUrl} className="navbar-link" target="_blank" rel="noopener noreferrer">
 								Quản trị
 							</a>
 						</li>
