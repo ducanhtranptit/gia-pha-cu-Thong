@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { adminUrl } from "../../config/url-config";
+import { adminUrl as adminEndpoint } from "../../config/url-config";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar } from "react-bootstrap";
@@ -40,7 +40,7 @@ const NavigationBar = () => {
 							</Link>
 						</li>
 						<li className="navbar-item">
-							<a href={adminUrl} className="navbar-link" target="_blank" rel="noopener noreferrer">
+							<a href={adminEndpoint} className="navbar-link" target="_blank" rel="noopener noreferrer">
 								Quản trị
 							</a>
 						</li>
