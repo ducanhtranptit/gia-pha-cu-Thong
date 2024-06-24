@@ -57,7 +57,7 @@ class PeopleController {
 
     async getAllPeopleOfManager(req, res) {
         try {
-            const people = await PeopleActions.getAllPeopleOfManager();
+            const people = await PeopleActions.getAllPeopleOfManagerByFilters(req.query);
             return new SuccessResponse().send(req, res, people);
         } catch (error) {
             console.error(error.message);
