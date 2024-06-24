@@ -4,9 +4,20 @@
     text-align: center;
     margin: 20px 0px;
 }
+.controls {
+	display: flex;
+	align-items: center;
+	margin-bottom: 15px;
+}
+
+.search-bar {
+	flex-grow: 1;
+}
+
 .add-person {
     float: right;
-    margin: 12px;
+    margin-left: 10px;
+    margin-right: 15px;
 }
 
 .wrapper {

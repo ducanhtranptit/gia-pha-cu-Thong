@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import PeopleAPI from "../../../api/people.js";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -69,7 +70,8 @@ const EditPersonFormModal = ({ show, handleClose, person }) => {
 			: null;
 
 		try {
-			const response = await axios.put(`${baseUrl}/people/update-person/${person.id}`, {
+			console.log('88888888');
+			await PeopleAPI.updatePerson(person.id, {
 				person: updatedPerson,
 				spouse: spouseData,
 			});
