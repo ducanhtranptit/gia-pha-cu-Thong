@@ -6,7 +6,6 @@ import { Navbar } from "react-bootstrap";
 import { FaComments } from "react-icons/fa";
 import "./style.css";
 import logo from "../../public/logo.png";
-import { adminUrl } from "../../config/url-config.example";
 
 const NavigationBar = () => {
 	const [isOpen, setIsOpen] = useState(false);
