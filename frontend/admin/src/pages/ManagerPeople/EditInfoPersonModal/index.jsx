@@ -24,22 +24,43 @@ const EditPersonFormModal = ({ show, handleClose, person }) => {
 	};
 
 	const [formData, setFormData] = useState(initialState);
-	const dropdownRef = useRef(null); // Thêm khai báo này
+	const dropdownRef = useRef(null);
 
 	useEffect(() => {
+		const fetchSpouseData = async (spouseId) => {
+			try {
+				const response = await PeopleAPI.getOnePerson(spouseId);
+				if (response && response.data && typeof response.data === "object") {
+					const spouse = response.data;
+					setFormData((prevState) => ({
+						...prevState,
+						spouseName: spouse.name,
+						spouseGender: spouse.gender,
+						spouseDescription: spouse.description,
+					}));
+				} else {
+					throw new Error("Phản hồi từ API không đúng định dạng");
+				}
+			} catch (error) {
+				console.error("Error fetching spouse information:", error);
+				toast.error("Đã xảy ra lỗi khi lấy thông tin vợ/chồng.");
+			}
+		};
+
 		if (person) {
-			setFormData({
+			setFormData((prevState) => ({
 				...initialState,
 				name: person.name,
 				gender: person.gender,
 				fatherId: person.fatherId,
 				fatherName: person.fatherName,
 				description: person.description,
-				showSpouseForm: person.spouse ? true : false,
-				spouseName: person.spouse?.name || "",
-				spouseGender: person.spouse?.gender || "",
-				spouseDescription: person.spouse?.description || "",
-			});
+				showSpouseForm: !!person.spouseId,
+			}));
+
+			if (person.spouseId) {
+				fetchSpouseData(person.spouseId);
+			}
 		}
 	}, [person]);
 
@@ -66,7 +87,6 @@ const EditPersonFormModal = ({ show, handleClose, person }) => {
 			: null;
 
 		try {
-			console.log('88888888');
 			await PeopleAPI.updatePerson(person.id, {
 				person: updatedPerson,
 				spouse: spouseData,
@@ -193,7 +213,7 @@ const EditPersonFormModal = ({ show, handleClose, person }) => {
 						/>
 					</Form.Group>
 
-					{formData.spouseName ? (
+					{formData.showSpouseForm ? (
 						<>
 							<Form.Group className="full-width">
 								<Form.Label>Tên vợ/chồng</Form.Label>
@@ -258,54 +278,6 @@ const EditPersonFormModal = ({ show, handleClose, person }) => {
 						</Form.Group>
 					)}
 
-					{formData.showSpouseForm && !formData.spouseName && (
-						<>
-							<Form.Group className="full-width">
-								<Form.Label>Tên vợ/chồng</Form.Label>
-								<Form.Control
-									type="text"
-									value={formData.spouseName}
-									onChange={(e) =>
-										setFormData((prevState) => ({
-											...prevState,
-											spouseName: e.target.value,
-										}))
-									}
-									placeholder="Nhập họ tên"
-								/>
-							</Form.Group>
-							<Form.Group className="form-group">
-								<Form.Label>Giới tính vợ/chồng</Form.Label>
-								<Form.Control
-									as="select"
-									value={formData.spouseGender}
-									onChange={(e) =>
-										setFormData((prevState) => ({
-											...prevState,
-											spouseGender: e.target.value,
-										}))
-									}
-								>
-									<option value="male">Nam</option>
-									<option value="female">Nữ</option>
-								</Form.Control>
-							</Form.Group>
-							<Form.Group className="full-width">
-								<Form.Label>Mô tả vợ/chồng</Form.Label>
-								<Form.Control
-									type="text"
-									value={formData.spouseDescription}
-									onChange={(e) =>
-										setFormData((prevState) => ({
-											...prevState,
-											spouseDescription: e.target.value,
-										}))
-									}
-									placeholder="Nhập mô tả"
-								/>
-							</Form.Group>
-						</>
-					)}
 					<Button variant="success" type="submit" style={{ marginTop: "12px" }}>
 						Lưu
 					</Button>
