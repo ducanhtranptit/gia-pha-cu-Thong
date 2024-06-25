@@ -7,7 +7,6 @@ class PeopleAPI {
 	}
 
 	getAllPeople(query) {
-		console.log(query);
 		const url = "/people/get-all-people";
 		return ApiSender.get(url, query);
 	}
@@ -29,6 +28,11 @@ class PeopleAPI {
 
 	getAllFather() {
 		const url = `/people/get-all-father`;
+		return ApiSender.get(url);
+	}
+
+	getOnePerson(id) {
+		const url = `/people/get-one-person/${id}`;
 		return ApiSender.get(url);
 	}
 }
