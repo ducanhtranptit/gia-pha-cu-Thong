@@ -50,6 +50,31 @@ class PeopleActions {
 		}
 		return buildFamilyTree(rootPerson.id, people);
 	}
+	static async findAllDescendants(personId) {
+		const descendants = [];
+		const children = await People.findAll({ where: { fatherId: personId } });
+		for (const child of children) {
+			descendants.push(child.id);
+			if (child.spouseId) {
+				descendants.push(child.spouseId);
+			}
+			const childDescendants = await PeopleActions.findAllDescendants(child.id);
+			descendants.push(...childDescendants);
+		}
+		return descendants;
+	}
+
+	async deletePerson(id) {
+		const person = await People.findByPk(id);
+		const allDescendants = await PeopleActions.findAllDescendants(id);
+		await People.destroy({ where: { id: allDescendants } });
+		await People.destroy({ where: { id } });
+		if (person.fatherId !== null && person.spouseId !== null) {
+			await People.destroy({ where: { id: person.spouseId } });
+		} else {
+			await People.update({ spouseId: null }, { where: { id: person.spouseId } });
+		}
+	}
 
 	async getAllPeopleOfFamilyTree() {
 		const people = await People.findAll();
@@ -87,44 +112,7 @@ class PeopleActions {
 		});
 		return fathers;
 	}
-
-	async deletePerson(id) {
-		const person = await People.findByPk(id);
-
-		if (person.note === "rootPerson") {
-			throw new Error("Person with note 'rootPerson' cannot be deleted.");
-		}
-
-		const spouse = await People.findByPk(person.spouseId);
-
-		const childrenByFather = await People.findAll({
-			where: { fatherId: person.id },
-		});
-		for (const child of childrenByFather) {
-			const childSpouse = await People.findByPk(child.spouseId);
-			if (childSpouse) {
-				await childSpouse.destroy();
-			}
-			await child.destroy();
-		}
-
-		if (spouse) {
-			const childrenBySpouse = await People.findAll({
-				where: { fatherId: spouse.id },
-			});
-			for (const child of childrenBySpouse) {
-				const childSpouse = await People.findByPk(child.spouseId);
-				if (childSpouse) {
-					await childSpouse.destroy();
-				}
-				await child.destroy();
-			}
-			await spouse.destroy();
-		}
-
-		await person.destroy();
-	}
-
+  
 	async updateDataPerson(id, dataPerson) {
 		let personUpdate;
 		let spouseUpdate;
