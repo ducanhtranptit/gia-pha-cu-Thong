@@ -25,6 +25,11 @@ class PeopleActions {
 		return conditions;
 	}
 
+	async findOne(id) {
+		const person = await People.findByPk(id);
+		return person;
+	}
+
 	static async transformArrayToJson(people) {
 		const buildFamilyTree = (personId) => {
 			const person = people.find((item) => item.id === personId);
@@ -45,6 +50,31 @@ class PeopleActions {
 		}
 		return buildFamilyTree(rootPerson.id, people);
 	}
+	static async findAllDescendants(personId) {
+		const descendants = [];
+		const children = await People.findAll({ where: { fatherId: personId } });
+		for (const child of children) {
+			descendants.push(child.id);
+			if (child.spouseId) {
+				descendants.push(child.spouseId);
+			}
+			const childDescendants = await PeopleActions.findAllDescendants(child.id);
+			descendants.push(...childDescendants);
+		}
+		return descendants;
+	}
+
+	async deletePerson(id) {
+		const person = await People.findByPk(id);
+		const allDescendants = await PeopleActions.findAllDescendants(id);
+		await People.destroy({ where: { id: allDescendants } });
+		await People.destroy({ where: { id } });
+		if (person.fatherId !== null && person.spouseId !== null) {
+			await People.destroy({ where: { id: person.spouseId } });
+		} else {
+			await People.update({ spouseId: null }, { where: { id: person.spouseId } });
+		}
+	}
 
 	async getAllPeopleOfFamilyTree() {
 		const people = await People.findAll();
@@ -61,70 +91,63 @@ class PeopleActions {
 		});
 		return malePeople;
 	}
+
 	async getAllPeopleOfManagerByFilters(filters) {
-        const conditions = PeopleActions.buildSearchConditions(filters);
-        console.log(conditions);
+		const conditions = PeopleActions.buildSearchConditions(filters);
 		const people = await People.findAll({
 			where: conditions,
 		});
-        console.log(people.length   );
 		return people;
 	}
+
 	async getAllFather() {
 		const fathers = await People.findAll({
 			where: {
-				[Op.and]: [{ name: { [Op.like]: "Trần%" } }, { gender: "male" }],
+				[Op.and]: [
+					{ name: { [Op.like]: "Trần%" } },
+					{ gender: "male" },
+					{ spouseId: { [Op.not]: null } },
+				],
 			},
 		});
 		return fathers;
 	}
-	async deletePerson(id) {
-        console.log('9999999999');
-		const person = await People.findByPk(id);
-
-		if (person.note === "rootPerson") {
-			throw new Error("Person with note 'rootPerson' cannot be deleted.");
-		}
-
-		const spouse = await People.findByPk(person.spouseId);
-
-		const childrenByFather = await People.findAll({
-			where: { fatherId: person.id },
-		});
-		for (const child of childrenByFather) {
-			const childSpouse = await People.findByPk(child.spouseId);
-			if (childSpouse) {
-				await childSpouse.destroy();
-			}
-			await child.destroy();
-		}
-
-		if (spouse) {
-			const childrenBySpouse = await People.findAll({
-				where: { fatherId: spouse.id },
-			});
-			for (const child of childrenBySpouse) {
-				const childSpouse = await People.findByPk(child.spouseId);
-				if (childSpouse) {
-					await childSpouse.destroy();
-				}
-				await child.destroy();
-			}
-			await spouse.destroy();
-		}
-
-		await person.destroy();
-	}
-
+  
 	async updateDataPerson(id, dataPerson) {
-		console.log(dataPerson);
+		let personUpdate;
+		let spouseUpdate;
 		const person = await People.findByPk(id);
 		if (person) {
-			const personUpdate = await person.update(dataPerson);
-			return personUpdate;
+			personUpdate = await person.update({
+				name: dataPerson.person.name,
+				gender: dataPerson.person.gender,
+				fatherId: dataPerson.person.fatherId,
+				description: dataPerson.person.description,
+			});
 		}
-		return null;
+
+		if (dataPerson.spouse) {
+			const spouse = await People.findOne({
+				where: { spouseId: person.id },
+			});
+			if (!spouse) {
+				const newSpouseData = {
+					name: dataPerson.spouse.name,
+					gender: dataPerson.spouse.gender,
+					description: dataPerson.spouse.description,
+				};
+				const newSpouse = await People.create(newSpouseData);
+				await People.update({ spouseId: newSpouse.id }, { where: { id: id } });
+			} else {
+				await spouse.update({
+					name: dataPerson.spouse.name,
+					gender: dataPerson.spouse.gender,
+					description: dataPerson.spouse.description,
+				});
+			}
+		}
 	}
+
 	async createPersonAndTheirSpouse(person, spouse) {
 		const newPerson = await People.create(person);
 		if (spouse) {

@@ -4,6 +4,7 @@ const router = express.Router();
 const PeopleController = require("../controllers/people.controller");
 
 router.get("/", PeopleController.getAllMalePeopleByFilter);
+router.get("/get-one-person/:id", PeopleController.findOne);
 router.get("/family-tree", PeopleController.getAllPeople);
 router.post("/create-person", PeopleController.createPerson);
 router.get("/person-details", PeopleController.getPersonDetails);

@@ -53,7 +53,7 @@ function ManagerPeople() {
 
 	const handleSaveEdit = async (updatedPerson) => {
 		try {
-			await PeopleAPI.getAllPeople(updatedPerson);
+			await PeopleAPI.updatePerson(updatedPerson); 
 			setGetPeople((prevPeople) => prevPeople.map((person) => (person.id === updatedPerson.id ? updatedPerson : person)));
 			toast.success("Thông tin người dùng đã được cập nhật!");
 		} catch (error) {
@@ -65,9 +65,16 @@ function ManagerPeople() {
 	const handleDeleteClick = async (personId) => {
 		if (window.confirm("Bạn có chắc chắn muốn xóa người này không?")) {
 			try {
-				await PeopleAPI.deletePerson(personId);
-				setGetPeople((prevPeople) => prevPeople.filter((person) => person.id !== personId));
+				await PeopleAPI.deletePerson(personId); 
+				const updatedPeople = getPeople.filter((person) => person.id !== personId);
+				setGetPeople(updatedPeople);
 				toast.success("Người dùng đã được xóa!");
+
+				const totalPagesAfterDeletion = Math.ceil(updatedPeople.length / itemsPerPage);
+
+				if (currentPage > totalPagesAfterDeletion) {
+					setCurrentPage(totalPagesAfterDeletion);
+				}
 			} catch (error) {
 				console.error("Error deleting person:", error);
 				toast.error("Error deleting person. Please try again later.");

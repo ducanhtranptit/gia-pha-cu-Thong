@@ -1,5 +1,5 @@
 const PeopleActions = require("../actions/people.actions");
-const { SuccessResponse, ErrorResponse, ForbiddenResponse } = require("../core/ApiResponse.js");
+const { SuccessResponse, ErrorResponse, ForbiddenResponse, BadRequestResponse } = require("../core/ApiResponse.js");
 
 class PeopleController {
 	async getAllPeople(req, res) {
@@ -12,13 +12,26 @@ class PeopleController {
 		}
 	}
 
+	async findOne(req, res) {
+		const { id } = req.params;
+		if (!id) {
+			return new BadRequestResponse().send(req, res);
+		}
+		try {
+			const result = await PeopleActions.findOne(id);
+			return new SuccessResponse().send(req, res, result);
+		} catch (error) {
+			return new ErrorResponse().send(req, res);
+		}
+	}
+
 	async getAllMalePeopleByFilter(req, res) {
 		try {
 			const filters = req.query;
 			const malePeople = await PeopleActions.getAllPeople(filters);
 			return new SuccessResponse().send(req, res, malePeople);
 		} catch (error) {
-			console.error(error.message);
+			console.error(error);
 			return new ErrorResponse().send(req, res);
 		}
 	}
@@ -29,10 +42,10 @@ class PeopleController {
 			if (!person) {
 				return new ForbiddenResponse().send(req, res);
 			}
-			const newPerson = await PeopleActions.createPersonAndTheirSpouse(person, spouse);
-			return new SuccessResponse().send(req, res, newPerson);
+			await PeopleActions.createPersonAndTheirSpouse(person, spouse);
+			return new SuccessResponse().send(req, res);
 		} catch (error) {
-			console.error(error.message);
+			console.error(error);
 			return new ErrorResponse().send(req, res);
 		}
 	}
@@ -43,7 +56,7 @@ class PeopleController {
 			const person = await PeopleActions.findOneForProfilePage(filters);
 			return new SuccessResponse().send(req, res, person);
 		} catch (error) {
-			console.error(error.message);
+			console.error(error);
 			return new ErrorResponse().send(req, res);
 		}
 	}
@@ -53,7 +66,7 @@ class PeopleController {
 			const people = await PeopleActions.getAllPeopleOfManagerByFilters(req.query);
 			return new SuccessResponse().send(req, res, people);
 		} catch (error) {
-			console.error(error.message);
+			console.error(error);
 			return new ErrorResponse().send(req, res);
 		}
 	}
@@ -62,7 +75,7 @@ class PeopleController {
 			const fathers = await PeopleActions.getAllFather();
 			return new SuccessResponse().send(req, res, fathers);
 		} catch (error) {
-			console.error(error.message);
+			console.error(error);
 			return new ErrorResponse().send(req, res);
 		}
 	}
@@ -72,7 +85,7 @@ class PeopleController {
 			await PeopleActions.deletePerson(id);
 			return new SuccessResponse().send(req, res);
 		} catch (error) {
-			console.error(error.message);
+			console.error(error);
 			return new ErrorResponse().send(req, res);
 		}
 	}
@@ -86,7 +99,7 @@ class PeopleController {
 			const updatedPerson = await PeopleActions.updateDataPerson(id, dataPerson);
 			return new SuccessResponse().send(req, res, updatedPerson);
 		} catch (error) {
-			console.error(error.message);
+			console.error(error);
 			return new ErrorResponse().send(req, res);
 		}
 	}

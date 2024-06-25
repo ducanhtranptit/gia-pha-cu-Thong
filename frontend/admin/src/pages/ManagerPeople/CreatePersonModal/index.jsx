@@ -107,7 +107,6 @@ const CreatePersonModal = ({ show, handleClose }) => {
 				spouse: spouseData,
 			};
 			const response = await PeopleAPI.createPerson(newPerson);
-			console.log("Response from server:", response.data);
 			handleClose();
 			resetForm();
 			toast.success("Thêm thành viên mới thành công!");
