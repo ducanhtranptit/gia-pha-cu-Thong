@@ -10,7 +10,7 @@ import "react-quill/dist/quill.snow.css";
 import "./style.css";
 import "react-toastify/dist/ReactToastify.css";
 
-const EditPersonFormModal = ({ show, handleClose, person }) => {
+const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
 	const initialState = {
 		name: "",
 		gender: "",
@@ -142,6 +142,7 @@ const EditPersonFormModal = ({ show, handleClose, person }) => {
 			handleClose();
 			toast.success("Thông tin thành viên đã được cập nhật thành công!");
 			resetForm();
+			fetchData();
 		} catch (error) {
 			console.error("Error updating person:", error);
 			toast.error("Đã xảy ra lỗi khi cập nhật thông tin thành viên.");
