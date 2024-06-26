@@ -75,6 +75,7 @@ function ManagerPeople() {
 				if (currentPage > totalPagesAfterDeletion) {
 					setCurrentPage(totalPagesAfterDeletion);
 				}
+				fetchData();
 			} catch (error) {
 				console.error("Error deleting person:", error);
 				toast.error("Error deleting person. Please try again later.");
@@ -159,8 +160,8 @@ function ManagerPeople() {
 					<tbody>{renderTableBody()}</tbody>
 				</Table>
 			</div>
-			{currentPerson && <EditPersonModal show={showEditForm} handleClose={() => setShowEditForm(false)} person={currentPerson} handleSave={handleSaveEdit} />}
-			<CreatePersonModal show={showCreateForm} handleClose={() => setShowCreateForm(false)} />
+			{currentPerson && <EditPersonModal show={showEditForm} handleClose={() => setShowEditForm(false)} person={currentPerson} handleSave={handleSaveEdit} fetchData={fetchData} />}
+			<CreatePersonModal show={showCreateForm} fetchData={fetchData} handleClose={() => setShowCreateForm(false)} />
 			<ToastContainer />
 			<div className="pagination-controls">
 				<div className="pagination-buttons">
