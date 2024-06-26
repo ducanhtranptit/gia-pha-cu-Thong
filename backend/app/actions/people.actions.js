@@ -103,30 +103,23 @@ class PeopleActions {
 	async getAllFather() {
 		const fathers = await People.findAll({
 			where: {
-				[Op.and]: [
-					{ name: { [Op.like]: "Trần%" } },
-					{ gender: "male" },
-					{ spouseId: { [Op.not]: null } },
-				],
+				[Op.and]: [{ name: { [Op.like]: "Trần%" } }, { gender: "male" }, { spouseId: { [Op.not]: null } }],
 			},
 		});
 		return fathers;
 	}
-  
+
 	async updateDataPerson(id, dataPerson) {
-		let personUpdate;
-		let spouseUpdate;
 		const person = await People.findByPk(id);
 		if (person) {
-			personUpdate = await person.update({
+			await person.update({
 				name: dataPerson.person.name,
 				gender: dataPerson.person.gender,
 				fatherId: dataPerson.person.fatherId,
 				description: dataPerson.person.description,
 			});
 		}
-
-		if (dataPerson.spouse) {
+		if (dataPerson.spouse && dataPerson.spouse.name !== "") {
 			const spouse = await People.findOne({
 				where: { spouseId: person.id },
 			});
@@ -134,6 +127,7 @@ class PeopleActions {
 				const newSpouseData = {
 					name: dataPerson.spouse.name,
 					gender: dataPerson.spouse.gender,
+					spouseId: person.id,
 					description: dataPerson.spouse.description,
 				};
 				const newSpouse = await People.create(newSpouseData);
@@ -150,7 +144,7 @@ class PeopleActions {
 
 	async createPersonAndTheirSpouse(person, spouse) {
 		const newPerson = await People.create(person);
-		if (spouse) {
+		if (spouse && spouse.name !== "") {
 			spouse.spouseId = newPerson.id;
 			const newSpouse = await People.create(spouse);
 			await People.update({ spouseId: newSpouse.id }, { where: { name: newPerson.name } });
