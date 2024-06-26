@@ -11,7 +11,7 @@ import "react-quill/dist/quill.snow.css";
 import "./style.css";
 import "react-toastify/dist/ReactToastify.css";
 
-const CreatePersonModal = ({ show, handleClose }) => {
+const CreatePersonModal = ({ show, fetchData, handleClose }) => {
 	const initialState = {
 		name: "",
 		gender: "",
@@ -123,6 +123,7 @@ const CreatePersonModal = ({ show, handleClose }) => {
 			handleClose();
 			resetForm();
 			toast.success("Thêm thành viên mới thành công!");
+			fetchData()
 		} catch (error) {
 			console.error("Error sending data:", error);
 			toast.error("Có lỗi xảy ra khi thêm thành viên. Vui lòng thử lại sau.");
