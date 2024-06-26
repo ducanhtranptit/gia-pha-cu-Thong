@@ -119,7 +119,7 @@ class PeopleActions {
 				description: dataPerson.person.description,
 			});
 		}
-		if (dataPerson.spouse.name !== "") {
+		if (dataPerson.spouse && dataPerson.spouse.name !== "") {
 			const spouse = await People.findOne({
 				where: { spouseId: person.id },
 			});
