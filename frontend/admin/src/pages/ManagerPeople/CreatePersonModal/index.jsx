@@ -6,6 +6,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Dropdown from "react-bootstrap/Dropdown";
 import { toast } from "react-toastify";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import "./style.css";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -73,6 +75,17 @@ const CreatePersonModal = ({ show, handleClose }) => {
 		if (!formData.fatherId) {
 			newErrors.fatherId = "Tên bố là bắt buộc.";
 			isValid = false;
+		}
+
+		if (formData.showSpouseForm) {
+			if (!formData.spouseName.trim()) {
+				newErrors.spouseName = "Họ tên vợ/chồng là bắt buộc.";
+				isValid = false;
+			}
+			if (!formData.spouseGender) {
+				newErrors.spouseGender = "Giới tính vợ/chồng là bắt buộc.";
+				isValid = false;
+			}
 		}
 
 		setErrors(newErrors);
@@ -222,13 +235,12 @@ const CreatePersonModal = ({ show, handleClose }) => {
 
 					<Form.Group className="full-width">
 						<Form.Label>Mô tả</Form.Label>
-						<Form.Control
-							type="text"
+						<ReactQuill
 							value={formData.description}
-							onChange={(e) =>
+							onChange={(value) =>
 								setFormData((prevState) => ({
 									...prevState,
-									description: e.target.value,
+									description: value,
 								}))
 							}
 							placeholder="Nhập mô tả"
@@ -266,7 +278,9 @@ const CreatePersonModal = ({ show, handleClose }) => {
 											}))
 										}
 										placeholder="Nhập họ tên"
+										isInvalid={!!errors.spouseName}
 									/>
+									<Form.Control.Feedback type="invalid">{errors.spouseName}</Form.Control.Feedback>
 								</Form.Group>
 								<Form.Group className="form-group">
 									<Form.Label>Giới tính vợ/chồng</Form.Label>
@@ -279,21 +293,24 @@ const CreatePersonModal = ({ show, handleClose }) => {
 												spouseGender: e.target.value,
 											}))
 										}
+										required
+										isInvalid={!!errors.spouseGender}
 									>
+										<option value="">Chọn giới tính</option>
 										<option value="male">Nam</option>
 										<option value="female">Nữ</option>
 									</Form.Control>
+									<Form.Control.Feedback type="invalid">{errors.spouseGender}</Form.Control.Feedback>
 								</Form.Group>
 							</div>
 							<Form.Group className="full-width">
 								<Form.Label>Mô tả vợ/chồng</Form.Label>
-								<Form.Control
-									type="text"
+								<ReactQuill
 									value={formData.spouseDescription}
-									onChange={(e) =>
+									onChange={(value) =>
 										setFormData((prevState) => ({
 											...prevState,
-											spouseDescription: e.target.value,
+											spouseDescription: value,
 										}))
 									}
 									placeholder="Nhập mô tả"

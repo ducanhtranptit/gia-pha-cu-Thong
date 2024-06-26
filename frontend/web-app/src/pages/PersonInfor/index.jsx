@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import PeopleAPI from "../../api/people.js"
+import PeopleAPI from "../../api/people.js";
 import { toast } from "react-toastify";
 import img from "../../public/no-avatar.png";
 import "./style.css";
@@ -91,7 +91,7 @@ const PersonInfo = () => {
 									</div>
 								)}
 								<p>
-									<strong>Tiểu sử:</strong> {personDetails.person.description ? personDetails.person.description : "N/A"}
+									<strong>Tiểu sử:</strong> {personDetails.person.description ? <span dangerouslySetInnerHTML={{ __html: personDetails.person.description }} /> : "N/A"}
 								</p>
 							</div>
 						</div>
