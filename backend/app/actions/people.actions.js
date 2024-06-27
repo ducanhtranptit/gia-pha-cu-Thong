@@ -161,7 +161,9 @@ class PeopleActions {
     }
 
     async createPersonAndTheirSpouse(person, spouse, path) {
-        person.filePath = path;
+        if (path) {
+            person.filePath = path;
+        }
         const newPerson = await People.create(person);
         if (spouse && spouse.name !== "") {
             spouse.spouseId = newPerson.id;
