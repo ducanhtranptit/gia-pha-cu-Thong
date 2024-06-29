@@ -41,6 +41,10 @@ const CreatePersonModal = ({ show, fetchData, handleClose }) => {
     const dropdownRef = useRef(null);
 
     const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
+        accept: {
+            "image/jpeg": [".jpg", ".jpeg"],
+            "image/png": [".png"],
+        },
         onDrop: (acceptedFiles) => {
             const file = acceptedFiles[0];
             setFormData((prevState) => ({
@@ -189,6 +193,7 @@ const CreatePersonModal = ({ show, fetchData, handleClose }) => {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
+                    <Form.Label>Ảnh đại diện</Form.Label>
                     <div
                         {...getRootProps({ className: "dropzone" })}
                         className="dropzone"
@@ -201,9 +206,9 @@ const CreatePersonModal = ({ show, fetchData, handleClose }) => {
                                 className="preview-image"
                             />
                         ) : (
-                            <p style={{ color: "red" }}>
-                                Kéo và thả ảnh vào đây, hoặc nhấp để chọn ảnh
-                            </p>
+                            <Button variant="btn btn-outline-info">
+                                Thêm ảnh đại diện
+                            </Button>
                         )}
                     </div>
                     <div className="form-row">

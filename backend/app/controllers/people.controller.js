@@ -44,15 +44,18 @@ class PeopleController {
     async createPerson(req, res) {
         try {
             const { person, spouse } = req.body;
-            const { path } = req.file;
+            const path = req.file ? req.file.path : null;
+
             if (!person) {
                 return new ForbiddenResponse().send(req, res);
             }
+
             await PeopleActions.createPersonAndTheirSpouse(
                 JSON.parse(person),
                 spouse ? JSON.parse(spouse) : null,
                 path
             );
+
             return new SuccessResponse().send(req, res);
         } catch (error) {
             console.error(error);
