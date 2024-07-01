@@ -4,9 +4,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import axios from "axios";
 import { toast } from "react-toastify";
-import { baseUrl } from "../../../config/url-config";
+import PostsAPI from "../../../api/posts.js";
 
 function EditPostsModal({ show, handleClose, post, fetchData }) {
     const [title, setTitle] = useState(post ? post.title : "");
@@ -26,10 +25,7 @@ function EditPostsModal({ show, handleClose, post, fetchData }) {
                 title,
                 content,
             };
-            const response = await axios.put(
-                `${baseUrl}/posts/update-posts/${post.id}`,
-                postData
-            );
+            const response = await PostsAPI.updatePosts(post.id, postData);
             if (response.status === 200) {
                 fetchData();
                 handleClose();

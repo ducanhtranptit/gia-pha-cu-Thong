@@ -6,5 +6,5 @@ router.get("/posts-list", PostsController.GetAllPosts);
 router.post("/create-posts", PostsController.CreatePosts);
 router.put("/update-posts/:id", PostsController.UpdateDataPost);
 router.delete("/delete-posts/:id", PostsController.DeletePosts);
-
+router.get("/posts-details", PostsController.GetPostsDetail);
 module.exports = router;

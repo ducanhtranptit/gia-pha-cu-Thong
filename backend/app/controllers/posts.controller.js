@@ -50,6 +50,16 @@ class PostsController {
             return new ErrorResponse().send(req, res);
         }
     }
+    async GetPostsDetail(req, res) {
+        try {
+            const { title } = req.query;
+            const posts = await PostsActions.GetPostsDetail(title);
+            return new SuccessResponse().send(req, res, posts);
+        } catch (error) {
+            console.error(error);
+            return new ErrorResponse().send(req, res);
+        }
+    }
 }
 
 module.exports = new PostsController();

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import { baseUrl } from "../../../config/url-config";
+import PostsAPI from "../../../api/posts.js";
 
 function CreatePostsModal({ show, fetchData, handleClose }) {
     const [title, setTitle] = useState("");
@@ -18,9 +17,7 @@ function CreatePostsModal({ show, fetchData, handleClose }) {
                 title,
                 content,
             };
-            const response = await axios.post(`${baseUrl}/posts/create-posts`, {
-                posts: postData,
-            });
+            const response = await PostsAPI.createPosts({ posts: postData });
             if (response.status === 200) {
                 handleClose();
                 setTitle("");
@@ -29,8 +26,10 @@ function CreatePostsModal({ show, fetchData, handleClose }) {
             }
         } catch (error) {
             console.error("Failed to create post:", error);
+            toast.error("Có lỗi xảy ra khi thêm bài viết.");
         }
     };
+
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>

@@ -1,3 +1,7 @@
-.new{
+.new {
     margin-top: -100000px;
+}
+.posts {
+    text-decoration: none;
+    color: black;
 }

@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import "./style.css";
-import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import CreatePostsModal from "./CreatePostsModal/index.jsx";
 import EditPostsModal from "./EditPostsModal/index.jsx";
-import { baseUrl } from "../../config/url-config.js";
+import PostsAPI from "../../api/posts.js";
 
 function ManagerPosts() {
     const [posts, setPosts] = useState([]);
@@ -16,9 +15,10 @@ function ManagerPosts() {
 
     const fetchPosts = async () => {
         try {
-            const response = await axios.get(`${baseUrl}/posts/posts-list`);
+            const response = await PostsAPI.getAllPosts();
             if (response.status === 200) {
-                setPosts(response.data.data);
+                setPosts(response.data);
+                console.log("ok:", response.data);
             } else {
                 toast.error("Có lỗi xảy ra khi lấy dữ liệu bài viết.");
             }
@@ -45,9 +45,7 @@ function ManagerPosts() {
     const handleDelete = async (id) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa bài viết này không?")) {
             try {
-                const response = await axios.delete(
-                    `${baseUrl}/posts/delete-posts/${id}`
-                );
+                const response = await PostsAPI.deletePosts(id);
                 if (response.status === 200) {
                     toast.success("Xóa bài viết thành công!");
                     fetchPosts();
@@ -60,6 +58,7 @@ function ManagerPosts() {
             }
         }
     };
+
     return (
         <div className="wrapper">
             <h3>Quản lý bài viết</h3>
@@ -76,27 +75,15 @@ function ManagerPosts() {
                     <tr>
                         <th>#</th>
                         <th>Tiêu đề</th>
-                        <th>Nội dung</th>
                         <th>Sửa</th>
                         <th>Xóa</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {posts.map((post) => (
+                    {posts?.map((post) => (
                         <tr key={post.id}>
                             <td>{post.id}</td>
                             <td>{post.title}</td>
-                            <td>
-                                {typeof post.content === "string" ? (
-                                    <div
-                                        dangerouslySetInnerHTML={{
-                                            __html: post.content,
-                                        }}
-                                    />
-                                ) : (
-                                    <span>Invalid content format</span>
-                                )}
-                            </td>
                             <td>
                                 <Button onClick={() => handleEditClick(post)}>
                                     Sửa

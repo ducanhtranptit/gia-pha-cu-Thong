@@ -25,6 +25,14 @@ class PostsActions {
             },
         });
     }
+    async GetPostsDetail(title) {
+        const post = await Post.findOne({
+            where: {
+                title,
+            },
+        });
+        return post;
+    }
 }
 
 module.exports = new PostsActions();

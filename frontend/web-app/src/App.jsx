@@ -6,6 +6,7 @@ import News from "./pages/News/index.jsx";
 import Navbar from "./components/navbar/index.jsx";
 import FamilyTree from "./pages/FamilyTree/index.jsx";
 import PersonInfo from "./pages/PersonInfor/index.jsx";
+import PostsDetail from "./pages/NewDetail/index.jsx";
 import "./App.css";
 
 const App = () => (
@@ -20,6 +21,10 @@ const App = () => (
                     <Route
                         path="/person-infor/:name"
                         element={<PersonInfo />}
+                    />
+                    <Route
+                        path="/posts-detail/:title"
+                        element={<PostsDetail />}
                     />
                 </Routes>
             </div>
