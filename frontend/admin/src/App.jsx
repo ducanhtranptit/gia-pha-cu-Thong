@@ -4,6 +4,7 @@ import SideBar from "./components/sidebar";
 import FamilyTree from "./pages/FamilyTree";
 import Dashboard from "./pages/Dashboard";
 import ManagerPeople from "./pages/ManagerPeople";
+import ManagerPosts from "./pages/ManagerPosts";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -20,6 +21,10 @@ function App() {
                         <Route
                             path="/manager-people"
                             element={<ManagerPeople />}
+                        />
+                        <Route
+                            path="/forms/editors"
+                            element={<ManagerPosts />}
                         />
                     </Routes>
                 </div>
