@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import Dropdown from "react-bootstrap/Dropdown";
 import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
+import { useDropzone } from "react-dropzone";
 import "react-quill/dist/quill.snow.css";
 import "./style.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,10 +17,12 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
 		gender: "",
 		fatherId: "",
 		description: "",
+		avt: "",
 		showSpouseForm: false,
 		spouseName: "",
 		spouseGender: "",
 		spouseDescription: "",
+		spouseAvt: "",
 		father: [],
 		showList: false,
 		fatherName: "",
@@ -35,7 +38,64 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
 
 	const [formData, setFormData] = useState(initialState);
 	const [errors, setErrors] = useState(initialErrorState);
+	const [fileUrl, setFileUrl] = useState("");
+	const [spouseFileUrl, setSpouseFileUrl] = useState("");
 	const dropdownRef = useRef(null);
+
+	const handleDrop = (acceptedFiles) => {
+		const file = acceptedFiles[0];
+		const formData = new FormData();
+		formData.append("file", file);
+
+		fetch("http://localhost:2504/api/v1/core/upload", {
+			method: "POST",
+			body: formData,
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				setFileUrl(`http://localhost:2504/api/v1/core/upload/${data.filePath}`);
+				setFormData((prevState) => ({
+					...prevState,
+					avt: data.filePath,
+				}));
+			})
+			.catch((error) => {
+				console.error("Error uploading file:", error);
+				toast.error("Error uploading file. Please try again later.", {
+					autoClose: 10000,
+				});
+			});
+	};
+
+	const handleSpouseDrop = (acceptedFiles) => {
+		const file = acceptedFiles[0];
+		const formData = new FormData();
+		formData.append("file", file);
+
+		fetch("http://localhost:2504/api/v1/core/upload", {
+			method: "POST",
+			body: formData,
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				setSpouseFileUrl(`http://localhost:2504/api/v1/core/upload/${data.filePath}`);
+				setFormData((prevState) => ({
+					...prevState,
+					spouseAvt: data.filePath,
+				}));
+			})
+			.catch((error) => {
+				console.error("Error uploading file:", error);
+				toast.error("Error uploading file. Please try again later.", {
+					autoClose: 10000,
+				});
+			});
+	};
+
+	const { getRootProps, getInputProps } = useDropzone({ onDrop: handleDrop });
+	const { getRootProps: getSpouseRootProps, getInputProps: getSpouseInputProps } = useDropzone({
+		onDrop: handleSpouseDrop,
+	});
 
 	useEffect(() => {
 		const fetchSpouseData = async (spouseId) => {
@@ -48,13 +108,15 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
 						spouseName: spouse.name,
 						spouseGender: spouse.gender,
 						spouseDescription: spouse.description,
+						spouseAvt: spouse.filePath,
 					}));
+					if (spouse.filePath) setSpouseFileUrl(`http://localhost:2504/api/v1/core/upload/${spouse.filePath}`);
 				} else {
-					throw new Error("Phản hồi từ API không đúng định dạng");
+					throw new Error("Invalid response format from API");
 				}
 			} catch (error) {
 				console.error("Error fetching spouse information:", error);
-				toast.error("Đã xảy ra lỗi khi lấy thông tin vợ/chồng.");
+				toast.error("Error fetching spouse information.");
 			}
 		};
 
@@ -66,8 +128,10 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
 				fatherId: person.fatherId,
 				fatherName: person.fatherName,
 				description: person.description,
+				avt: person.filePath,
 				showSpouseForm: !!person.spouseId,
 			}));
+			if (person.filePath) setFileUrl(`http://localhost:2504/api/v1/core/upload/${person.filePath}`);
 
 			if (person.spouseId) {
 				fetchSpouseData(person.spouseId);
@@ -78,6 +142,8 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
 	const resetForm = () => {
 		setFormData(initialState);
 		setErrors(initialErrorState);
+		setFileUrl("");
+		setSpouseFileUrl("");
 	};
 
 	const validateForm = () => {
@@ -124,6 +190,7 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
 			gender: formData.gender,
 			fatherId: formData.fatherId,
 			description: formData.description,
+			filePath: formData.avt,
 		};
 
 		const spouseData = formData.showSpouseForm
@@ -131,10 +198,15 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
 					name: formData.spouseName,
 					gender: formData.spouseGender,
 					description: formData.spouseDescription,
+					filePath: formData.spouseAvt,
 			  }
 			: null;
 
 		try {
+			console.log({
+				person: updatedPerson,
+				spouse: spouseData,
+			});
 			await PeopleAPI.updatePerson(person.id, {
 				person: updatedPerson,
 				spouse: spouseData,
@@ -187,6 +259,13 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
 			</Modal.Header>
 			<Modal.Body>
 				<Form onSubmit={handleSubmit}>
+					<Form.Group className="form-group">
+						<Form.Label>Avatar</Form.Label>
+						<div {...getRootProps()} className="dropzone">
+							<input {...getInputProps()} />
+							{fileUrl ? <img src={fileUrl} alt="Avatar" className="avatar-preview" /> : <Button variant="btn btn-outline-info">Thêm ảnh đại diện</Button>}
+						</div>
+					</Form.Group>
 					<div className="form-row">
 						<Form.Group className="form-group">
 							<Form.Label>Họ tên</Form.Label>
@@ -268,6 +347,13 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
 
 					{formData.showSpouseForm ? (
 						<>
+							<Form.Group className="form-group">
+								<Form.Label>Avatar vợ/chồng</Form.Label>
+								<div {...getSpouseRootProps()} className="dropzone">
+									<input {...getSpouseInputProps()} />
+									{spouseFileUrl ? <img src={spouseFileUrl} alt="Spouse Avatar" className="avatar-preview" /> : <Button variant="btn btn-outline-info">Thêm ảnh đại diện</Button>}
+								</div>
+							</Form.Group>
 							<Form.Group className="full-width">
 								<Form.Label>Tên vợ/chồng</Form.Label>
 								<Form.Control
