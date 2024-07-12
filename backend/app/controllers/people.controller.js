@@ -99,8 +99,8 @@ class PeopleController {
 			if (!dataPerson) {
 				return new ForbiddenResponse().send(req, res);
 			}
-			const updatedPerson = await PeopleActions.updateDataPerson(id, dataPerson);
-			return new SuccessResponse().send(req, res, updatedPerson);
+			await PeopleActions.updateDataPerson(id, dataPerson);
+			return new SuccessResponse().send(req, res);
 		} catch (error) {
 			console.error(error);
 			return new ErrorResponse().send(req, res);
