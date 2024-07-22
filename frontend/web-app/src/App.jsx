@@ -7,24 +7,23 @@ import Navbar from "./components/navbar/index.jsx";
 import FamilyTree from "./pages/FamilyTree/index.jsx";
 import PersonInfo from "./pages/PersonInfor/index.jsx";
 import "./App.css";
+import NewDetail from "./pages/NewDetail/index.jsx";
 
 const App = () => (
-    <Router>
-        <div className="app">
-            <Navbar />
-            <div className="content">
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/news" element={<News />} />
-                    <Route path="/family-tree" element={<FamilyTree />} />
-                    <Route
-                        path="/person-infor/:name"
-                        element={<PersonInfo />}
-                    />
-                </Routes>
-            </div>
-        </div>
-    </Router>
+  <Router>
+    <div className="app">
+      <Navbar />
+      <div className="content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/news/:id" element={<NewDetail />} />
+          <Route path="/family-tree" element={<FamilyTree />} />
+          <Route path="/person-infor/:name" element={<PersonInfo />} />
+        </Routes>
+      </div>
+    </div>
+  </Router>
 );
 
 export default App;
