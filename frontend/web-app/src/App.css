@@ -1,7 +1,8 @@
 /* src/App.css */
 
 /* Basic styles for the app */
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
@@ -23,12 +24,8 @@ html, body {
   margin-right: 10px;
 }
 
-.post {
-  border-bottom: 1px solid #ccc;
-  padding: 10px 0;
-}
-
-.intro, .latest-posts {
+.intro,
+.latest-posts {
   margin: 20px 0;
 }
 
@@ -47,13 +44,19 @@ html, body {
   margin-top: auto;
 }
 
+a {
+  text-decoration: none;
+  color: #333;
+}
+
 /* Responsive styles */
 @media (max-width: 768px) {
   .post {
     padding: 8px 0;
   }
 
-  .intro, .latest-posts {
+  .intro,
+  .latest-posts {
     margin: 15px 0;
   }
 }
@@ -63,7 +66,8 @@ html, body {
     padding: 5px 0;
   }
 
-  .intro, .latest-posts {
+  .intro,
+  .latest-posts {
     margin: 10px 0;
   }
 }
