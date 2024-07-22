@@ -92,6 +92,53 @@ class PeopleController {
   async deletePerson(req, res) {
     try {
       const { id } = req.params;
+<<<<<<< HEAD
+=======
+      await PeopleActions.deletePerson(id);
+      return new SuccessResponse().send(req, res);
+    } catch (error) {
+      console.error(error);
+      return new ErrorResponse().send(req, res);
+    }
+  }
+  async updateDataPerson(req, res) {
+    try {
+      const { id } = req.params;
+      const dataPerson = req.body;
+      if (!dataPerson) {
+        return new ForbiddenResponse().send(req, res);
+      }
+      await PeopleActions.updateDataPerson(id, dataPerson);
+      return new SuccessResponse().send(req, res);
+    } catch (error) {
+      console.error(error);
+      return new ErrorResponse().send(req, res);
+    }
+  }
+  async getAllPeopleOfManager(req, res) {
+    try {
+      const people = await PeopleActions.getAllPeopleOfManagerByFilters(
+        req.query
+      );
+      return new SuccessResponse().send(req, res, people);
+    } catch (error) {
+      console.error(error);
+      return new ErrorResponse().send(req, res);
+    }
+  }
+  async getAllFather(req, res) {
+    try {
+      const fathers = await PeopleActions.getAllFather();
+      return new SuccessResponse().send(req, res, fathers);
+    } catch (error) {
+      console.error(error);
+      return new ErrorResponse().send(req, res);
+    }
+  }
+  async deletePerson(req, res) {
+    try {
+      const { id } = req.params;
+>>>>>>> 1c11cb8 ([update]: Fix bug managment user and post)
       const result = await PeopleActions.deletePerson(id);
       if (result !== 0 && !result) {
         return new BadRequestResponse().send(req, res);
@@ -119,6 +166,7 @@ class PeopleController {
       return new ErrorResponse().send(req, res);
     }
   }
+<<<<<<< HEAD
   async getAllPeopleOfManager(req, res) {
     try {
       const people = await PeopleActions.getAllPeopleOfManagerByFilters(
@@ -163,6 +211,8 @@ class PeopleController {
       return new ErrorResponse().send(req, res);
     }
   }
+=======
+>>>>>>> 1c11cb8 ([update]: Fix bug managment user and post)
 }
 
 module.exports = new PeopleController();

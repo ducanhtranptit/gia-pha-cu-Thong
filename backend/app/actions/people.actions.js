@@ -62,6 +62,7 @@ class PeopleActions {
       const result = {
         name: person.name,
         spouse: person.spouseId
+<<<<<<< HEAD
           ? people.find((item) => item.id === person.spouseId)?.name
           : null,
         children: [],
@@ -99,7 +100,51 @@ class PeopleActions {
       const result = {
         name: person.name,
         spouse: person.spouseId
+=======
+>>>>>>> 1c11cb8 ([update]: Fix bug managment user and post)
           ? people.find((item) => item.id === person.spouseId).name
+          : null,
+        children: [],
+      };
+      children.forEach((child) => {
+        result.children.push(buildFamilyTree(child.id));
+      });
+      return result;
+    };
+    const rootPerson = people.find((item) => item.note === "rootPerson");
+    if (!rootPerson) {
+      return null;
+    }
+    return buildFamilyTree(rootPerson.id, people);
+  }
+  static async findAllDescendants(personId) {
+    const descendants = [];
+    const children = await People.findAll({
+      where: { fatherId: personId },
+    });
+    for (const child of children) {
+      descendants.push(child.id);
+      if (child.spouseId) {
+        descendants.push(child.spouseId);
+      }
+      const childDescendants = await PeopleActions.findAllDescendants(child.id);
+      descendants.push(...childDescendants);
+    }
+    return descendants;
+  }
+<<<<<<< HEAD
+
+  async deletePerson(id) {
+    const person = await People.findByPk(id);
+=======
+  static async transformArrayToJson(people) {
+    const buildFamilyTree = (personId) => {
+      const person = people.find((item) => item.id === personId);
+      const children = people.filter((item) => item.fatherId === personId);
+      const result = {
+        name: person.name,
+        spouse: person.spouseId
+          ? people.find((item) => item.id === person.spouseId)?.name
           : null,
         children: [],
       };
@@ -132,6 +177,21 @@ class PeopleActions {
 
   async deletePerson(id) {
     const person = await People.findByPk(id);
+    const allDescendants = await PeopleActions.findAllDescendants(id);
+    await People.destroy({ where: { id: allDescendants } });
+    await People.destroy({ where: { id } });
+    if (person.fatherId !== null && person.spouseId !== null) {
+      await People.destroy({ where: { id: person.spouseId } });
+    } else {
+      await People.update(
+        { spouseId: null },
+        { where: { id: person.spouseId } }
+      );
+    }
+  }
+  async deletePerson(id) {
+    const person = await People.findByPk(id);
+>>>>>>> 1c11cb8 ([update]: Fix bug managment user and post)
     if (!person.fatherId) {
       return null;
     }
@@ -151,6 +211,7 @@ class PeopleActions {
       );
     }
   }
+<<<<<<< HEAD
   async deletePerson(id) {
     const person = await People.findByPk(id);
     const allDescendants = await PeopleActions.findAllDescendants(id);
@@ -165,6 +226,8 @@ class PeopleActions {
       );
     }
   }
+=======
+>>>>>>> 1c11cb8 ([update]: Fix bug managment user and post)
 
   async getAllPeopleOfFamilyTree() {
     const people = await People.findAll();
@@ -237,6 +300,7 @@ class PeopleActions {
   }
 
   async updateDataPerson(id, dataPerson) {
+<<<<<<< HEAD
     const person = await People.findByPk(id);
     if (person) {
       await person.update({
@@ -269,6 +333,8 @@ class PeopleActions {
     }
   }
   async updateDataPerson(id, dataPerson) {
+=======
+>>>>>>> 1c11cb8 ([update]: Fix bug managment user and post)
     console.log(dataPerson);
     const person = await People.findByPk(id);
     if (person) {
@@ -303,6 +369,41 @@ class PeopleActions {
       }
     }
   }
+<<<<<<< HEAD
+=======
+  async updateDataPerson(id, dataPerson) {
+    const person = await People.findByPk(id);
+    if (person) {
+      await person.update({
+        name: dataPerson.person.name,
+        gender: dataPerson.person.gender,
+        fatherId: dataPerson.person.fatherId,
+        description: dataPerson.person.description,
+      });
+    }
+    if (dataPerson.spouse && dataPerson.spouse.name !== "") {
+      const spouse = await People.findOne({
+        where: { spouseId: person.id },
+      });
+      if (!spouse) {
+        const newSpouseData = {
+          name: dataPerson.spouse.name,
+          gender: dataPerson.spouse.gender,
+          spouseId: person.id,
+          description: dataPerson.spouse.description,
+        };
+        const newSpouse = await People.create(newSpouseData);
+        await People.update({ spouseId: newSpouse.id }, { where: { id: id } });
+      } else {
+        await spouse.update({
+          name: dataPerson.spouse.name,
+          gender: dataPerson.spouse.gender,
+          description: dataPerson.spouse.description,
+        });
+      }
+    }
+  }
+>>>>>>> 1c11cb8 ([update]: Fix bug managment user and post)
 
   async createPersonAndTheirSpouse(person, spouse) {
     const newPerson = await People.create(person);
