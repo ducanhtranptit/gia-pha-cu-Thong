@@ -70,9 +70,9 @@ class PeopleActions {
 
   async deletePerson(id) {
     const person = await People.findByPk(id);
-    if (!person.fatherId) {
-      return null;
-    }
+	if (person.note === "rootPerson") {
+		return null
+	}
     const allDescendants = await PeopleActions.findAllDescendants(id);
     await People.destroy({ where: { id: allDescendants } });
     await People.destroy({ where: { id } });
