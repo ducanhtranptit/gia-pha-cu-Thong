@@ -6,9 +6,9 @@ class PostAPI {
     return ApiSender.get(url);
   }
 
-  getPostsLatest() {
+  getPostsLatest(query) {
     const url = `/posts/get-posts-latest`;
-    return ApiSender.get(url);
+    return ApiSender.get(url, query);
   }
 
   getDetail(id) {

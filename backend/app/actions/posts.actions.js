@@ -7,10 +7,10 @@ class PostsActions {
     const postsList = await Post.findAll();
     return postsList;
   }
-  async GetPostsLatest() {
+  async GetPostsLatest(filters) {
     const postsList = await Post.findAll({
       order: [["createdAt", "DESC"]],
-      limit: 4,
+      limit: Number(filters.limit) || 4,
     });
     return postsList;
   }

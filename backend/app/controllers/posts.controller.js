@@ -18,7 +18,8 @@ class PostsController {
   }
   async GetPostsLatest(req, res) {
     try {
-      const postList = await PostsActions.GetPostsLatest();
+      const filters = req.query;
+      const postList = await PostsActions.GetPostsLatest(filters);
       return new SuccessResponse().send(req, res, postList);
     } catch (error) {
       console.error(error);
