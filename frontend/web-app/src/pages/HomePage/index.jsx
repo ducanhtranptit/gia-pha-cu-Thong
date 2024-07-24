@@ -79,9 +79,12 @@ const Home = () => {
       </div>
       <section className="latest-posts">
         <h2>Bài đăng gần nhất</h2>
-        <div className="posts-grid">
+        <div className="posts-grid row g-4">
           {posts.map((post) => (
-            <div key={post.id} className="post-item">
+            <div
+              key={post.id}
+              className="post-item col-lg-3 col-md-4 col-sm-6 col-xs-1"
+            >
               <Post post={post} key={post.id} />
             </div>
           ))}
