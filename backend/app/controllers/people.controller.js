@@ -93,6 +93,7 @@ class PeopleController {
     try {
       const { id } = req.params;
       const result = await PeopleActions.deletePerson(id);
+      console.log(result);
       if (result !== 0 && !result) {
         return new BadRequestResponse().send(req, res);
       }

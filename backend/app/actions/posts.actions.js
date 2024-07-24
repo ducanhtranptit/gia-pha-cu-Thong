@@ -10,7 +10,7 @@ class PostsActions {
   async GetPostsLatest() {
     const postsList = await Post.findAll({
       order: [["createdAt", "DESC"]],
-      limit: 3,
+      limit: 4,
     });
     return postsList;
   }
@@ -27,6 +27,7 @@ class PostsActions {
     await posts.update({
       title: dataPosts.title,
       content: dataPosts.content,
+      image: dataPosts.image,
     });
   }
   async DeletePosts(id) {

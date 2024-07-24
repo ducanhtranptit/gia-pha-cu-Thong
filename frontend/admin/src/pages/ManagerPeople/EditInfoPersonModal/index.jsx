@@ -57,10 +57,10 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setFileUrl(`http://localhost:2504/api/v1/core/upload/${data.filePath}`);
+        setFileUrl(`http://localhost:2504/api/v1/core/upload/${data.fileName}`);
         setFormData((prevState) => ({
           ...prevState,
-          avt: data.filePath,
+          avt: data.fileName,
         }));
       })
       .catch((error) => {
@@ -83,11 +83,11 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
       .then((response) => response.json())
       .then((data) => {
         setSpouseFileUrl(
-          `http://localhost:2504/api/v1/core/upload/${data.filePath}`
+          `http://localhost:2504/api/v1/core/upload/${data.fileName}`
         );
         setFormData((prevState) => ({
           ...prevState,
-          spouseAvt: data.filePath,
+          spouseAvt: data.fileName,
         }));
       })
       .catch((error) => {
@@ -150,6 +150,7 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
       }
     };
 
+    console.log(person);
     if (person) {
       setFormData((prevState) => ({
         ...initialState,
@@ -229,6 +230,7 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
       description: formData.description,
       filePath: formData.avt,
     };
+    console.log(updatedPerson);
 
     const spouseData = formData.showSpouseForm
       ? {
@@ -240,10 +242,6 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
       : null;
 
     try {
-      console.log({
-        person: updatedPerson,
-        spouse: spouseData,
-      });
       await PeopleAPI.updatePerson(person.id, {
         person: updatedPerson,
         spouse: spouseData,
