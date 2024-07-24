@@ -208,7 +208,6 @@ const CreatePersonModal = ({ show, fetchData, handleClose }) => {
 
     const data = { person: personData, spouse: spouseData };
     try {
-      console.log(personData);
       await PeopleAPI.createPerson(data);
       handleClose();
       resetForm();

@@ -1,9 +1,17 @@
 .post > div {
   border: 1px solid #ccc;
   border-radius: 4px;
-  padding: 20px;
-  height: 160px;
+  padding: 15px;
   overflow: hidden;
+  height: 330px;
+}
+
+.post img {
+  width: 100%;
+  display: block;
+  max-height: 210px;
+  border-radius: 4px;
+  margin-bottom: 10px;
 }
 
 .post a {

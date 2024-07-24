@@ -61,6 +61,7 @@ function ManagerPosts() {
       }
     }
   };
+
   return (
     <div className="wrapper">
       <h3>Quản lý bài viết</h3>
@@ -84,7 +85,6 @@ function ManagerPosts() {
           {posts.map((post) => (
             <tr key={post.id}>
               <td>{post.id}</td>
-              <td>{post.title}</td>
               <td>
                 <span className="post-title">{post.title}</span>
               </td>

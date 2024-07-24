@@ -71,7 +71,7 @@ function ManagerPeople() {
     if (window.confirm("Bạn có chắc chắn muốn xóa người này không?")) {
       try {
         const people = getPeople.find((person) => person.id === personId);
-        if (!people.fatherId) {
+        if (people.note === "rootPerson") {
           return toast.error("Không thể xóa người dùng cấp cao nhất.");
         }
         await PeopleAPI.deletePerson(personId);
