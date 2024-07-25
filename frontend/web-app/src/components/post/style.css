@@ -1,0 +1,42 @@
+.post > div {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 15px;
+  overflow: hidden;
+  height: 330px;
+}
+
+.post img {
+  width: 100%;
+  display: block;
+  max-height: 210px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.post a {
+  display: block;
+  font-size: 32px;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
+  max-width: 450px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.post a:hover {
+  opacity: 0.7;
+}
+
+.post .created-post {
+  font-size: 14px;
+}
+
+.post .content-post {
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* number of lines to show */
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  height: 400px;
+}

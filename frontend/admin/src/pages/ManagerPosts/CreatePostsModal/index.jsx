@@ -8,65 +8,131 @@ import "react-quill/dist/quill.snow.css";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { baseUrl } from "../../../config/url-config";
+import { useDropzone } from "react-dropzone";
+import "./style.css";
 
 function CreatePostsModal({ show, fetchData, handleClose }) {
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-    const handleSave = async () => {
-        try {
-            const postData = {
-                title,
-                content,
-            };
-            const response = await axios.post(`${baseUrl}/posts/create-posts`, {
-                posts: postData,
-            });
-            if (response.status === 200) {
-                handleClose();
-                setTitle("");
-                setContent("");
-                toast.success("Thêm thành công bài viết!");
-            }
-        } catch (error) {
-            console.error("Failed to create post:", error);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [image, setImage] = useState(null);
+  const [imageUpload, setImageUpload] = useState(null);
+  const handleSave = async () => {
+    try {
+      if (!validateForm()) {
+        return;
+      }
+      const postData = {
+        title,
+        content,
+        image: imageUpload,
+      };
+      const response = await axios.post(`${baseUrl}/posts/create-posts`, {
+        posts: postData,
+      });
+      if (response.status === 200) {
+        handleClose();
+        setTitle("");
+        setContent("");
+        setImageUpload(null);
+        setImage(null);
+        fetchData();
+        toast.success("Thêm thành công bài viết!");
+      }
+    } catch (error) {
+      console.error("Failed to create post:", error);
+    }
+  };
+  const validateForm = () => {
+    if (!title) {
+      toast.error("Vui lòng nhập tiêu đề bài viết");
+      return false;
+    }
+
+    if (!content) {
+      toast.error("Vui lòng nhập nội dung bài viết");
+      return false;
+    }
+
+    return true;
+  };
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: {
+      "image/jpeg": [".jpg", ".jpeg"],
+      "image/png": [".png"],
+    },
+    onDrop: (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      setImage(URL.createObjectURL(file));
+      handleFileUpload(file);
+    },
+  });
+  const handleFileUpload = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:2504/api/v1/core/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-    };
-    return (
-        <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>Thêm bài viết mới</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form>
-                    <Form.Group controlId="formTitle">
-                        <Form.Label>Tiêu đề</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Nhập tiêu đề"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                        />
-                    </Form.Group>
-                    <Form.Group className="full-width">
-                        <Form.Label>Nội dung</Form.Label>
-                        <ReactQuill
-                            value={content}
-                            onChange={setContent}
-                            placeholder="Nhập mô tả"
-                        />
-                    </Form.Group>
-                </Form>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Đóng
-                </Button>
-                <Button variant="primary" onClick={handleSave}>
-                    Thêm
-                </Button>
-            </Modal.Footer>
-        </Modal>
-    );
+      );
+      setImageUpload(response.data.fileName);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      toast.error("Có lỗi xảy ra khi upload ảnh. Vui lòng thử lại sau.");
+    }
+  };
+  return (
+    <Modal show={show} onHide={handleClose} size="lg">
+      <Modal.Header closeButton>
+        <Modal.Title>Thêm bài viết mới</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          <Form.Label>Ảnh</Form.Label>
+          <div {...getRootProps()}>
+            <input {...getInputProps()} />
+            {image ? (
+              <div className="box-image-post">
+                <img src={image} alt="Preview" className="preview-img" />
+              </div>
+            ) : (
+              <Button variant="btn btn-outline-info">Thêm ảnh</Button>
+            )}
+          </div>
+          <Form.Group controlId="formTitle">
+            <Form.Label>Tiêu đề</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Nhập tiêu đề"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="full-width">
+            <Form.Label>Nội dung</Form.Label>
+            <ReactQuill
+              value={content}
+              onChange={setContent}
+              placeholder="Nhập mô tả"
+            />
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Đóng
+        </Button>
+        <Button variant="primary" onClick={handleSave}>
+          Thêm
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
 }
 
 export default CreatePostsModal;
