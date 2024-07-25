@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { adminUrl } from "../../config/url-config.js";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar } from "react-bootstrap";
 import { FaComments } from "react-icons/fa";
@@ -9,10 +9,16 @@ import logo from "../../public/logo.png";
 
 const NavigationBar = () => {
 	const [isOpen, setIsOpen] = useState(false);
+	const location = useLocation();
 
 	const toggleMenu = () => {
 		setIsOpen(!isOpen);
 	};
+
+	// Close menu on navigation
+	useEffect(() => {
+		setIsOpen(false);
+	}, [location]);
 
 	return (
 		<header>
