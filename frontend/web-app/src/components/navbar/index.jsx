@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { adminUrl } from "../../config/url-config.js";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar } from "react-bootstrap";
 import { FaComments } from "react-icons/fa";
@@ -8,49 +8,48 @@ import "./style.css";
 import logo from "../../public/logo.png";
 
 const NavigationBar = () => {
-	const [isOpen, setIsOpen] = useState(false);
-	const location = useLocation();
+	const [isOpen, setIsOpen] = useState();
 
 	const toggleMenu = () => {
-		setIsOpen(!isOpen);
+		setIsOpen(true);
+		setIsOpen(true);
 	};
 
-	// Close menu on navigation
-	useEffect(() => {
+	const closeMenu = () => {
 		setIsOpen(false);
-	}, [location]);
+	};
 
 	return (
 		<header>
 			<Navbar expand="lg" className="navbar">
-				<Navbar.Brand as={Link} to="/">
+				<Navbar.Brand as={Link} to="/" onClick={closeMenu}>
 					<img src={logo} alt="Cover" className="logo" />
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" onClick={toggleMenu} />
 				<Navbar.Collapse id="basic-navbar-nav" className={`navbar-list ${isOpen ? "open" : ""}`}>
 					<ul className={`navbar-list ${isOpen ? "open" : ""}`}>
 						<li className="navbar-item">
-							<Link to="/" className="navbar-link">
+							<Link to="/" className="navbar-link" onClick={closeMenu}>
 								Trang chủ
 							</Link>
 						</li>
 						<li className="navbar-item">
-							<Link to="/family-tree" className="navbar-link">
+							<Link to="/family-tree" className="navbar-link" onClick={closeMenu}>
 								Phả đồ
 							</Link>
 						</li>
 						<li className="navbar-item">
-							<Link to="/news" className="navbar-link">
+							<Link to="/news" className="navbar-link" onClick={closeMenu}>
 								Tin tức
 							</Link>
 						</li>
 						<li className="navbar-item">
-							<a href={adminUrl} className="navbar-link" target="_blank" rel="noopener noreferrer">
+							<a href={adminUrl} className="navbar-link" target="_blank" rel="noopener noreferrer" onClick={closeMenu}>
 								Quản trị
 							</a>
 						</li>
 						<li className="chat-button">
-							<a href="https://zalo.me/g/gqshjy512" className="navbar-link" target="_blank" rel="noopener noreferrer">
+							<a href="https://zalo.me/g/gqshjy512" className="navbar-link" target="_blank" rel="noopener noreferrer" onClick={closeMenu}>
 								<FaComments />
 							</a>
 						</li>
