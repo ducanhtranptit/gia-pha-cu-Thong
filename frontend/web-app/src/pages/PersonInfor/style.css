@@ -12,3 +12,7 @@
 .img-fluid {
   border-radius: 50%;
 }
+
+.personal-info > * {
+  padding: 0;
+}

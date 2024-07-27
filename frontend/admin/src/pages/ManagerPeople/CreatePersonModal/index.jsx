@@ -11,6 +11,14 @@ import "./style.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
+import { baseUrl } from "../../../config/url-config.js";
+import DatePicker, { registerLocale } from "react-datepicker";
+import { vi } from "date-fns/locale/vi";
+import "react-datepicker/dist/react-datepicker.css";
+import { getCookie } from "../../../utils/cookie.js";
+import { ACCESSTOKEN_KEY } from "../../../config/index.js";
+
+registerLocale("vi", vi);
 
 const CreatePersonModal = ({ show, fetchData, handleClose }) => {
   const [fileUrl, setFileUrl] = useState(null);
@@ -27,9 +35,13 @@ const CreatePersonModal = ({ show, fetchData, handleClose }) => {
     spouseName: "",
     spouseGender: "",
     spouseDescription: "",
+    spouseBorn: null,
+    spouseDateOfDeath: null,
     father: [],
     showList: false,
     fatherName: "",
+    born: null,
+    dateOfDeath: null,
   };
 
   const initialErrorState = {
@@ -141,17 +153,15 @@ const CreatePersonModal = ({ show, fetchData, handleClose }) => {
   const handleFileUpload = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
+    const accessToken = getCookie(ACCESSTOKEN_KEY);
 
     try {
-      const response = await axios.post(
-        "http://localhost:2504/api/v1/core/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(baseUrl + "/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       setUploadedFileName(response.data.fileName);
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -162,17 +172,15 @@ const CreatePersonModal = ({ show, fetchData, handleClose }) => {
   const handleSpouseFileUpload = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
+    const accessToken = getCookie(ACCESSTOKEN_KEY);
 
     try {
-      const response = await axios.post(
-        "http://localhost:2504/api/v1/core/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(baseUrl + "/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       setUploadedSpouseFileName(response.data.fileName);
     } catch (error) {
       console.error("Error uploading spouse file:", error);
@@ -195,6 +203,8 @@ const CreatePersonModal = ({ show, fetchData, handleClose }) => {
       fatherId: formData.fatherId,
       description: formData.description,
       filePath: uploadedFileName,
+      born: formData.born,
+      dateOfDeath: formData.dateOfDeath,
     };
 
     const spouseData = formData.showSpouseForm
@@ -203,6 +213,8 @@ const CreatePersonModal = ({ show, fetchData, handleClose }) => {
           gender: formData.spouseGender,
           description: formData.spouseDescription,
           filePath: uploadedSpouseFileName,
+          born: formData.spouseBorn,
+          dateOfDeath: formData.spouseDateOfDeath,
         }
       : null;
 
@@ -348,6 +360,26 @@ const CreatePersonModal = ({ show, fetchData, handleClose }) => {
               )}
             </Form.Group>
           </div>
+          <Form.Group className="mt-2">
+            <Form.Label className="label-date">Ngày sinh</Form.Label>
+            <DatePicker
+              selected={formData.born}
+              onChange={(date) =>
+                setFormData((prev) => ({ ...prev, born: date }))
+              }
+              locale="vi"
+            />
+          </Form.Group>
+          <Form.Group className="mt-2">
+            <Form.Label className="label-date">Ngày mất</Form.Label>
+            <DatePicker
+              selected={formData.dateOfDeath}
+              onChange={(date) =>
+                setFormData((prev) => ({ ...prev, dateOfDeath: date }))
+              }
+              locale="vi"
+            />
+          </Form.Group>
 
           <Form.Group className="full-width">
             <Form.Label>Mô tả</Form.Label>
@@ -441,6 +473,29 @@ const CreatePersonModal = ({ show, fetchData, handleClose }) => {
                   </Form.Control.Feedback>
                 </Form.Group>
               </div>
+              <Form.Group className="mt-2">
+                <Form.Label className="label-date">Ngày sinh</Form.Label>
+                <DatePicker
+                  selected={formData.spouseBorn}
+                  onChange={(date) =>
+                    setFormData((prev) => ({ ...prev, spouseBorn: date }))
+                  }
+                  locale="vi"
+                />
+              </Form.Group>
+              <Form.Group className="mt-2">
+                <Form.Label className="label-date">Ngày mất</Form.Label>
+                <DatePicker
+                  selected={formData.spouseDateOfDeath}
+                  onChange={(date) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      spouseDateOfDeath: date,
+                    }))
+                  }
+                  locale="vi"
+                />
+              </Form.Group>
               <Form.Group className="full-width">
                 <Form.Label>Mô tả vợ/chồng</Form.Label>
                 <ReactQuill

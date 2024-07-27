@@ -1,53 +1,56 @@
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .title {
-    position: sticky;
-    text-align: center;
-    margin: 20px 0px;
-    position: sticky;
-    top: 0;
-    background-color: white; 
+  position: sticky;
+  text-align: center;
+  margin: 20px 0px;
+  position: sticky;
+  top: 0;
+  background-color: white;
 }
 
 .controls {
-    position: sticky;
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-    background-color: white; 
-    position: sticky;
-    top: 40px;
+  position: sticky;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  background-color: white;
+  position: sticky;
+  top: 40px;
 }
 
 .search-bar {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .add-person {
-    margin-left: auto; /* Đưa nút thêm mới về phía bên phải */
-    margin-right: 15px;
+  margin-left: auto; /* Đưa nút thêm mới về phía bên phải */
+  margin-right: 15px;
 }
 
 .table-people {
-    flex: 1 1 auto;
-    overflow: auto; /* Cuộn nội dung bảng khi nội dung quá dài */
+  flex: 1 1 auto;
+  overflow: auto; /* Cuộn nội dung bảng khi nội dung quá dài */
 }
 
 .pagination-controls {
-    display: flex;
-    align-items: center;
-    position: sticky;
-    bottom: 0;
-    background-color: white; /* Nền trắng để phần nội dung không che phủ */
-    z-index: 1; /* Đảm bảo nằm trên cùng */
-    padding: 20px 0;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  bottom: 0;
+  background-color: white; /* Nền trắng để phần nội dung không che phủ */
+  z-index: 1; /* Đảm bảo nằm trên cùng */
+  padding: 20px 0;
 }
 
 .pagination-buttons {
-    display: flex;
+  display: flex;
 }
 
+.label-date {
+  display: block;
+}

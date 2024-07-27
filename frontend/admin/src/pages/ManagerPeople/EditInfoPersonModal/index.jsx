@@ -10,6 +10,8 @@ import { useDropzone } from "react-dropzone";
 import "react-quill/dist/quill.snow.css";
 import "./style.css";
 import "react-toastify/dist/ReactToastify.css";
+import DatePicker from "react-datepicker";
+import { baseUrl } from "../../../config/url-config.js";
 
 const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
   const initialState = useMemo(
@@ -22,11 +24,15 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
       showSpouseForm: false,
       spouseName: "",
       spouseGender: "",
+      spouseBorn: null,
+      spouseDateOfDeath: null,
       spouseDescription: "",
       spouseAvt: "",
       father: [],
       showList: false,
       fatherName: "",
+      born: null,
+      dateOfDeath: null,
     }),
     []
   );
@@ -42,7 +48,6 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
   const [formData, setFormData] = useState(initialState);
   const [errors, setErrors] = useState(initialErrorState);
   const [fileUrl, setFileUrl] = useState("");
-  const [father, setFather] = useState(null);
   const [spouseFileUrl, setSpouseFileUrl] = useState("");
   const dropdownRef = useRef(null);
 
@@ -51,13 +56,13 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    fetch("http://localhost:2504/api/v1/core/upload", {
+    fetch(baseUrl + "/upload", {
       method: "POST",
       body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
-        setFileUrl(`http://localhost:2504/api/v1/core/upload/${data.fileName}`);
+        setFileUrl(baseUrl + `/upload/${data.fileName}`);
         setFormData((prevState) => ({
           ...prevState,
           avt: data.fileName,
@@ -76,15 +81,13 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    fetch("http://localhost:2504/api/v1/core/upload", {
+    fetch(baseUrl + "/upload", {
       method: "POST",
       body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
-        setSpouseFileUrl(
-          `http://localhost:2504/api/v1/core/upload/${data.fileName}`
-        );
+        setSpouseFileUrl(baseUrl + `/upload/${data.fileName}`);
         setFormData((prevState) => ({
           ...prevState,
           spouseAvt: data.fileName,
@@ -118,11 +121,11 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
             spouseGender: spouse.gender,
             spouseDescription: spouse.description,
             spouseAvt: spouse.filePath,
+            spouseBorn: spouse.born,
+            spouseDateOfDeath: spouse.dateOfDeath,
           }));
           if (spouse.filePath)
-            setSpouseFileUrl(
-              `http://localhost:2504/api/v1/core/upload/${spouse.filePath}`
-            );
+            setSpouseFileUrl(baseUrl + `/upload/${spouse.filePath}`);
         } else {
           throw new Error("Invalid response format from API");
         }
@@ -151,6 +154,7 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
     };
 
     console.log(person);
+
     if (person) {
       setFormData((prevState) => ({
         ...initialState,
@@ -161,11 +165,10 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
         description: person.description,
         avt: person.filePath,
         showSpouseForm: !!person.spouseId,
+        born: person.born,
+        dateOfDeath: person?.dateOfDeath,
       }));
-      if (person.filePath)
-        setFileUrl(
-          `http://localhost:2504/api/v1/core/upload/${person.filePath}`
-        );
+      if (person.filePath) setFileUrl(baseUrl + `/upload/${person.filePath}`);
 
       if (person.spouseId) {
         fetchSpouseData(person.spouseId);
@@ -223,14 +226,17 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
       return;
     }
 
+    console.log(formData);
+
     const updatedPerson = {
       name: formData.name,
       gender: formData.gender,
       fatherId: formData.fatherId,
       description: formData.description,
       filePath: formData.avt,
+      born: formData.born,
+      dateOfDeath: formData.dateOfDeath,
     };
-    console.log(updatedPerson);
 
     const spouseData = formData.showSpouseForm
       ? {
@@ -238,6 +244,8 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
           gender: formData.spouseGender,
           description: formData.spouseDescription,
           filePath: formData.spouseAvt,
+          born: formData.spouseBorn,
+          dateOfDeath: formData.spouseDateOfDeath,
         }
       : null;
 
@@ -386,6 +394,24 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
               )}
             </Form.Group>
           </div>
+          <Form.Group className="mt-2">
+            <Form.Label className="label-date">Ngày sinh</Form.Label>
+            <DatePicker
+              selected={formData.born}
+              onChange={(date) =>
+                setFormData((prev) => ({ ...prev, born: date }))
+              }
+            />
+          </Form.Group>
+          <Form.Group className="mt-2">
+            <Form.Label className="label-date">Ngày mất</Form.Label>
+            <DatePicker
+              selected={formData.dateOfDeath}
+              onChange={(date) =>
+                setFormData((prev) => ({ ...prev, dateOfDeath: date }))
+              }
+            />
+          </Form.Group>
 
           <Form.Group className="full-width">
             <Form.Label>Mô tả</Form.Label>
@@ -455,6 +481,27 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
                 <Form.Control.Feedback type="invalid">
                   {errors.spouseGender}
                 </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="mt-2">
+                <Form.Label className="label-date">Ngày sinh</Form.Label>
+                <DatePicker
+                  selected={formData.spouseBorn}
+                  onChange={(date) =>
+                    setFormData((prev) => ({ ...prev, spouseBorn: date }))
+                  }
+                />
+              </Form.Group>
+              <Form.Group className="mt-2">
+                <Form.Label className="label-date">Ngày mất</Form.Label>
+                <DatePicker
+                  selected={formData.spouseDateOfDeath}
+                  onChange={(date) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      spouseDateOfDeath: date,
+                    }))
+                  }
+                />
               </Form.Group>
               <Form.Group className="full-width">
                 <Form.Label>Mô tả vợ/chồng</Form.Label>

@@ -4,6 +4,7 @@ import PostAPI from "../../api/post";
 import { toast } from "react-toastify";
 import { formatTime } from "../../utils/formatTime";
 import "./style.css";
+import { baseUrl } from "../../config/url-config";
 
 function NewDetail() {
   const { id } = useParams();
@@ -48,7 +49,7 @@ function NewDetail() {
           <div className="col-lg-8 col-12">
             {post?.image && (
               <img
-                src={"http://localhost:2504/api/v1/core/upload/" + post.image}
+                src={baseUrl + "/upload/" + post.image}
                 alt="post-img"
                 className="w-100"
               />
@@ -66,24 +67,21 @@ function NewDetail() {
             <h3 className="fs-4 fw-bold">Bài viết mới nhất</h3>
             <div className="list-post-latest px-3">
               {postsLatest.length > 0 &&
-                postsLatest.map((post, index) => (
+                postsLatest.map((postItem, index) => (
                   <div key={index} className="post-latest-item">
-                    <a href={`/news/${post.id}`} className="row">
-                      {post.image && (
+                    <a href={`/news/${postItem.id}`} className="row">
+                      {postItem.image && (
                         <div className="col-4">
                           <img
-                            src={
-                              "http://localhost:2504/api/v1/core/upload/" +
-                              post.image
-                            }
-                            alt={post.title}
+                            src={baseUrl + "/upload/" + postItem.image}
+                            alt={postItem.title}
                           />
                         </div>
                       )}
                       <div className="col-8">
-                        <h4 className="post-title">{post.title}</h4>
+                        <h4 className="post-title">{postItem.title}</h4>
                         <span className="fs-6">
-                          {formatTime(post.createdAt)}
+                          {formatTime(postItem.createdAt)}
                         </span>
                       </div>
                     </a>

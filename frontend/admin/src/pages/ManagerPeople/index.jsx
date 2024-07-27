@@ -8,6 +8,7 @@ import "./style.css";
 import EditPersonModal from "./EditInfoPersonModal/index.jsx";
 import CreatePersonModal from "./CreatePersonModal/index.jsx";
 import _ from "lodash";
+import { formatTime } from "../../utils/formatTime.js";
 
 function ManagerPeople() {
   const [getPeople, setGetPeople] = useState([]);
@@ -48,6 +49,7 @@ function ManagerPeople() {
   );
 
   const handleEditClick = (person) => {
+    console.log("personEditClick", person);
     setCurrentPerson(person);
     setShowEditForm(true);
   };
@@ -131,6 +133,11 @@ function ManagerPeople() {
         <tr key={people.id}>
           <td>{people.id}</td>
           <td>{people.name}</td>
+          <td>{people.born && formatTime(people.born, { onlyDate: true })}</td>
+          <td>
+            {people.dateOfDeath &&
+              formatTime(people.dateOfDeath, { onlyDate: true })}
+          </td>
           <td>{people.gender === "male" ? "Nam" : "Nữ"}</td>
           <td>
             <Button variant="primary" onClick={() => handleEditClick(people)}>
@@ -176,6 +183,8 @@ function ManagerPeople() {
             <tr>
               <th>#</th>
               <th>Họ tên</th>
+              <th>Ngày sinh</th>
+              <th>Ngày mất</th>
               <th>Giới tính</th>
               <th>Sửa</th>
               <th>Xóa</th>
