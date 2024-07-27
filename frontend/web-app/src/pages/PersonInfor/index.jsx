@@ -4,6 +4,8 @@ import PeopleAPI from "../../api/people.js";
 import { toast } from "react-toastify";
 import img from "../../public/no-avatar.png";
 import "./style.css";
+import { baseUrl } from "../../config/url-config.js";
+import { formatTime } from "../../utils/formatTime.js";
 
 const PersonInfo = () => {
   const { name } = useParams();
@@ -39,16 +41,16 @@ const PersonInfo = () => {
       return "THÔNG TIN";
     }
   };
+  console.log(personDetails);
 
   return (
     <div className="mt-5 col-12">
-      <div className="row">
+      <div className="row personal-info">
         <div className="mt-5 col-md-4 d-flex justify-content-center align-items-center">
           <img
             src={
               personDetails?.person?.filePath
-                ? "http://localhost:2504/api/v1/core/upload/" +
-                  personDetails.person.filePath
+                ? baseUrl + "/upload/" + personDetails.person.filePath
                 : img
             }
             className="img-fluid"
@@ -110,6 +112,18 @@ const PersonInfo = () => {
                       </ul>
                     </div>
                   )}
+                <p>
+                  Ngày sinh:{" "}
+                  {personDetails?.person?.born &&
+                    formatTime(personDetails.person.born, { onlyDay: true })}
+                </p>
+                <p>
+                  Ngày mất:{" "}
+                  {personDetails?.person?.dateOfDeath &&
+                    formatTime(personDetails.person.dateOfDeath, {
+                      onlyDay: true,
+                    })}
+                </p>
                 <p>
                   <strong>Tiểu sử:</strong>{" "}
                   {personDetails.person.description ? (

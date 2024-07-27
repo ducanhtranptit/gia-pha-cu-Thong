@@ -42,8 +42,8 @@ class PostsController {
   }
   async CreatePosts(req, res) {
     try {
-      const { posts } = req.body;
-      const newPosts = await PostsActions.CreatePosts(posts);
+      const data = req.body;
+      const newPosts = await PostsActions.CreatePosts(data);
       return new SuccessResponse().send(req, res, newPosts);
     } catch (error) {
       console.error(error);

@@ -6,31 +6,34 @@ import Dashboard from "./pages/Dashboard";
 import ManagerPeople from "./pages/ManagerPeople";
 import ManagerPosts from "./pages/ManagerPosts";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Login from "./pages/Login";
+import PrivateRoute from "./routes/PrivateRoute";
+import DefaultLayout from "./layouts/DefaultLayout";
+import AuthLayout from "./layouts/AuthLayout";
 
 function App() {
-    return (
-        <Router>
-            <div className="d-flex col-12">
-                <div className="col-2">
-                    <SideBar />
-                </div>
-                <div className="content col-10">
-                    <Routes>
-                        <Route path="/" element={<Dashboard />} />
-                        <Route path="/family-tree" element={<FamilyTree />} />
-                        <Route
-                            path="/manager-people"
-                            element={<ManagerPeople />}
-                        />
-                        <Route
-                            path="/forms/editors"
-                            element={<ManagerPosts />}
-                        />
-                    </Routes>
-                </div>
-            </div>
-        </Router>
-    );
+  return (
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <DefaultLayout />
+            </PrivateRoute>
+          }
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="family-tree" element={<FamilyTree />} />
+          <Route path="manager-people" element={<ManagerPeople />} />
+          <Route path="forms/editors" element={<ManagerPosts />} />
+        </Route>
+        <Route path="/login" element={<AuthLayout />}>
+          <Route index element={<Login />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

@@ -124,7 +124,6 @@ class PeopleActions {
   }
 
   async updateDataPerson(id, dataPerson) {
-    console.log(dataPerson);
     const person = await People.findByPk(id);
     if (person) {
       await person.update({
@@ -133,6 +132,8 @@ class PeopleActions {
         fatherId: dataPerson.person.fatherId,
         description: dataPerson.person.description,
         filePath: dataPerson.person.filePath,
+        dateOfDeath: dataPerson.person.dateOfDeath,
+        born: dataPerson.person.born,
       });
     }
     if (dataPerson.spouse && dataPerson.spouse.name !== "") {
@@ -146,6 +147,8 @@ class PeopleActions {
           spouseId: person.id,
           description: dataPerson.spouse.description,
           filePath: dataPerson.spouse.filePath,
+          born: dataPerson.spouse.born,
+          dateOfDeath: dataPerson.spouse.dateOfDeath,
         };
         const newSpouse = await People.create(newSpouseData);
         await People.update({ spouseId: newSpouse.id }, { where: { id: id } });
@@ -154,6 +157,8 @@ class PeopleActions {
           name: dataPerson.spouse.name,
           gender: dataPerson.spouse.gender,
           description: dataPerson.spouse.description,
+          born: dataPerson.spouse.born,
+          dateOfDeath: dataPerson.spouse.dateOfDeath,
         });
       }
     }

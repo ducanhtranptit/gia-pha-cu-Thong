@@ -1,18 +1,17 @@
 // src/pages/News.js
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Post from "../../components/post/index.jsx";
 import { toast } from "react-toastify";
 import "./style.css";
-import { baseUrl } from "../../config/url-config.js";
+import PostApi from "../../api/post.js";
 
 function News() {
   const [posts, setPosts] = useState([]);
   const fetchPosts = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/posts/posts-list`);
+      const response = await PostApi.getAllPosts();
       if (response.status === 200) {
-        setPosts(response.data.data);
+        setPosts(response.data);
       } else {
         toast.error("Có lỗi xảy ra khi lấy dữ liệu bài viết.");
       }
