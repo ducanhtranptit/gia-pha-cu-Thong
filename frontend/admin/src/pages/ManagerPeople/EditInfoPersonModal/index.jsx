@@ -12,6 +12,8 @@ import "./style.css";
 import "react-toastify/dist/ReactToastify.css";
 import DatePicker from "react-datepicker";
 import { baseUrl } from "../../../config/url-config.js";
+import { getCookie } from "../../../utils/cookie.js";
+import { ACCESSTOKEN_KEY } from "../../../config/index.js";
 
 const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
   const initialState = useMemo(
@@ -55,10 +57,14 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
     const file = acceptedFiles[0];
     const formData = new FormData();
     formData.append("file", file);
+    const accessToken = getCookie(ACCESSTOKEN_KEY);
 
     fetch(baseUrl + "/upload", {
       method: "POST",
       body: formData,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => {
@@ -80,10 +86,14 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
     const file = acceptedFiles[0];
     const formData = new FormData();
     formData.append("file", file);
+    const accessToken = getCookie(ACCESSTOKEN_KEY);
 
     fetch(baseUrl + "/upload", {
       method: "POST",
       body: formData,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => {
@@ -225,8 +235,6 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
     if (!validateForm()) {
       return;
     }
-
-    console.log(formData);
 
     const updatedPerson = {
       name: formData.name,
