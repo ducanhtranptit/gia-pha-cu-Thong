@@ -44,101 +44,113 @@ const PersonInfo = () => {
   console.log(personDetails);
 
   return (
-    <div className="mt-5 col-12">
-      <div className="row personal-info">
-        <div className="mt-5 col-md-4 d-flex justify-content-center align-items-center">
-          <img
-            src={
-              personDetails?.person?.filePath
-                ? baseUrl + "/upload/" + personDetails.person.filePath
-                : img
-            }
-            className="img-fluid"
-            alt="Avatar"
-          />
-        </div>
-        <div className="mt-5 col-md-7">
-          {loading && <div className="alert alert-info">Loading...</div>}
-          {personDetails && personDetails.person && (
-            <div className="card mt-3">
-              <div className="card-header">
-                <h2>{getTitle()}</h2>
+    <div className="container">
+      <div className="mt-5 col-12">
+        <div className="row personal-info">
+          <div className="mt-5 col-md-4 d-flex justify-content-center">
+            <img
+              src={
+                personDetails?.person?.filePath
+                  ? baseUrl + "/upload/" + personDetails.person.filePath
+                  : img
+              }
+              className="img-fluid"
+              alt="Avatar"
+            />
+          </div>
+          <div className="mt-5 col-md-7">
+            {loading && <div className="alert alert-info">Loading...</div>}
+            {personDetails && personDetails.person && (
+              <div className="card mt-3">
+                <div className="card-header">
+                  <h2>{getTitle()}</h2>
+                </div>
+                <div className="card-body">
+                  <p>
+                    <strong>Họ và tên:</strong> {personDetails.person.name}
+                  </p>
+                  <p>
+                    <strong>Vợ/chồng:</strong>{" "}
+                    {personDetails.spouse && personDetails.spouse.name ? (
+                      <Link
+                        to={`/person-infor/${personDetails.spouse.name}`}
+                        className="link-style"
+                      >
+                        {personDetails.spouse.name}
+                      </Link>
+                    ) : (
+                      "N/A"
+                    )}
+                  </p>
+                  <p>
+                    <strong>Bố:</strong>{" "}
+                    {personDetails.father && personDetails.father.name ? (
+                      <Link
+                        to={`/person-infor/${personDetails.father.name}`}
+                        className="link-style"
+                      >
+                        {personDetails.father.name}
+                      </Link>
+                    ) : (
+                      "N/A"
+                    )}
+                  </p>
+                  {personDetails.children &&
+                    personDetails.children.length > 0 && (
+                      <div>
+                        <strong>Con:</strong>
+                        <ul>
+                          {personDetails.children.map((child, index) => (
+                            <li key={index}>
+                              <Link
+                                to={`/person-infor/${child.name}`}
+                                className="link-style"
+                              >
+                                {child.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  <p>
+                    Ngày sinh:{" "}
+                    {personDetails?.person?.born &&
+                      formatTime(personDetails.person.born, { onlyDay: true })}
+                  </p>
+                  <p>
+                    Tình trạng:{" "}
+                    <span className="fw-bold">
+                      {personDetails?.person?.dateOfDeath
+                        ? "Đã mất"
+                        : "Còn sống"}
+                    </span>
+                  </p>
+                  {personDetails?.person?.dateOfDeath && (
+                    <p>
+                      Ngày mất:
+                      {formatTime(personDetails.person.dateOfDeath, {
+                        onlyDay: true,
+                      })}
+                    </p>
+                  )}
+
+                  <p>
+                    <strong>Tiểu sử:</strong>{" "}
+                    {personDetails.person.description ? (
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: personDetails.person.description,
+                        }}
+                      />
+                    ) : (
+                      "N/A"
+                    )}
+                  </p>
+                </div>
               </div>
-              <div className="card-body">
-                <p>
-                  <strong>Họ và tên:</strong> {personDetails.person.name}
-                </p>
-                <p>
-                  <strong>Vợ/chồng:</strong>{" "}
-                  {personDetails.spouse && personDetails.spouse.name ? (
-                    <Link
-                      to={`/person-infor/${personDetails.spouse.name}`}
-                      className="link-style"
-                    >
-                      {personDetails.spouse.name}
-                    </Link>
-                  ) : (
-                    "N/A"
-                  )}
-                </p>
-                <p>
-                  <strong>Bố:</strong>{" "}
-                  {personDetails.father && personDetails.father.name ? (
-                    <Link
-                      to={`/person-infor/${personDetails.father.name}`}
-                      className="link-style"
-                    >
-                      {personDetails.father.name}
-                    </Link>
-                  ) : (
-                    "N/A"
-                  )}
-                </p>
-                {personDetails.children &&
-                  personDetails.children.length > 0 && (
-                    <div>
-                      <strong>Con:</strong>
-                      <ul>
-                        {personDetails.children.map((child, index) => (
-                          <li key={index}>
-                            <Link
-                              to={`/person-infor/${child.name}`}
-                              className="link-style"
-                            >
-                              {child.name}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                <p>
-                  Ngày sinh:{" "}
-                  {personDetails?.person?.born &&
-                    formatTime(personDetails.person.born, { onlyDay: true })}
-                </p>
-                <p>
-                  Ngày mất:{" "}
-                  {personDetails?.person?.dateOfDeath &&
-                    formatTime(personDetails.person.dateOfDeath, {
-                      onlyDay: true,
-                    })}
-                </p>
-                <p>
-                  <strong>Tiểu sử:</strong>{" "}
-                  {personDetails.person.description ? (
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: personDetails.person.description,
-                      }}
-                    />
-                  ) : (
-                    "N/A"
-                  )}
-                </p>
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>

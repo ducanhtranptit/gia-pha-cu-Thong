@@ -9,8 +9,15 @@
   color: #231b96; /* Màu chữ khi hover */
 }
 
+.personal-info {
+  gap: 10px;
+}
+
 .img-fluid {
   border-radius: 50%;
+  width: 360px;
+  height: 360px;
+  object-fit: cover;
 }
 
 .personal-info > * {
