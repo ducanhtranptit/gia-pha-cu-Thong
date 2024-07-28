@@ -29,7 +29,6 @@ const Home = () => {
 
   return (
     <div className="home">
-      {/* <img src={wallpaper} alt="Wallpaper" /> */}
       <div className="content mt-5">
         <Container className="my-5">
           <Row>
@@ -78,18 +77,36 @@ const Home = () => {
         </Container>
       </div>
       <section className="latest-posts">
-        <h2>Bài đăng gần nhất</h2>
-        <div className="posts-grid row g-4">
-          {posts.map((post) => (
-            <div
-              key={post.id}
-              className="post-item col-lg-3 col-md-4 col-sm-6 col-xs-1"
-            >
-              <Post post={post} key={post.id} />
-            </div>
-          ))}
+        <div className="container">
+          <h2>Bài đăng gần nhất</h2>
+          <div className="posts-grid row g-4">
+            {posts.map((post) => (
+              <div
+                key={post.id}
+                className="post-item col-lg-4 col-md-4 col-sm-6 col-xs-1"
+              >
+                <Post post={post} key={post.id} />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
+      <div className="w-100 py-5">
+        <div className="text-center pb-4">
+          <span className="fs-2">Đến nhà thờ</span>
+        </div>
+        <div>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3740.6385624552286!2d105.87540677523842!3d20.35654488112987!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjDCsDIxJzIzLjYiTiAxMDXCsDUyJzQwLjciRQ!5e0!3m2!1svi!2s!4v1721847272366!5m2!1svi!2s"
+            width="100%"
+            height="450"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Map"
+          ></iframe>
+        </div>
+      </div>
     </div>
   );
 };

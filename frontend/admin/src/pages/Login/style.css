@@ -1,0 +1,42 @@
+.login-page {
+  width: 100%;
+  height: 100vh;
+  background-color: #eee;
+}
+
+.login-page > .container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.form-login {
+  flex: 1;
+  max-width: 500px;
+  margin: auto;
+  background-color: #0359da;
+  padding: 60px 46px;
+  color: #fff;
+  border-radius: 8px;
+}
+
+.form-login .title-login {
+  font-size: 34px;
+  font-weight: 500;
+  display: block;
+  text-align: center;
+}
+
+.form-login button {
+  width: 100%;
+  background-color: #fff;
+  color: black;
+  border: none;
+}
+
+.form-login button:hover,
+.form-login button:active {
+  background-color: #fff !important;
+  color: black !important;
+  border: none !important;
+}

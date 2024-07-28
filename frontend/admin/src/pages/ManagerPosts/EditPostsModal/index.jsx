@@ -8,6 +8,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { baseUrl } from "../../../config/url-config";
 import { useDropzone } from "react-dropzone";
+import PostAPI from "../../../api/post";
+import { getCookie } from "../../../utils/cookie";
+import { ACCESSTOKEN_KEY } from "../../../config";
 
 function EditPostsModal({ show, handleClose, post, fetchData }) {
   const [title, setTitle] = useState(post ? post.title : "");
@@ -20,7 +23,7 @@ function EditPostsModal({ show, handleClose, post, fetchData }) {
       setTitle(post.title);
       setContent(post.content);
       if (post.image) {
-        setImage("http://localhost:2504/api/v1/core/upload/" + post.image);
+        setImage(baseUrl + "/upload/" + post.image);
         setImageUpload(post.image);
       }
     }
@@ -34,15 +37,11 @@ function EditPostsModal({ show, handleClose, post, fetchData }) {
         content: content.trim(),
         image: imageUpload,
       };
-      console.log(postData);
       if (postData.title.length > 200) {
         toast.error("Tiêu đề tối đa 200 ký tự");
         return;
       }
-      const response = await axios.put(
-        `${baseUrl}/posts/update-posts/${post.id}`,
-        postData
-      );
+      const response = await PostAPI.updatePost(postData);
       if (response.status === 200) {
         fetchData();
         handleClose();
@@ -69,16 +68,15 @@ function EditPostsModal({ show, handleClose, post, fetchData }) {
     const formData = new FormData();
     formData.append("file", file);
 
+    const accessToken = getCookie(ACCESSTOKEN_KEY);
+
     try {
-      const response = await axios.post(
-        "http://localhost:2504/api/v1/core/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(baseUrl + "/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       setImageUpload(response.data.fileName);
     } catch (error) {
       console.error("Error uploading file:", error);

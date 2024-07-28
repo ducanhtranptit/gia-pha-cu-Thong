@@ -8,6 +8,7 @@ import CreatePostsModal from "./CreatePostsModal/index.jsx";
 import EditPostsModal from "./EditPostsModal/index.jsx";
 import { baseUrl } from "../../config/url-config.js";
 import { formatTime } from "../../utils/formatTime.js";
+import PostAPI from "../../api/post.js";
 
 function ManagerPosts() {
   const [posts, setPosts] = useState([]);
@@ -17,9 +18,9 @@ function ManagerPosts() {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/posts/posts-list`);
+      const response = await PostAPI.getAllPosts();
       if (response.status === 200) {
-        setPosts(response.data.data);
+        setPosts(response.data);
       } else {
         toast.error("Có lỗi xảy ra khi lấy dữ liệu bài viết.");
       }
@@ -46,9 +47,7 @@ function ManagerPosts() {
   const handleDelete = async (id) => {
     if (window.confirm("Bạn có chắc chắn muốn xóa bài viết này không?")) {
       try {
-        const response = await axios.delete(
-          `${baseUrl}/posts/delete-posts/${id}`
-        );
+        const response = await PostAPI.deletePost(id);
         if (response.status === 200) {
           toast.success("Xóa bài viết thành công!");
           fetchPosts();

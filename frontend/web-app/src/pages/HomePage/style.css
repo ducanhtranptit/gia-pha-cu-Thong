@@ -5,14 +5,6 @@
   text-align: center;
 }
 
-.latest-posts {
-  padding: 16px;
-}
-
-.posts-grid {
-  padding: 16px;
-}
-
 .post-item {
   flex: 1 1 300px;
   box-sizing: border-box;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
@@ -7,9 +7,12 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import { baseUrl } from "../../../config/url-config";
 import { useDropzone } from "react-dropzone";
+import PostAPI from "../../../api/post";
 import "./style.css";
+import { baseUrl } from "../../../config/url-config";
+import { getCookie } from "../../../utils/cookie";
+import { ACCESSTOKEN_KEY } from "../../../config";
 
 function CreatePostsModal({ show, fetchData, handleClose }) {
   const [title, setTitle] = useState("");
@@ -26,9 +29,7 @@ function CreatePostsModal({ show, fetchData, handleClose }) {
         content,
         image: imageUpload,
       };
-      const response = await axios.post(`${baseUrl}/posts/create-posts`, {
-        posts: postData,
-      });
+      const response = await PostAPI.createPost(postData);
       if (response.status === 200) {
         handleClose();
         setTitle("");
@@ -70,16 +71,15 @@ function CreatePostsModal({ show, fetchData, handleClose }) {
     const formData = new FormData();
     formData.append("file", file);
 
+    const accessToken = getCookie(ACCESSTOKEN_KEY);
+
     try {
-      const response = await axios.post(
-        "http://localhost:2504/api/v1/core/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(baseUrl + "/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       setImageUpload(response.data.fileName);
     } catch (error) {
       console.error("Error uploading file:", error);
