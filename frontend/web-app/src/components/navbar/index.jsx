@@ -71,6 +71,7 @@ const NavigationBar = () => {
       </Navbar>
     </header>
   );
+
 };
 
 export default NavigationBar;
