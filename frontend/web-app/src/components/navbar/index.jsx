@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { adminUrl } from "../../config/url-config.js";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar } from "react-bootstrap";
 import { FaComments } from "react-icons/fa";
@@ -8,11 +8,16 @@ import "./style.css";
 import logo from "../../public/logo.png";
 
 const NavigationBar = () => {
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
 
   return (
     <header>
@@ -23,9 +28,9 @@ const NavigationBar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={toggleMenu} />
         <Navbar.Collapse
           id="basic-navbar-nav"
-          className={`navbar-list ${isOpen ? "open" : ""}`}
+          className={`navbar-list${isOpen ? " open show" : ""}`}
         >
-          <ul className={`navbar-list ${isOpen ? "open" : ""}`}>
+          <ul className={`navbar-list${isOpen ? " open" : ""}`}>
             <li className="navbar-item">
               <Link to="/" className="navbar-link">
                 Trang chủ
