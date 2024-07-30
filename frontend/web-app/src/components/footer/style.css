@@ -1,11 +1,26 @@
-/* src/components/Footer.css */
 .footer {
-    background-color: #32cffa; /* Match navbar background color */
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-  }
-  
+  background-color: #32cffa; /* Match navbar background color */
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+
+  width: 100%;
+  bottom: 0;
+}
+
+.footer-logo {
+    max-width: 100px; /* Điều chỉnh kích thước logo nếu cần */
+    height: auto; /* Giữ tỷ lệ hình ảnh */
+    margin-left: 270%;
+}
+
+.footer-link {
+    display: block; /* Đặt mỗi liên kết trên một dòng riêng biệt */
+    color: white; /* Màu chữ trắng */
+    text-decoration: none; /* Xóa gạch chân */
+    margin: 5px 0; /* Khoảng cách giữa các liên kết */
+}
+
+.footer-link:hover {
+    text-decoration: underline; /* Gạch chân khi hover */
+}
