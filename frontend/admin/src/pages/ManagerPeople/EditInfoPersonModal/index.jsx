@@ -113,12 +113,20 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
       });
   };
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop: handleDrop });
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop: handleDrop,
+    accept: {
+      "image/jpeg": [".jpg", ".jpeg"],
+    },
+  });
   const {
     getRootProps: getSpouseRootProps,
     getInputProps: getSpouseInputProps,
   } = useDropzone({
     onDrop: handleSpouseDrop,
+    accept: {
+      "image/jpeg": [".jpg", ".jpeg"],
+    },
   });
 
   useEffect(() => {

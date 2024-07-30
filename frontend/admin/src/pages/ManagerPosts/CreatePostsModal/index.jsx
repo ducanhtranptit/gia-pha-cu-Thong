@@ -59,7 +59,6 @@ function CreatePostsModal({ show, fetchData, handleClose }) {
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       "image/jpeg": [".jpg", ".jpeg"],
-      "image/png": [".png"],
     },
     onDrop: (acceptedFiles) => {
       const file = acceptedFiles[0];
