@@ -32,7 +32,6 @@ body {
 /* Ensure the content takes the available space */
 .content {
   flex: 1;
-  overflow-x: hidden;
 }
 
 /* Styles for the footer */

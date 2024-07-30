@@ -1,18 +1,16 @@
-import { ACCESSTOKEN_KEY } from "../../config";
-import { baseUrl } from "../../config/url-config";
-import { getCookie } from "../../utils/cookie";
-import axios from "axios";
+import http from "./http";
 
 class ApiSender {
   static handleResponse(res) {
-    if (res.status >= 200 && res.status < 300) {
-      return res.data;
+    if (res?.status >= 200 && res?.status < 300) {
+      return res?.data;
     } else {
       throw new Error(res.statusText);
     }
   }
 
-  static handleError(error) {
+  static async handleError(error) {
+    console.error(error);
     if (error.response) {
       return error.response.data;
       // throw new Error(error.response.data.message || error.response.statusText);
@@ -27,52 +25,30 @@ class ApiSender {
     }
   }
 
-  static getApiUrl(url) {
-    return baseUrl + url;
-  }
-
-  static getHeader() {
-    const headers = {};
-    const accessToken = getCookie(ACCESSTOKEN_KEY);
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-
-    return headers;
-  }
-
-  get(url, params = {}) {
-    const apiUrl = ApiSender.getApiUrl(url);
-    const headers = ApiSender.getHeader();
-    return axios
-      .get(apiUrl, { params, headers })
+  async get(url, params = {}) {
+    return await http
+      .get(url, { params })
       .then(ApiSender.handleResponse)
       .catch(ApiSender.handleError);
   }
 
-  post(url, formData = {}) {
-    const apiUrl = ApiSender.getApiUrl(url);
-    const headers = ApiSender.getHeader();
-    return axios
-      .post(apiUrl, formData, { headers })
+  async post(url, formData = {}) {
+    return await http
+      .post(url, formData)
       .then(ApiSender.handleResponse)
       .catch(ApiSender.handleError);
   }
 
-  put(url, data = {}) {
-    const apiUrl = ApiSender.getApiUrl(url);
-    const headers = ApiSender.getHeader();
-    return axios
-      .put(apiUrl, data, { headers })
+  async put(url, data = {}) {
+    return await http
+      .put(url, data)
       .then(ApiSender.handleResponse)
       .catch(ApiSender.handleError);
   }
 
-  delete(url, config = {}) {
-    const apiUrl = ApiSender.getApiUrl(url);
-    const headers = ApiSender.getHeader();
-    return axios
-      .delete(apiUrl, { ...config, headers })
+  async delete(url, config = {}) {
+    return await http
+      .delete(url, { ...config })
       .then(ApiSender.handleResponse)
       .catch(ApiSender.handleError);
   }

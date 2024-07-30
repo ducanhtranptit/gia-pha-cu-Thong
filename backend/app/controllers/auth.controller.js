@@ -30,7 +30,6 @@ class AuthController {
       const accessToken = token?.split("Bearer ")[1];
       const userId = req?.data.id;
       const expiresIn = req?.data.exp;
-      console.log(userId, accessToken);
       if (!accessToken || !userId) {
         return new BadRequestResponse().send(req, res);
       }
