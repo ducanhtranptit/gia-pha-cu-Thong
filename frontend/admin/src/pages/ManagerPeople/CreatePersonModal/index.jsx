@@ -63,7 +63,6 @@ const CreatePersonModal = ({ show, fetchData, handleClose }) => {
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     accept: {
       "image/jpeg": [".jpg", ".jpeg"],
-      "image/png": [".png"],
     },
     onDrop: (acceptedFiles) => {
       const file = acceptedFiles[0];
@@ -83,7 +82,6 @@ const CreatePersonModal = ({ show, fetchData, handleClose }) => {
   } = useDropzone({
     accept: {
       "image/jpeg": [".jpg", ".jpeg"],
-      "image/png": [".png"],
     },
     onDrop: (acceptedFiles) => {
       const file = acceptedFiles[0];
