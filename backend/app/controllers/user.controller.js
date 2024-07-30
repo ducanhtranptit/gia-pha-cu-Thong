@@ -31,7 +31,7 @@ class UserController {
       }
       const newToken = await userActions.refreshToken(refreshToken);
       if (!newToken) {
-        return new UnauthorizedResponse().send(req, res);
+        return new BadRequestResponse().send(req, res);
       }
       return new SuccessResponse().send(req, res, newToken);
     } catch (err) {

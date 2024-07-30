@@ -41,7 +41,6 @@ const PersonInfo = () => {
       return "THÔNG TIN";
     }
   };
-  console.log(personDetails);
 
   return (
     <div className="container">

@@ -33,7 +33,7 @@ function Login() {
       return;
     }
     if (response?.data) {
-      setCookie(ACCESSTOKEN_KEY, response.data.accessToken, { expires: 0.9 });
+      setCookie(ACCESSTOKEN_KEY, response.data.accessToken, { expires: 0.5 });
       setCookie(REFRESHTOKEN_KEY, response.data.refreshToken, { expires: 1 });
       navigate("/");
     }

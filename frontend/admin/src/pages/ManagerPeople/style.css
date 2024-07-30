@@ -54,3 +54,11 @@
 .label-date {
   display: block;
 }
+
+.react-datepicker-wrapper {
+  display: block;
+}
+
+input.datetimepicker {
+  width: 100%;
+}

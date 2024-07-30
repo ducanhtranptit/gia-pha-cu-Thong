@@ -5,9 +5,9 @@ class AuthAPI {
     const url = "/auth/login";
     return ApiSender.post(url, body);
   }
-  logout() {
+  async logout() {
     const url = "/auth/logout";
-    return ApiSender.post(url);
+    return await ApiSender.post(url);
   }
 }
 

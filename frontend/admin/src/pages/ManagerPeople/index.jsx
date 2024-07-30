@@ -49,7 +49,6 @@ function ManagerPeople() {
   );
 
   const handleEditClick = (person) => {
-    console.log("personEditClick", person);
     setCurrentPerson(person);
     setShowEditForm(true);
   };
@@ -133,6 +132,7 @@ function ManagerPeople() {
         <tr key={people.id}>
           <td>{people.id}</td>
           <td>{people.name}</td>
+          <td>{people.dateOfDeath ? "Đã mất" : "Còn sống"}</td>
           <td>{people.born && formatTime(people.born, { onlyDate: true })}</td>
           <td>
             {people.dateOfDeath &&
@@ -183,6 +183,7 @@ function ManagerPeople() {
             <tr>
               <th>#</th>
               <th>Họ tên</th>
+              <th>Tình trạng</th>
               <th>Ngày sinh</th>
               <th>Ngày mất</th>
               <th>Giới tính</th>
