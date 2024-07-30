@@ -14,15 +14,34 @@
 }
 
 .post-latest-item .post-title {
-  max-width: 20ppx;
+  max-width: 200px; /* Sửa lại từ "20ppx" */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+.sticky-container {
+  position: sticky;
+  top: 100px; /* Khoảng cách từ đỉnh trang khi sticky */
+}
+
 .list-post-latest {
   border: 1px solid #ccc;
   border-radius: 4px;
+  max-height: 80vh; /* Giới hạn chiều cao để tránh quá dài */
+  overflow-y: auto; /* Để thêm thanh cuộn nếu cần */
+  padding: 15px; /* Thêm khoảng cách bên trong */
+}
+
+@media (max-width: 992px) {
+  .sticky-container {
+    position: static;
+  }
+
+  .list-post-latest {
+    max-height: none; /* Loại bỏ giới hạn chiều cao trên các thiết bị nhỏ */
+    overflow-y: visible; /* Loại bỏ thanh cuộn trên các thiết bị nhỏ */
+  }
 }
 
 .post-title-time {
