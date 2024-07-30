@@ -12,11 +12,11 @@
 
 .form-login {
   flex: 1;
-  max-width: 500px;
+  max-width: 700px;
   margin: auto;
-  background-color: #0359da;
+  background-color: #fff;
   padding: 60px 46px;
-  color: #fff;
+  color: #0f0f0f;
   border-radius: 8px;
 }
 
@@ -25,18 +25,26 @@
   font-weight: 500;
   display: block;
   text-align: center;
+  color: #32cffa;
+}
+
+/* Thêm CSS cho dòng chữ "Login as Administrator" */
+.form-login .admin-login-text {
+  text-align: center; /* Căn giữa dòng chữ */
+  display: block;
+  margin-top: 10px; /* Khoảng cách phía trên nếu cần */
 }
 
 .form-login button {
   width: 100%;
-  background-color: #fff;
-  color: black;
+  background-color: #2fa3eb;
+  color: white;
   border: none;
 }
 
 .form-login button:hover,
 .form-login button:active {
-  background-color: #fff !important;
-  color: black !important;
+  background-color: #2fa3eb !important;
+  color: #fff !important;
   border: none !important;
 }
