@@ -1,9 +1,9 @@
 import ApiSender from "./config/index";
 
 class UserAPI {
-  getProfile() {
+  async getProfile() {
     const url = "/users/profile";
-    return ApiSender.get(url);
+    return await ApiSender.get(url);
   }
 }
 

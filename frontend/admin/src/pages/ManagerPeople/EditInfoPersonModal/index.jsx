@@ -51,6 +51,8 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
   const [errors, setErrors] = useState(initialErrorState);
   const [fileUrl, setFileUrl] = useState("");
   const [spouseFileUrl, setSpouseFileUrl] = useState("");
+  const [status, setStatus] = useState(0);
+  const [statusSpouse, setStatusSpouse] = useState(0);
   const dropdownRef = useRef(null);
 
   const handleDrop = (acceptedFiles) => {
@@ -134,6 +136,9 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
             spouseBorn: spouse.born,
             spouseDateOfDeath: spouse.dateOfDeath,
           }));
+          if (spouse.dateOfDeath) {
+            setStatusSpouse(1);
+          }
           if (spouse.filePath)
             setSpouseFileUrl(baseUrl + `/upload/${spouse.filePath}`);
         } else {
@@ -163,8 +168,6 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
       }
     };
 
-    console.log(person);
-
     if (person) {
       setFormData((prevState) => ({
         ...initialState,
@@ -178,6 +181,11 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
         born: person.born,
         dateOfDeath: person?.dateOfDeath,
       }));
+
+      if (person.dateOfDeath) {
+        setStatus(1);
+      }
+
       if (person.filePath) setFileUrl(baseUrl + `/upload/${person.filePath}`);
 
       if (person.spouseId) {
@@ -402,24 +410,42 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
               )}
             </Form.Group>
           </div>
-          <Form.Group className="mt-2">
-            <Form.Label className="label-date">Ngày sinh</Form.Label>
-            <DatePicker
-              selected={formData.born}
-              onChange={(date) =>
-                setFormData((prev) => ({ ...prev, born: date }))
-              }
-            />
-          </Form.Group>
-          <Form.Group className="mt-2">
-            <Form.Label className="label-date">Ngày mất</Form.Label>
-            <DatePicker
-              selected={formData.dateOfDeath}
-              onChange={(date) =>
-                setFormData((prev) => ({ ...prev, dateOfDeath: date }))
-              }
-            />
-          </Form.Group>
+          <div className="mt-2">
+            <Form.Label>Tình trạng</Form.Label>
+            <Form.Select
+              value={status}
+              onChange={(e) => {
+                setStatus(e.target.value);
+              }}
+            >
+              <option value={0}>Còn sống</option>
+              <option value={1}>Đã mất</option>
+            </Form.Select>
+          </div>
+          <div className="row mt-2">
+            <Form.Group className="col-6">
+              <Form.Label className="label-date">Ngày sinh</Form.Label>
+              <DatePicker
+                selected={formData.born}
+                onChange={(date) =>
+                  setFormData((prev) => ({ ...prev, born: date }))
+                }
+                className="datetimepicker"
+              />
+            </Form.Group>
+            {+status === 1 && (
+              <Form.Group className="col-6">
+                <Form.Label className="label-date">Ngày mất</Form.Label>
+                <DatePicker
+                  selected={formData.dateOfDeath}
+                  onChange={(date) =>
+                    setFormData((prev) => ({ ...prev, dateOfDeath: date }))
+                  }
+                  className="datetimepicker"
+                />
+              </Form.Group>
+            )}
+          </div>
 
           <Form.Group className="full-width">
             <Form.Label>Mô tả</Form.Label>
@@ -490,27 +516,45 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
                   {errors.spouseGender}
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group className="mt-2">
-                <Form.Label className="label-date">Ngày sinh</Form.Label>
-                <DatePicker
-                  selected={formData.spouseBorn}
-                  onChange={(date) =>
-                    setFormData((prev) => ({ ...prev, spouseBorn: date }))
-                  }
-                />
-              </Form.Group>
-              <Form.Group className="mt-2">
-                <Form.Label className="label-date">Ngày mất</Form.Label>
-                <DatePicker
-                  selected={formData.spouseDateOfDeath}
-                  onChange={(date) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      spouseDateOfDeath: date,
-                    }))
-                  }
-                />
-              </Form.Group>
+              <div className="mt-2">
+                <Form.Label>Tình trạng</Form.Label>
+                <Form.Select
+                  value={statusSpouse}
+                  onChange={(e) => {
+                    setStatusSpouse(e.target.value);
+                  }}
+                >
+                  <option value={0}>Còn sống</option>
+                  <option value={1}>Đã mất</option>
+                </Form.Select>
+              </div>
+              <div className="row mt-2">
+                <Form.Group className="col-6">
+                  <Form.Label className="label-date">Ngày sinh</Form.Label>
+                  <DatePicker
+                    selected={formData.spouseBorn}
+                    onChange={(date) =>
+                      setFormData((prev) => ({ ...prev, spouseBorn: date }))
+                    }
+                    className="datetimepicker"
+                  />
+                </Form.Group>
+                {+statusSpouse === 1 && (
+                  <Form.Group className="col-6">
+                    <Form.Label className="label-date">Ngày mất</Form.Label>
+                    <DatePicker
+                      selected={formData.spouseDateOfDeath}
+                      onChange={(date) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          spouseDateOfDeath: date,
+                        }))
+                      }
+                      className="datetimepicker"
+                    />
+                  </Form.Group>
+                )}
+              </div>
               <Form.Group className="full-width">
                 <Form.Label>Mô tả vợ/chồng</Form.Label>
                 <ReactQuill
