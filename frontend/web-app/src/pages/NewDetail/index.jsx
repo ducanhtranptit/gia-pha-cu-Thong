@@ -4,6 +4,7 @@ import PostAPI from "../../api/post";
 import { toast } from "react-toastify";
 import { formatTime } from "../../utils/formatTime";
 import "./style.css";
+import { baseUrl } from "../../config/url-config"; // Importing the baseUrl
 
 function NewDetail() {
 	const { id } = useParams();
@@ -47,7 +48,7 @@ function NewDetail() {
 				</div>
 				<div className="row pt-4">
 					<div className="col-lg-8 col-12">
-						{post?.image && <img src={"http://localhost:2504/api/v1/core/upload/" + post.image} alt="post-img" className="w-100" />}
+						{post?.image && <img src={baseUrl + "/upload/" + post.image} alt="post-img" className="w-100" />}
 						<div className="px-2 mt-2 post-title-time pb-4">
 							<h1 className="fw-bolder fs-3">{post?.title}</h1>
 							<span>Ngày đăng: {formatTime(post?.createdAt)}</span>
@@ -64,7 +65,7 @@ function NewDetail() {
 											<a href={`/news/${post.id}`} className="row">
 												{post.image && (
 													<div className="col-4">
-														<img src={"http://localhost:2504/api/v1/core/upload/" + post.image} alt={post.title} />
+														<img src={baseUrl + "/upload/" + post.image} alt={post.title} />
 													</div>
 												)}
 												<div className="col-8">
