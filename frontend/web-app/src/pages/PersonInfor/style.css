@@ -13,10 +13,10 @@
   gap: 10px;
 }
 
-.img-fluid {
+.personal-info .img-fluid {
   border-radius: 50%;
-  width: 360px;
-  height: 360px;
+  width: 320px;
+  height: 320px;
   object-fit: cover;
 }
 
