@@ -34,16 +34,6 @@ body {
   flex: 1;
 }
 
-/* Styles for the footer */
-.footer {
-  background-color: #32cffa; /* Match navbar background color */
-  color: white;
-  text-align: center;
-  padding: 10px 0;
-  width: 100%;
-  margin-top: auto;
-}
-
 a {
   text-decoration: none;
   color: #333;
