@@ -12,9 +12,9 @@ import PostAPI from "../../../api/post";
 import { getCookie } from "../../../utils/cookie";
 import { ACCESSTOKEN_KEY } from "../../../config";
 
-function EditPostsModal({ show, handleClose, post, fetchData }) {
-  const [title, setTitle] = useState(post ? post.title : "");
-  const [content, setContent] = useState(post ? post.content : "");
+function EditPostsModal({ show, onClose, post, fetchData }) {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const [imageUpload, setImageUpload] = useState(null);
 
@@ -44,7 +44,7 @@ function EditPostsModal({ show, handleClose, post, fetchData }) {
       const response = await PostAPI.updatePost(postData);
       if (response.status === 200) {
         fetchData();
-        handleClose();
+        onClose();
         toast.success("Chỉnh sửa bài viết thành công!");
       }
     } catch (error) {
@@ -81,6 +81,13 @@ function EditPostsModal({ show, handleClose, post, fetchData }) {
       console.error("Error uploading file:", error);
       toast.error("Có lỗi xảy ra khi upload ảnh. Vui lòng thử lại sau.");
     }
+  };
+
+  const handleClose = () => {
+    onClose();
+    setTitle("");
+    setContent("");
+    setImage(null);
   };
 
   return (

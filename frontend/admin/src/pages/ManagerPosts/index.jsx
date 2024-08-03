@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import "./style.css";
-import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import CreatePostsModal from "./CreatePostsModal/index.jsx";
 import EditPostsModal from "./EditPostsModal/index.jsx";
-import { baseUrl } from "../../config/url-config.js";
 import { formatTime } from "../../utils/formatTime.js";
 import PostAPI from "../../api/post.js";
 
@@ -81,8 +79,8 @@ function ManagerPosts() {
           </tr>
         </thead>
         <tbody>
-          {posts.map((post) => (
-            <tr key={post.id}>
+          {posts.map((post, index) => (
+            <tr key={index}>
               <td>{post.id}</td>
               <td>
                 <span className="post-title">{post.title}</span>
@@ -109,7 +107,7 @@ function ManagerPosts() {
       />
       <EditPostsModal
         show={showEditForm}
-        handleClose={handleEditClose}
+        onClose={handleEditClose}
         post={editPostData}
         fetchData={fetchPosts}
       />
