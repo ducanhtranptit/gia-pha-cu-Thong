@@ -44,7 +44,7 @@ function EditPostsModal({ show, onClose, post, fetchData }) {
       const response = await PostAPI.updatePost(postData);
       if (response.status === 200) {
         fetchData();
-        onClose();
+        handleClose();
         toast.success("Chỉnh sửa bài viết thành công!");
       }
     } catch (error) {
