@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Family Tree Visualization</title>
+		<script src="https://d3js.org/d3.v6.min.js"></script>
+		<style>
+			.node circle {
+				fill: #fff;
+				stroke: steelblue;
+				stroke-width: 3px;
+			}
+
+			.node text {
+				font: 12px sans-serif;
+			}
+
+			.link {
+				fill: none;
+				stroke: #ccc;
+				stroke-width: 2px;
+			}
+		</style>
+	</head>
+	<body>
+		<svg width="800" height="600"></svg>
+
+		<script>
+			fetch("http://localhost:2504/api/v1/core/people")
+				.then((response) => response.json())
+				.then((jsonData) => {
+					if (jsonData.status === "success") {
+						const data = jsonData.data;
+						const margin = { top: 40, right: 90, bottom: 50, left: 90 };
+						const width = 800 - margin.left - margin.right;
+						const height = 600 - margin.top - margin.bottom;
+
+						const svg = d3
+							.select("svg")
+							.attr("width", width + margin.left + margin.right)
+							.attr("height", height + margin.top + margin.bottom)
+							.append("g")
+							.attr("transform", `translate(${margin.left},${margin.top})`);
+						const root = d3.hierarchy(data);
+						const tree = d3.tree().size([width, height]);
+						tree(root);
+						const link = svg
+							.selectAll(".link")
+							.data(root.links())
+							.enter()
+							.append("path")
+							.attr("class", "link")
+							.attr(
+								"d",
+								d3
+									.linkVertical()
+									.x((d) => d.x)
+									.y((d) => d.y)
+							);
+						const node = svg
+							.selectAll(".node")
+							.data(root.descendants())
+							.enter()
+							.append("g")
+							.attr("class", "node")
+							.attr("transform", (d) => `translate(${d.x},${d.y})`);
+						node.append("circle").attr("r", 7);
+						node.append("text")
+							.attr("dy", ".31em")
+							.attr("x", (d) => (d.children ? -13 : 13))
+							.style("text-anchor", (d) => (d.children ? "end" : "start"))
+							.text((d) => `${d.data.name}${d.data.spouse ? ` & ${d.data.spouse}` : ""}`);
+					} else {
+						console.error("Error: Status is not success");
+					}
+				})
+				.catch((error) => {
+					console.error("Error fetching data:", error);
+				});
+		</script>
+	</body>
+</html>
