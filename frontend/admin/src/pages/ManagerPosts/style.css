@@ -3,6 +3,15 @@
   margin-top: 40px;
 }
 
+.title {
+  position: sticky;
+  text-align: center;
+  margin: 20px 0px;
+  position: sticky;
+  top: 0;
+  background-color: white;
+}
+
 .post-title {
   display: block;
   transition: all 0.3s ease-in-out;
