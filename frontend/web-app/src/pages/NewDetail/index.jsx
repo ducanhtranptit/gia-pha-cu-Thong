@@ -44,11 +44,11 @@ function NewDetail() {
 		<div className="mt-5 pb-5 w-100">
 			<div className="container mt-5">
 				<div className="text-center py-2">
-					<span className="fs-2 fw-bold">Tin tức dòng họ</span>
+					<span className="news-header news-header-shadow">Tin tức dòng họ</span>
 				</div>
 				<div className="row pt-4">
 					<div className="col-lg-8 col-12">
-						{post?.image && <img src={baseUrl + "/upload/" + post.image} alt="post-img" className="w-100" />}
+						{post?.image && <img src={baseUrl + "/upload/" + post.image} alt="post-img" className="w-100 post-image" />}
 						<div className="px-2 mt-2 post-title-time pb-4">
 							<h1 className="fw-bolder fs-3">{post?.title}</h1>
 							<span>Ngày đăng: {formatTime(post?.createdAt)}</span>
@@ -62,10 +62,14 @@ function NewDetail() {
 								{postsLatest.length > 0 &&
 									postsLatest.map((post, index) => (
 										<div key={index} className="post-latest-item">
-											<a href={`/news/${post.id}`} className="row">
+											<a
+												href={`/news/${post.id}`}
+												className="row"
+												style={{ textDecoration: "none" }} // Ensure no underline
+											>
 												{post.image && (
 													<div className="col-4">
-														<img src={baseUrl + "/upload/" + post.image} alt={post.title} />
+														<img src={baseUrl + "/upload/" + post.image} alt={post.title} className="rounded-img" />
 													</div>
 												)}
 												<div className="col-8">

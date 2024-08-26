@@ -1,43 +1,61 @@
 .post > div {
   border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 15px;
+  border-radius: 8px; /* Giữ góc bo mềm mại */
+  padding: 20px; /* Thêm không gian nội dung */
   overflow: hidden;
-  height: 500px;
+  height: 500px; /* Giữ chiều cao cố định như ban đầu */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng cho nổi bật */
+  transition: all 0.3s ease;
 }
 
 .post img {
   width: 100%;
   display: block;
   height: 210px;
-  border-radius: 4px;
-  margin-bottom: 10px;
+  border-radius: 8px; /* Bo góc hình ảnh */
+  margin-bottom: 15px; /* Khoảng cách dưới ảnh */
+  object-fit: cover; /* Đảm bảo ảnh hiển thị đẹp */
 }
 
 .post a {
   display: block;
-  font-size: 32px;
-  font-weight: 500;
+  font-size: 28px;
+  font-weight: 600;
+  color: #007BFF; /* Giữ màu xanh cho tiêu đề */
+  text-align: center;
+  margin-bottom: 10px;
   transition: all 0.3s ease-in-out;
-  max-width: 450px;
+  max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-decoration: none; /* Bỏ gạch chân tiêu đề */
 }
 
 .post a:hover {
-  opacity: 0.7;
+  opacity: 0.8;
+  color: #007BFF; /* Giữ màu xanh khi hover */
 }
 
 .post .created-post {
   font-size: 14px;
+  color: #888;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
 .post .post-content {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 8; /* number of lines to show */
+  -webkit-line-clamp: 8;
   line-clamp: 8;
   -webkit-box-orient: vertical;
+  font-size: 16px;
+  color: #555;
+}
+
+.post:hover {
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
 }

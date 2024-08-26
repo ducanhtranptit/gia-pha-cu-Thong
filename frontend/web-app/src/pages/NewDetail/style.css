@@ -7,6 +7,7 @@
 .post-latest-item img {
   width: 110px;
   height: 80px;
+  border-radius: 8px; /* Bo góc cho hình ảnh */
 }
 
 .post-latest-item:hover h4 {
@@ -14,10 +15,20 @@
 }
 
 .post-latest-item .post-title {
-  max-width: 200px; /* Sửa lại từ "20ppx" */
+  max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-decoration: none; /* Bỏ gạch chân */
+  color: #007bff; /* Giữ màu xanh cho tiêu đề */
+}
+
+.post-latest-item a {
+  text-decoration: none; /* Đảm bảo liên kết không bị gạch chân */
+}
+
+.post-latest-item a:hover {
+  text-decoration: none; /* Khi hover vẫn không có gạch chân */
 }
 
 .sticky-container {
@@ -46,4 +57,30 @@
 
 .post-title-time {
   border-bottom: 1px solid #333;
+}
+
+.post-image {
+  border-radius: 8px; /* Bo góc cho hình ảnh chính */
+}
+
+.news-header {
+  font-size: 30px; /* Kích thước chữ lớn hơn để tạo sự nổi bật */
+  font-weight: bold; /* Tăng độ đậm cho chữ */
+  color: #007BFF; /* Sử dụng màu xanh đậm để thu hút sự chú ý */
+  text-align: center; /* Căn giữa nội dung */
+  text-transform: uppercase; /* In hoa toàn bộ chữ */
+  letter-spacing: 2px; /* Tạo khoảng cách giữa các ký tự để tạo cảm giác hiện đại */
+  margin-bottom: 20px; /* Khoảng cách dưới */
+  position: relative; /* Để tạo hiệu ứng dưới */
+}
+
+.news-header::after {
+  content: ""; /* Tạo một đường kẻ dưới chữ */
+  width: 60px; /* Độ dài của đường kẻ */
+  height: 4px; /* Độ dày của đường kẻ */
+  background-color: #007BFF; /* Màu của đường kẻ phù hợp với chữ */
+  position: absolute;
+  bottom: -10px; /* Đặt đường kẻ ngay dưới chữ */
+  left: 50%;
+  transform: translateX(-50%); /* Căn giữa đường kẻ */
 }

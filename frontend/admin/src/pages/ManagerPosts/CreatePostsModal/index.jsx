@@ -117,7 +117,7 @@ function CreatePostsModal({ show, fetchData, handleClose }) {
             <ReactQuill
               value={content}
               onChange={setContent}
-              placeholder="Nhập mô tả"
+              placeholder="Nhập nội dung"
             />
           </Form.Group>
         </Form>

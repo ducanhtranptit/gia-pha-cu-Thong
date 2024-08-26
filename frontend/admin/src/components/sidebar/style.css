@@ -1,45 +1,87 @@
+/* CSS cho SideBar */
 .side-bar {
+  width: 230px;
+  height: 100vh;
+  background-color: #343a40;
+  padding: 20px;
   position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
-  width: 16%;
-  background-color: #233859; /* Màu nền của sidebar */
-  padding: 20px;
-  color: white; /* Màu chữ */
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Đổ bóng cho sidebar */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
 }
 
 .side-bar h1 {
-  margin-bottom: 20px;
+  font-size: 2.5rem; /* Tăng kích thước chữ "Quản trị" */
+  color: #ffffff;
+  margin-bottom: 30px;
+  text-align: left;
+  transition: color 0.3s ease; /* Thêm hiệu ứng hover */
 }
+
+.side-bar h1:hover {
+  color: #007bff; /* Đổi thành màu xanh khi hover */
+}
+
+.home-link {
+  text-decoration: none;
+  color: #ffffff;
+  transition: color 0.3s ease; /* Thêm hiệu ứng chuyển đổi */
+}
+
+.home-link:hover {
+  color: #007bff; /* Chuyển thành màu xanh khi hover */
+}
+
 
 .side-bar ul {
   list-style: none;
   padding: 0;
-  margin: 0;
+  width: 100%;
+  flex-grow: 1; /* Để các phần tử khác chiếm không gian */
 }
 
 .side-bar ul li {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.side-bar ul li p {
+  font-size: 1.2rem;
+  color: #ffffff;
+  padding: 10px 20px;
+  margin: 0;
+  background-color: #495057;
+  border-radius: 5px;
+  text-align: left;
+  transition: background-color 0.3s ease;
+}
+
+.side-bar ul li:hover p {
+  background-color: #007bff;
   cursor: pointer;
 }
 
 .side-bar ul li a {
-  color: white;
   text-decoration: none;
+  color: inherit;
+  display: block;
 }
 
-.side-bar ul li a:hover {
-  text-decoration: underline;
+.side-bar ul li p:hover {
+  background-color: #007bff;
 }
 
-.home-link {
-  text-decoration: none; /* Bỏ gạch chân */
-  color: white; /* Màu chữ, có thể điều chỉnh theo ý muốn */
-  font-weight: bold; /* Chữ đậm */
+.side-bar ul li:last-child {
+  margin-top: auto; 
 }
 
-.home-link:hover {
-  color: #007bff; /* Màu chữ khi hover, có thể điều chỉnh theo ý muốn */
+.side-bar ul li:last-child p {
+  background-color: #dc3545;
+}
+
+.side-bar ul li:last-child p:hover {
+  background-color: #c82333;
 }
