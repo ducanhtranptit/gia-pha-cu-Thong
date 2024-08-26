@@ -91,7 +91,7 @@ function EditPostsModal({ show, onClose, post, fetchData }) {
 	};
 
 	return (
-		<Modal show={show} onHide={handleClose} size="lg">
+		<Modal show={show} onHide={handleClose} size="xThêm bài viết mớil">
 			<Modal.Header closeButton>
 				<Modal.Title>Chỉnh sửa bài viết</Modal.Title>
 			</Modal.Header>

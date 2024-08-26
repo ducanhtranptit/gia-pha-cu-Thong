@@ -86,7 +86,7 @@ function CreatePostsModal({ show, fetchData, handleClose }) {
     }
   };
   return (
-    <Modal show={show} onHide={handleClose} size="lg">
+    <Modal show={show} onHide={handleClose} size="xl">
       <Modal.Header closeButton>
         <Modal.Title>Thêm bài viết mới</Modal.Title>
       </Modal.Header>

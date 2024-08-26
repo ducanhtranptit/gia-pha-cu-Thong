@@ -17,7 +17,6 @@ import { vi } from "date-fns/locale/vi";
 import "react-datepicker/dist/react-datepicker.css";
 import { getCookie } from "../../../utils/cookie.js";
 import { ACCESSTOKEN_KEY } from "../../../config/index.js";
-import { FormGroup } from "react-bootstrap";
 
 registerLocale("vi", vi);
 
@@ -269,6 +268,7 @@ const CreatePersonModal = ({ show, fetchData, handleClose }) => {
 				handleClose();
 				resetForm();
 			}}
+			size="lg"
 		>
 			<Modal.Header closeButton>
 				<Modal.Title>Thêm thành viên mới</Modal.Title>

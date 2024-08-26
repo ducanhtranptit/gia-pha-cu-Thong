@@ -316,6 +316,7 @@ const EditPersonFormModal = ({ show, handleClose, person, fetchData }) => {
 				handleClose();
 				resetForm();
 			}}
+			size="lg"
 		>
 			<Modal.Header closeButton>
 				<Modal.Title>Chỉnh sửa thông tin thành viên</Modal.Title>
