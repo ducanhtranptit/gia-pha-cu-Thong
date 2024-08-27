@@ -29,7 +29,7 @@ const Footer = () => (
     <hr
       style={{ width: "100%", margin: "20px 0", border: "1px solid white" }}
     />
-    <p>Copyright@2024 by TranDucAnh</p>
+    <p>Copyright © 2024 by TranDucAnh</p>
   </footer>
 );
 
